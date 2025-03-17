@@ -27,10 +27,12 @@ export class AuthService {
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((res: any) => {
-        localStorage.setItem(this.tokenKey, res.data.access_token);
-        this.currentUser.next(res.data);
+        if (res.data && res.data.access_token) {
+          localStorage.setItem(this.tokenKey, res.data.access_token);
+          this.currentUser.next(res.data);
+        }
       })
-    );
+    );    
   }
 
   logout(): Observable<any> {

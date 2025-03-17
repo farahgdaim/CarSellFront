@@ -6,15 +6,21 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AnnoncesListComponent } from './components/annonces-list/annonces-list.component';
 import { AnnonceDetailComponent } from './components/annonce-detail/annonce-detail.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ExpertFormComponent } from './components/expert-form/expert-form.component';
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'annonces', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'devenir-expert', component: ExpertFormComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'update-profile', component: UpdateProfileComponent, canActivate: [AuthGuard] },
   { path: 'annonces', component: AnnoncesListComponent },
   { path: 'annonce/:id', component: AnnonceDetailComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: 'annonces' }
+  { path: '**', redirectTo: 'annonces' },
 ];
 
 @NgModule({

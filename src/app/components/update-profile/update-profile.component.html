@@ -1,0 +1,33 @@
+<div class="container mt-5">
+    <h2 class="mb-4">Mettre à jour mon Profil</h2>
+    <form (submit)="updateProfile(); $event.preventDefault();">
+      <div class="mb-3">
+        <label for="nom" class="form-label">Nom</label>
+        <input type="text" id="nom" class="form-control" [(ngModel)]="profile.nom" name="nom" required>
+      </div>
+      <div class="mb-3">
+        <label for="prenom" class="form-label">Prénom</label>
+        <input type="text" id="prenom" class="form-control" [(ngModel)]="profile.prenom" name="prenom" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Adresse e-mail</label>
+        <input type="email" id="email" class="form-control" [(ngModel)]="profile.email" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label for="telephone" class="form-label">Téléphone</label>
+        <input type="text" id="telephone" class="form-control" [(ngModel)]="profile.telephone" name="telephone">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Nouveau Mot de passe (optionnel)</label>
+        <input type="password" id="password" class="form-control" [(ngModel)]="profile.password" name="password">
+      </div>
+      <div class="mb-3">
+        <label for="password_confirmation" class="form-label">Confirmer le Mot de passe</label>
+        <input type="password" id="password_confirmation" class="form-control" [(ngModel)]="profile.password_confirmation" name="password_confirmation">
+      </div>
+      <button type="submit" class="btn btn-primary">Mettre à jour</button>
+      <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+      <div *ngIf="success" class="alert alert-success mt-3">{{ success }}</div>
+    </form>
+  </div>
+  

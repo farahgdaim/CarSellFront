@@ -11,17 +11,33 @@ export class LoginComponent {
     email: '',
     password: ''
   };
+
   error: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
+    this.error = null; // Reset error before new login attempt
+
     this.authService.login(this.credentials).subscribe({
-      next: res => {
-        this.router.navigate(['/dashboard']);
+      next: (res: any) => {
+        if (res.data && res.data.access_token) {
+          // Store the token and navigate
+          localStorage.setItem('authToken', res.data.access_token);
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.error = 'Une erreur inattendue est survenue. Veuillez réessayer.';
+        }
       },
-      error: err => {
-        this.error = err.error.data || 'Erreur lors de la connexion';
+      error: (err: any) => {
+        // Handle backend errors
+        if (err.status === 401) {
+          this.error = 'Identifiants invalides. Veuillez vérifier vos informations.';
+        } else if (err.status === 500) {
+          this.error = 'Erreur interne du serveur. Veuillez réessayer plus tard.';
+        } else {
+          this.error = err.error.data || 'Erreur lors de la connexion.';
+        }
       }
     });
   }

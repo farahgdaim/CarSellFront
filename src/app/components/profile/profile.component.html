@@ -1,0 +1,15 @@
+<div class="container mt-5">
+    <h2 class="mb-4">Mon Profil</h2>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <div *ngIf="user">
+      <p><strong>Nom :</strong> {{ user.nom }}</p>
+      <p><strong>Prénom :</strong> {{ user.prenom }}</p>
+      <p><strong>Email :</strong> {{ user.email }}</p>
+      <p><strong>Téléphone :</strong> {{ user.telephone }}</p>
+      
+      <!-- Boutons pour mettre à jour le profil et se déconnecter -->
+      <button class="btn btn-primary me-2" (click)="goToUpdateProfile()">Mettre à jour mon profil</button>
+      <button class="btn btn-danger" (click)="logout()">Déconnexion</button>
+    </div>
+  </div>
+  

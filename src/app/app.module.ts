@@ -12,6 +12,9 @@ import { AnnoncesListComponent } from './components/annonces-list/annonces-list.
 import { AnnonceDetailComponent } from './components/annonce-detail/annonce-detail.component';
 
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ExpertFormComponent } from './components/expert-form/expert-form.component';
+import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     RegisterComponent,
     DashboardComponent,
     AnnoncesListComponent,
-    AnnonceDetailComponent
+    AnnonceDetailComponent,
+    ExpertFormComponent,
+    UpdateProfileComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

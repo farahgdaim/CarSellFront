@@ -1,0 +1,62 @@
+<div class="container-fluid vh-100">
+  <div class="row h-100">
+    <!-- Left Panel: Message Persuasif -->
+    <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center">
+      <div class="p-4 text">
+        <img src="assets/logo.png" alt="EliteAuto Logo" class="mb-4" style="max-width: 150px;">
+        <h2 class="text mb-3">Devenez Expert Vérificateur de Véhicules</h2>
+        <p class="text-50 mb-4" style="font-size: 1.1rem;">
+          Mettez votre expertise au service des acheteurs et gagnez de l’argent en réalisant des évaluations professionnelles !
+        </p>
+        <ul class="list-unstyled text" style="font-size: 1.1rem;">
+          <li class="mb-2">✅ Inspectez les véhicules avec deux méthodes au choix :</li>
+          <ul class="list-unstyled mb-2">
+            <li>🖥️ <strong>Expertise à distance</strong> : Évaluez l’état du véhicule via une visioconférence.</li>
+            <li>🚗 <strong>Expertise sur site</strong> : Rendez-vous sur place pour une inspection approfondie.</li>
+          </ul>
+          <li class="mb-2">✅ Rédigez un rapport détaillé pour une évaluation fiable.</li>
+          <li class="mb-2">✅ Gagnez de l’argent avec une rémunération pour chaque expertise.</li>
+          <li class="mb-2">✅ Travail flexible : Acceptez les demandes qui vous conviennent.</li>
+          <li class="mb-2">✅ Rejoignez notre réseau et transformez votre savoir-faire en revenu !</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Panel: Form -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+      <div class="w-75">
+        <h2 class="mb-3" style="color: #0d6efd;">Devenez Expert EliteAuto</h2>
+        <p class="mb-4">Remplissez le formulaire ci-dessous pour envoyer votre candidature.</p>
+        <form (submit)="submitForm(); $event.preventDefault();">
+          <!-- Certification PDF -->
+          <div class="mb-3">
+            <label class="form-label">Certifications (PDF uniquement)</label>
+            <input type="file" class="form-control" (change)="onFileSelected($event)" accept="application/pdf" required>
+          </div>
+
+          <!-- Domaine d'Expertise -->
+          <div class="mb-3">
+            <label class="form-label">Domaine d'Expertise</label>
+            <input type="text" class="form-control" [(ngModel)]="expert.domaineExpertise" name="domaineExpertise" required>
+          </div>
+
+          <!-- Années d'Expérience -->
+          <div class="mb-3">
+            <label class="form-label">Années d'Expérience</label>
+            <input type="number" class="form-control" [(ngModel)]="expert.anneesExperience" name="anneesExperience" min="0" required>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-start mb-3">
+            <button type="submit" class="btn btn-primary ">Envoyer ma candidature</button>
+            <button class="btn btn-outline-secondary">Retour au Tableau de Bord</button>
+          </div>
+          
+          <!-- Success and Error Feedback -->
+          <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+          <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

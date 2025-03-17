@@ -1,37 +1,51 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AnnonceService {
-  private apiUrl = environment.apiUrl + '/utilisateur/annonces';
+export class AuthService {
+  private apiUrl = environment.apiUrl + '/auth';
+  private tokenKey = 'access_token';
+  public currentUser = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {}
-
-  getAnnonces(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  constructor(private http: HttpClient) {
+    const token = localStorage.getItem(this.tokenKey);
+    if (token) {
+      this.currentUser.next({ token });
+    }
   }
 
-  getAnnonceById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+  register(userData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
-  createAnnonce(annonce: any): Observable<any> {
-    return this.http.post(this.apiUrl, annonce);
+  login(credentials: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+      tap((res: any) => {
+        localStorage.setItem(this.tokenKey, res.data.access_token);
+        this.currentUser.next(res.data);
+      })
+    );
   }
 
-  updateAnnonce(id: number, annonce: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, annonce);
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
+      tap(() => {
+        localStorage.removeItem(this.tokenKey);
+        this.currentUser.next(null);
+      })
+    );
   }
 
-  deleteAnnonce(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  getUser(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/me`);
   }
 
-  reportAnnonce(id: number): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/utilisateur/reportAnnonce/${id}`, {});
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 }
