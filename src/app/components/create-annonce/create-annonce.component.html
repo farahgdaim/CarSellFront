@@ -1,0 +1,212 @@
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="row">
+      <div class="col-12 d-flex justify-content-between align-items-center">
+        <div>
+          <img src="assets/logo.png" alt="EliteAuto Logo" style="max-height: 50px;">
+        </div>
+        <h4>Créer une annonce (Step {{currentStep}} of 4)</h4>
+      </div>
+      <hr>
+    </div>
+  
+    <!-- Step 1: Caractéristiques -->
+    <div *ngIf="currentStep === 1">
+      <h5>Caractéristiques</h5>
+      <form>
+        <div class="mb-3">
+          <label class="form-label">Catégorie</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule.Categorie" name="categorie" required>
+            <option value="">Sélectionnez</option>
+            <option value="Voiture">Voiture</option>
+            <option value="Camion">Camion</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Marque</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule.Marque" name="marque" required>
+            <option value="">Sélectionnez</option>
+            <option value="Toyota">Toyota</option>
+            <option value="BMW">BMW</option>
+            <option value="Mercedes">Mercedes</option>
+            <!-- Add more brands as needed -->
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Modèle</label>
+          <input type="text" class="form-control" [(ngModel)]="annonce.vehicule['Modèle']" name="modele" placeholder="Entrez le modèle" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Puissance fiscale</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule.Puissance" name="puissance" required>
+            <option value="">Sélectionnez</option>
+            <option value="5 CV">5 CV</option>
+            <option value="7 CV">7 CV</option>
+            <option value="9 CV">9 CV</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Type de carburant</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule.TypeCarburant" name="typeCarburant" required>
+            <option value="">Sélectionnez</option>
+            <option value="Essence">Essence</option>
+            <option value="Diesel">Diesel</option>
+            <option value="GPL">GPL</option>
+            <option value="Electrique">Electrique</option>
+            <option value="Hybride">Hybride</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Cylindre</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule.Cylindre" name="cylindre" required>
+            <option value="">Sélectionnez</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Mise en circulation</label>
+          <input type="date" class="form-control" [(ngModel)]="annonce.vehicule.DateDeMiseEnCirculation" name="dateCirculation" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Kilométrage</label>
+          <input type="text" class="form-control" [(ngModel)]="annonce.vehicule['Kilométrage']" name="kilometrage" placeholder="Entrer le kilométrage" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Nombre de portes</label>
+          <input type="text" class="form-control" [(ngModel)]="annonce.vehicule.nbPortes" name="nbPortes" placeholder="Entrer le nombre de portes" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">État du véhicule</label>
+          <div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="neuf" required>
+              <label class="form-check-label">Neuf</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="excellent" required>
+              <label class="form-check-label">Excellent</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="correct" required>
+              <label class="form-check-label">Correct</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="endommagé" required>
+              <label class="form-check-label">Endommagé</label>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Boîte de vitesses</label>
+          <div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="boiteVitesse" [(ngModel)]="annonce.vehicule.boiteVitesse" value="manuelle" required>
+              <label class="form-check-label">Manuelle</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="boiteVitesse" [(ngModel)]="annonce.vehicule.boiteVitesse" value="automatique" required>
+              <label class="form-check-label">Automatique</label>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-primary" (click)="nextStep()">Suivant</button>
+        </div>
+      </form>
+    </div>
+  
+    <!-- Step 2: Équipements -->
+    <div *ngIf="currentStep === 2">
+      <h5>Équipements</h5>
+      <div class="row">
+        <div class="col-6 col-md-3 mb-3" *ngFor="let equip of equipmentOptions">
+          <div class="card text-center">
+            <div class="card-body">
+              <i class="{{ equip.icon }} fa-2x"></i>
+              <p class="mt-2">{{ equip.name }}</p>
+              <input type="checkbox" [checked]="annonce.vehicule.equipements.includes(equip.name)"
+                     (change)="toggleEquipment(equip.name)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="prevStep()">Précédent</button>
+        <button type="button" class="btn btn-primary" (click)="nextStep()">Suivant</button>
+      </div>
+    </div>
+  
+    <!-- Step 3: Information générale -->
+    <div *ngIf="currentStep === 3">
+      <h5>Information générale</h5>
+      <form>
+        <div class="mb-3">
+          <label class="form-label">Titre de votre annonce</label>
+          <input type="text" class="form-control" [(ngModel)]="annonce.titre" name="titre" placeholder="Entrez un titre attractif" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" [(ngModel)]="annonce.description" name="description" placeholder="Ajoutez une description détaillée" rows="4" required></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Prix (en DT)</label>
+          <input type="number" class="form-control" [(ngModel)]="annonce.prix" name="prix" placeholder="Entrez le prix" required>
+          <div class="form-check mt-2">
+            <input type="checkbox" class="form-check-input" id="prixNegociable" [(ngModel)]="annonce.prixNegociable" name="prixNegociable">
+            <label for="prixNegociable" class="form-check-label">Prix négociable</label>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Photos du véhicule</label>
+          <input type="file" class="form-control" (change)="onPhotosSelected($event)" multiple required>
+          <small class="text-muted">Minimum 3 photos requises</small>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Région</label>
+          <input type="text" class="form-control" [(ngModel)]="annonce.region" name="region" placeholder="Spécifiez la région" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Délégation</label>
+          <input type="text" class="form-control" [(ngModel)]="annonce.delegation" name="delegation" placeholder="Entrez la délégation" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Téléphone</label>
+          <input type="text" class="form-control" [(ngModel)]="annonce.telephone" name="telephone" placeholder="Entrez votre numéro" required>
+          <div class="form-check mt-2">
+            <input type="checkbox" class="form-check-input" id="afficherTelephone" [(ngModel)]="annonce.afficherTelephone" name="afficherTelephone">
+            <label for="afficherTelephone" class="form-check-label">Afficher mon numéro de téléphone</label>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" (click)="prevStep()">Précédent</button>
+          <button type="button" class="btn btn-primary" (click)="nextStep()">Suivant</button>
+        </div>
+      </form>
+    </div>
+  
+    <!-- Step 4: Boostez la Visibilité -->
+    <div *ngIf="currentStep === 4">
+      <h5>Boostez la Visibilité de Votre Annonce</h5>
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-3 mb-3" *ngFor="let pack of sponsoringPackages">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <h6 class="card-title">{{ pack.name }}</h6>
+              <p class="card-text">{{ pack.description }}</p>
+              <p class="card-text">
+                <strong *ngIf="pack.price > 0">{{ pack.price }} DT</strong>
+                <span *ngIf="pack.price === 0">Gratuit</span>
+              </p>
+              <button type="button" class="btn btn-outline-primary" (click)="selectSponsoring(pack)">Sélectionner</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="prevStep()">Précédent</button>
+        <button type="button" class="btn btn-success" (click)="submitAnnonce()">Publier</button>
+      </div>
+    </div>
+  </div>

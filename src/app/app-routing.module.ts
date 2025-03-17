@@ -9,6 +9,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ExpertFormComponent } from './components/expert-form/expert-form.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CreateAnnonceComponent } from './components/create-annonce/create-annonce.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'annonces', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'devenir-expert', component: ExpertFormComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'update-profile', component: UpdateProfileComponent, canActivate: [AuthGuard] },
+  { path: 'creerAnnonce', component: CreateAnnonceComponent, canActivate: [AuthGuard] },
   { path: 'annonces', component: AnnoncesListComponent },
   { path: 'annonce/:id', component: AnnonceDetailComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },

@@ -15,6 +15,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ExpertFormComponent } from './components/expert-form/expert-form.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CreateAnnonceComponent } from './components/create-annonce/create-annonce.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     AnnonceDetailComponent,
     ExpertFormComponent,
     UpdateProfileComponent,
-    ProfileComponent
+    ProfileComponent,
+    CreateAnnonceComponent
   ],
   imports: [
     BrowserModule,
