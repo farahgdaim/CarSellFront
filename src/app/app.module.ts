@@ -17,7 +17,7 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
 import { ProfileComponent } from './components/profile/profile.component';
 import { CreateAnnonceComponent } from './components/create-annonce/create-annonce.component';
 
-@NgModule({
+@NgModule({ 
   declarations: [
     AppComponent,
     LoginComponent,

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AnnonceService } from '../../services/annonce.service';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-create-annonce',
@@ -9,6 +10,13 @@ import { Router } from '@angular/router';
 })
 export class CreateAnnonceComponent {
   currentStep: number = 1;
+  step2Error: string = '';
+  submittedStep1: boolean = false;
+  submittedStep3: boolean = false;
+  
+  // New properties for error handling
+  photoError: string = '';
+  submissionError: string = '';
 
   // Data model for the announcement
   annonce: any = {
@@ -16,45 +24,43 @@ export class CreateAnnonceComponent {
       Categorie: '',
       Marque: '',
       "Modèle": '',
-      Puissance: '', // Will be numeric
+      Puissance: '', 
       TypeCarburant: '',
       Cylindre: '',
       DateDeMiseEnCirculation: '',
-      Kilométrage: '', // Will be numeric
+      Kilométrage: '',
       nbPortes: '',
       etat: '',
       boiteVitesse: '',
-      // We'll collect equipment as an array then join it later
+      // Temporary array for equipment choices
       equipements: []
     },
     titre: '',
     description: '',
-    prix: '', // numeric
-    // We will use a separate property for file objects; later transformed into images array
+    prix: '',
     photos: [],
-    // Extra fields like region, delegation, telephone or sponsoring are not part of backend validation,
-    // so we ignore them here.
+    // Additional fields (region, delegation, telephone, etc.)
   };
 
   // Equipment options (Step 2)
   equipmentOptions = [
-    { name: 'Jantes aluminium', icon: 'fa fa-car' },
-    { name: 'ABS', icon: 'fa fa-lock' },
-    { name: 'Direction assistée', icon: 'fa fa-cogs' },
-    { name: 'ESP', icon: 'fa fa-shield' },
-    { name: 'Climatisation', icon: 'fa fa-snowflake-o' },
-    { name: 'Vitres électriques', icon: 'fa fa-window-maximize' },
-    { name: 'Système de navigation', icon: 'fa fa-map' },
-    { name: 'Airbags', icon: 'fa fa-life-ring' },
-    { name: 'MP3 Bluetooth', icon: 'fa fa-bluetooth' },
-    { name: 'Radar de recul', icon: 'fa fa-video-camera' },
-    { name: 'Antipatinage', icon: 'fa fa-ban' },
-    { name: 'Fermeture centrale', icon: 'fa fa-unlock-alt' },
-    { name: 'Limiteur de vitesse', icon: 'fa fa-tachometer' },
-    { name: 'Régulateur de vitesse', icon: 'fa fa-dashboard' },
-    { name: 'Toit ouvrant', icon: 'fa fa-sun-o' }
+    { name: 'Jantes aluminium', icon: 'assets/equipements/jauntes.png' },
+    { name: 'ABS', icon: 'assets/equipements/ABS.png' },
+    { name: 'Direction assistée', icon: 'assets/equipements/assistee.png' },
+    { name: 'ESP', icon: 'assets/equipements/esp.png' },
+    { name: 'Climatisation', icon: 'assets/equipements/climatiseur.png' },
+    { name: 'Vitres électriques', icon: 'assets/equipements/windows.png' },
+    { name: 'Système de navigation', icon: 'assets/equipements/gps.png' },
+    { name: 'Airbags', icon: 'assets/equipements/Airbag.png' },
+    { name: 'MP3 Bluetooth', icon: 'assets/equipements/bluetooth.png' },
+    { name: 'Radar de recul', icon: 'assets/equipements/parking.png' },
+    { name: 'Antipatinage', icon: 'assets/equipements/antipatinage.png' },
+    { name: 'Fermeture centrale', icon: 'assets/equipements/Fermeture.png' },
+    { name: 'Limiteur de vitesse', icon: 'assets/equipements/regulateur-de-vitesse.png' },
+    { name: 'Régulateur de vitesse', icon: 'assets/equipements/regulateur_de_vitesse.png' },
+    { name: 'Toit ouvrant', icon: 'assets/equipements/toit-ouvrant.png' }
   ];
-
+  
   // Sponsoring packages (Step 4)
   sponsoringPackages = [
     { id: 'standard', name: 'Pack Standard', description: "Votre annonce sera mise en avant pendant 7 jours.", price: 15 },
@@ -67,10 +73,38 @@ export class CreateAnnonceComponent {
 
   constructor(private annonceService: AnnonceService, private router: Router) {}
 
-  nextStep() {
-    if (this.currentStep < 4) {
-      this.currentStep++;
+  // Validate and advance to the next step (using a form when applicable)
+  nextStep(form?: NgForm) {
+    if (this.currentStep === 1 && form) {
+      this.submittedStep1 = true;
+      Object.keys(form.controls).forEach(field => {
+        form.controls[field].markAsTouched();
+      });
+      // Manually check for radio button fields that are not part of form controls
+      if (!this.annonce.vehicule.etat || !this.annonce.vehicule.boiteVitesse) {
+        return;
+      }
+      if (!form.valid) {
+        return;
+      }
     }
+    if (this.currentStep === 3 && form) {
+      this.submittedStep3 = true;
+      Object.keys(form.controls).forEach(field => {
+        form.controls[field].markAsTouched();
+      });
+      if (!form.valid) {
+        return;
+      }
+    }
+    // Step 2: Equipment selection must have at least one choice.
+    if (this.currentStep === 2 && this.annonce.vehicule.equipements.length === 0) {
+      this.step2Error = "Veuillez sélectionner au moins 1 équipement (plusieurs choix possibles).";
+      return;
+    } else if (this.currentStep === 2) {
+      this.step2Error = '';
+    }
+    this.currentStep++;
   }
 
   prevStep() {
@@ -91,26 +125,31 @@ export class CreateAnnonceComponent {
   onPhotosSelected(event: any) {
     const files = event.target.files;
     if (files.length < 3) {
-      alert("Veuillez sélectionner au moins 3 photos.");
-      return;
+      this.photoError = "Minimum 3 photos requises.";
+      this.annonce.photos = [];
+    } else {
+      this.photoError = "";
+      this.annonce.photos = files;
     }
-    // Store the File objects
-    this.annonce.photos = files;
   }
 
   selectSponsoring(pack: any) {
     this.selectedSponsoring = pack;
-    // The sponsoring package is not part of the backend validation for annonce,
-    // so we could send it later as extra info if needed.
   }
 
   submitAnnonce() {
-    // Transform equipment array into a string as expected by the backend (key: equipement)
+    // Final check before submission
+    if (!this.annonce.titre || !this.annonce.description || !this.annonce.prix || !this.annonce.photos || this.annonce.photos.length < 3) {
+      this.submissionError = "Veuillez remplir tous les champs requis et télécharger au moins 3 photos.";
+      // Optionally, send the user back to the information step
+      this.currentStep = 3;
+      return;
+    }
+
+    // Transform equipment array into a string.
     this.annonce.vehicule.equipement = this.annonce.vehicule.equipements.join(', ');
-    // Remove the temporary "equipements" property if it exists
     delete this.annonce.vehicule.equipements;
 
-    // Process photos: transform the File objects into an images array
     let images = [];
     for (let i = 0; i < this.annonce.photos.length; i++) {
       let file = this.annonce.photos[i];
@@ -120,12 +159,9 @@ export class CreateAnnonceComponent {
         taille: file.size.toString()
       });
     }
-    // Add images array to the payload
     this.annonce.images = images;
-    // Remove the temporary photos property
     delete this.annonce.photos;
 
-    // Build the payload according to backend validation requirements
     const payload = {
       titre: this.annonce.titre,
       description: this.annonce.description,
@@ -138,8 +174,8 @@ export class CreateAnnonceComponent {
         Puissance: this.annonce.vehicule.Puissance,
         DateDeMiseEnCirculation: this.annonce.vehicule.DateDeMiseEnCirculation,
         Cylindre: this.annonce.vehicule.Cylindre,
-        Kilométrage: Number(this.annonce.vehicule.Kilométrage),
-        nbPortes: this.annonce.vehicule.nbPortes,
+        Kilométrage: Number(this.annonce.vehicule['Kilométrage']),
+        nbPortes: String(this.annonce.vehicule.nbPortes), 
         boiteVitesse: this.annonce.vehicule.boiteVitesse,
         etat: this.annonce.vehicule.etat,
         equipement: this.annonce.vehicule.equipement
@@ -147,18 +183,17 @@ export class CreateAnnonceComponent {
       images: this.annonce.images
     };
 
-    // Debug log to verify payload structure
     console.log('Payload sent to backend:', payload);
 
-    // Call the service to create the annonce
     this.annonceService.createAnnonce(payload).subscribe({
       next: (res: any) => {
-        alert("Votre annonce a été publiée avec succès !");
+        // Inform the user of success
+        alert('Votre annonce a été créée avec succès!');
         this.router.navigate(['/profile']);
       },
       error: (err: any) => {
-        alert("Erreur lors de la création de l'annonce.");
         console.error(err);
+        this.submissionError = "Une erreur est survenue lors de la création de l'annonce. Veuillez réessayer.";
       }
     });
   }

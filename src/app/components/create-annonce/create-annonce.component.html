@@ -1,52 +1,70 @@
 <div class="container mt-4">
-    <!-- Header -->
-    <div class="row">
-      <div class="col-12 d-flex justify-content-between align-items-center">
-        <div>
-          <img src="assets/logo.png" alt="EliteAuto Logo" style="max-height: 50px;">
-        </div>
-        <h4>Créer une annonce (Step {{currentStep}} of 4)</h4>
-      </div>
-      <hr>
+  <!-- Header -->
+  <div class="row align-items-center mb-3">
+    <div class="col-md-3">
+      <img src="assets/logo.png" alt="EliteAuto Logo" style="max-height: 50px;">
     </div>
-  
-    <!-- Step 1: Caractéristiques -->
-    <div *ngIf="currentStep === 1">
-      <h5>Caractéristiques</h5>
-      <form>
-        <div class="mb-3">
-          <label class="form-label">Catégorie</label>
+    <div class="col-md-9 text-md-right">
+      <h4>Créer une annonce (Step {{currentStep}} / 4)</h4>
+    </div>
+  </div>
+  <hr>
+
+  <!-- Step 1: Caractéristiques -->
+  <div *ngIf="currentStep === 1">
+    <h5>Caractéristiques</h5>
+    <form #step1Form="ngForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Catégorie</label>
           <select class="form-select" [(ngModel)]="annonce.vehicule.Categorie" name="categorie" required>
             <option value="">Sélectionnez</option>
             <option value="Voiture">Voiture</option>
             <option value="Camion">Camion</option>
           </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['categorie']?.valid" class="text-danger">
+            Requis.
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Marque</label>
+        <div class="form-group">
+          <label>Marque</label>
           <select class="form-select" [(ngModel)]="annonce.vehicule.Marque" name="marque" required>
             <option value="">Sélectionnez</option>
             <option value="Toyota">Toyota</option>
             <option value="BMW">BMW</option>
             <option value="Mercedes">Mercedes</option>
-            <!-- Add more brands as needed -->
           </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['marque']?.valid" class="text-danger">
+            Requis.
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Modèle</label>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Modèle</label>
           <input type="text" class="form-control" [(ngModel)]="annonce.vehicule['Modèle']" name="modele" placeholder="Entrez le modèle" required>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['modele']?.valid" class="text-danger">
+            Requis.
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Puissance fiscale</label>
+        <div class="form-group">
+          <label>Puissance fiscale</label>
           <select class="form-select" [(ngModel)]="annonce.vehicule.Puissance" name="puissance" required>
             <option value="">Sélectionnez</option>
             <option value="5 CV">5 CV</option>
             <option value="7 CV">7 CV</option>
             <option value="9 CV">9 CV</option>
           </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['puissance']?.valid" class="text-danger">
+            Requis.
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Type de carburant</label>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Type de carburant</label>
           <select class="form-select" [(ngModel)]="annonce.vehicule.TypeCarburant" name="typeCarburant" required>
             <option value="">Sélectionnez</option>
             <option value="Essence">Essence</option>
@@ -55,158 +73,238 @@
             <option value="Electrique">Electrique</option>
             <option value="Hybride">Hybride</option>
           </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['typeCarburant']?.valid" class="text-danger">
+            Requis.
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Cylindre</label>
+        <div class="form-group">
+          <label>Cylindre</label>
           <select class="form-select" [(ngModel)]="annonce.vehicule.Cylindre" name="cylindre" required>
             <option value="">Sélectionnez</option>
             <option value="4">4</option>
             <option value="6">6</option>
             <option value="8">8</option>
           </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['cylindre']?.valid" class="text-danger">
+            Requis.
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Mise en circulation</label>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Mise en circulation</label>
           <input type="date" class="form-control" [(ngModel)]="annonce.vehicule.DateDeMiseEnCirculation" name="dateCirculation" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Kilométrage</label>
-          <input type="text" class="form-control" [(ngModel)]="annonce.vehicule['Kilométrage']" name="kilometrage" placeholder="Entrer le kilométrage" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Nombre de portes</label>
-          <input type="text" class="form-control" [(ngModel)]="annonce.vehicule.nbPortes" name="nbPortes" placeholder="Entrer le nombre de portes" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">État du véhicule</label>
-          <div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="neuf" required>
-              <label class="form-check-label">Neuf</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="excellent" required>
-              <label class="form-check-label">Excellent</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="correct" required>
-              <label class="form-check-label">Correct</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="endommagé" required>
-              <label class="form-check-label">Endommagé</label>
-            </div>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['dateCirculation']?.valid" class="text-danger">
+            Requis.
           </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Boîte de vitesses</label>
-          <div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="boiteVitesse" [(ngModel)]="annonce.vehicule.boiteVitesse" value="manuelle" required>
-              <label class="form-check-label">Manuelle</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="boiteVitesse" [(ngModel)]="annonce.vehicule.boiteVitesse" value="automatique" required>
-              <label class="form-check-label">Automatique</label>
-            </div>
+        <div class="form-group">
+          <label>Kilométrage</label>
+          <input type="number" class="form-control" [(ngModel)]="annonce.vehicule['Kilométrage']" name="kilometrage" placeholder="Entrer le kilométrage" required>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['kilometrage']?.valid" class="text-danger">
+            Requis.
           </div>
         </div>
-        <div class="d-flex justify-content-end">
-          <button type="button" class="btn btn-primary" (click)="nextStep()">Suivant</button>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre de portes</label>
+          <input type="number" class="form-control" [(ngModel)]="annonce.vehicule.nbPortes" name="nbPortes" placeholder="Entrer le nombre de portes" required>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['nbPortes']?.valid" class="text-danger">
+            Requis.
+          </div>
         </div>
-      </form>
-    </div>
-  
-    <!-- Step 2: Équipements -->
-    <div *ngIf="currentStep === 2">
-      <h5>Équipements</h5>
-      <div class="row">
-        <div class="col-6 col-md-3 mb-3" *ngFor="let equip of equipmentOptions">
-          <div class="card text-center">
-            <div class="card-body">
-              <i class="{{ equip.icon }} fa-2x"></i>
-              <p class="mt-2">{{ equip.name }}</p>
-              <input type="checkbox" [checked]="annonce.vehicule.equipements.includes(equip.name)"
+        <div class="form-group">
+          <label>État du véhicule</label><br>
+          <!-- Native radio buttons for "État du véhicule" -->
+          <div>
+            <label>
+              <input type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="neuf" required>
+              Neuf
+            </label>
+            <label>
+              <input type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="excellent">
+              Excellent
+            </label>
+            <label>
+              <input type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="correct">
+              Correct
+            </label>
+            <label>
+              <input type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="endommagé">
+              Endommagé
+            </label>
+          </div>                  
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !annonce.vehicule.etat" class="text-danger">
+            Requis.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Boîte de vitesses</label><br>
+          <!-- Native radio buttons for "Boîte de vitesses" -->
+          <div>
+            <label>
+              <input type="radio" name="boiteVitesse" [(ngModel)]="annonce.vehicule.boiteVitesse" value="manuelle" required>
+              Manuelle
+            </label>
+            <label>
+              <input type="radio" name="boiteVitesse" [(ngModel)]="annonce.vehicule.boiteVitesse" value="automatique">
+              Automatique
+            </label>
+          </div>          
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !annonce.vehicule.boiteVitesse" class="text-danger">
+            Requis.
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" (click)="nextStep(step1Form)">Suivant</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Step 2: Équipements -->
+  <div *ngIf="currentStep === 2">
+    <h5>Équipements</h5>
+    <p class="small text-muted">Vous pouvez sélectionner plusieurs équipements.</p>
+    <div class="row">
+      <div class="col-6 col-md-3 mb-3" *ngFor="let equip of equipmentOptions">
+        <div class="card text-center equipment-card" 
+             (click)="toggleEquipment(equip.name)" 
+             [ngClass]="{'selected': annonce.vehicule.equipements.includes(equip.name)}">
+          <div class="card-body">
+            <img [src]="equip.icon" [alt]="equip.name" width="32" height="32">
+            <p class="mt-2">{{ equip.name }}</p>
+            <label>
+              <input type="checkbox"
+                     [checked]="annonce.vehicule.equipements.includes(equip.name)"
+                     (click)="$event.stopPropagation()"
                      (change)="toggleEquipment(equip.name)">
-            </div>
+            </label>
           </div>
         </div>
       </div>
-      <div class="d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary" (click)="prevStep()">Précédent</button>
-        <button type="button" class="btn btn-primary" (click)="nextStep()">Suivant</button>
-      </div>
     </div>
-  
-    <!-- Step 3: Information générale -->
-    <div *ngIf="currentStep === 3">
-      <h5>Information générale</h5>
-      <form>
-        <div class="mb-3">
-          <label class="form-label">Titre de votre annonce</label>
+    <div *ngIf="step2Error" class="text-danger mb-2">{{ step2Error }}</div>
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-secondary" (click)="prevStep()">Précédent</button>
+      <button type="button" class="btn btn-primary" (click)="nextStep()">Suivant</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Information générale -->
+  <div *ngIf="currentStep === 3">
+    <h5>Information générale</h5>
+    <form #step3Form="ngForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Titre de votre annonce</label>
           <input type="text" class="form-control" [(ngModel)]="annonce.titre" name="titre" placeholder="Entrez un titre attractif" required>
+          <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['titre']?.valid" class="text-danger">
+            Requis.
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Description</label>
-          <textarea class="form-control" [(ngModel)]="annonce.description" name="description" placeholder="Ajoutez une description détaillée" rows="4" required></textarea>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Prix (en DT)</label>
+        <div class="form-group">
+          <label>Prix (en DT)</label>
           <input type="number" class="form-control" [(ngModel)]="annonce.prix" name="prix" placeholder="Entrez le prix" required>
+          <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['prix']?.valid" class="text-danger">
+            Requis.
+          </div>
           <div class="form-check mt-2">
             <input type="checkbox" class="form-check-input" id="prixNegociable" [(ngModel)]="annonce.prixNegociable" name="prixNegociable">
             <label for="prixNegociable" class="form-check-label">Prix négociable</label>
           </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Photos du véhicule</label>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" [(ngModel)]="annonce.description" name="description" placeholder="Ajoutez une description détaillée" rows="4" required></textarea>
+        <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['description']?.valid" class="text-danger">
+          Requis.
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Photos du véhicule</label>
           <input type="file" class="form-control" (change)="onPhotosSelected($event)" multiple required>
           <small class="text-muted">Minimum 3 photos requises</small>
+          <!-- Display error if photos are not enough -->
+          <div *ngIf="photoError" class="text-danger">{{ photoError }}</div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Région</label>
+        <div class="form-group">
+          <label>Région</label>
           <input type="text" class="form-control" [(ngModel)]="annonce.region" name="region" placeholder="Spécifiez la région" required>
+          <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['region']?.valid" class="text-danger">
+            Requis.
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Délégation</label>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Délégation</label>
           <input type="text" class="form-control" [(ngModel)]="annonce.delegation" name="delegation" placeholder="Entrez la délégation" required>
+          <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['delegation']?.valid" class="text-danger">
+            Requis.
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Téléphone</label>
+        <div class="form-group">
+          <label>Téléphone</label>
           <input type="text" class="form-control" [(ngModel)]="annonce.telephone" name="telephone" placeholder="Entrez votre numéro" required>
+          <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['telephone']?.valid" class="text-danger">
+            Requis.
+          </div>
           <div class="form-check mt-2">
             <input type="checkbox" class="form-check-input" id="afficherTelephone" [(ngModel)]="annonce.afficherTelephone" name="afficherTelephone">
-            <label for="afficherTelephone" class="form-check-label">Afficher mon numéro de téléphone</label>
-          </div>
-        </div>
-        <div class="d-flex justify-content-between">
-          <button type="button" class="btn btn-secondary" (click)="prevStep()">Précédent</button>
-          <button type="button" class="btn btn-primary" (click)="nextStep()">Suivant</button>
-        </div>
-      </form>
-    </div>
-  
-    <!-- Step 4: Boostez la Visibilité -->
-    <div *ngIf="currentStep === 4">
-      <h5>Boostez la Visibilité de Votre Annonce</h5>
-      <div class="row">
-        <div class="col-12 col-md-6 col-lg-3 mb-3" *ngFor="let pack of sponsoringPackages">
-          <div class="card h-100">
-            <div class="card-body text-center">
-              <h6 class="card-title">{{ pack.name }}</h6>
-              <p class="card-text">{{ pack.description }}</p>
-              <p class="card-text">
-                <strong *ngIf="pack.price > 0">{{ pack.price }} DT</strong>
-                <span *ngIf="pack.price === 0">Gratuit</span>
-              </p>
-              <button type="button" class="btn btn-outline-primary" (click)="selectSponsoring(pack)">Sélectionner</button>
-            </div>
+            <label for="afficherTelephone" class="form-check-label">Afficher mon numéro</label>
           </div>
         </div>
       </div>
+
       <div class="d-flex justify-content-between">
         <button type="button" class="btn btn-secondary" (click)="prevStep()">Précédent</button>
-        <button type="button" class="btn btn-success" (click)="submitAnnonce()">Publier</button>
+        <button type="button" class="btn btn-primary" (click)="nextStep(step3Form)">Suivant</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Step 4: Boostez la Visibilité -->
+  <div *ngIf="currentStep === 4">
+    <h5>Boostez la Visibilité de Votre Annonce</h5>
+    <!-- Display submission error if any -->
+    <div *ngIf="submissionError" class="alert alert-danger mb-2">{{ submissionError }}</div>
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-3 mb-3" *ngFor="let pack of sponsoringPackages">
+        <div class="card h-100 sponsoring-card" 
+             (click)="selectSponsoring(pack)" 
+             [ngClass]="{'selected-pack': selectedSponsoring?.id === pack.id}">
+          <div class="card-body text-center">
+            <h6 class="card-title">{{ pack.name }}</h6>
+            <p class="card-text">{{ pack.description }}</p>
+            <p class="card-text">
+              <strong *ngIf="pack.price > 0">{{ pack.price }} DT</strong>
+              <span *ngIf="pack.price === 0">Gratuit</span>
+            </p>
+            <button type="button" class="btn" 
+                    [class.btn-outline-primary]="selectedSponsoring?.id !== pack.id"
+                    [class.btn-primary]="selectedSponsoring?.id === pack.id">
+              {{ selectedSponsoring?.id === pack.id ? 'Sélectionné' : 'Sélectionner' }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-secondary" (click)="prevStep()">Précédent</button>
+      <button type="button" class="btn btn-success" (click)="submitAnnonce()">Publier</button>
+    </div>
   </div>
+</div>
