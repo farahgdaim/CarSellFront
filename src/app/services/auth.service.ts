@@ -15,12 +15,11 @@ export class AuthService {
   constructor(private http: HttpClient) {
     const token = localStorage.getItem(this.tokenKey);
     if (token) {
-      // Optionnel : charger des infos complémentaires en appelant /me par exemple
       this.currentUser.next({ token });
     }
   }
 
-  register(userData: any): Observable<any> {
+  register(userData: any): Observable<any> { 
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
 

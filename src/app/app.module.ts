@@ -16,6 +16,9 @@ import { ExpertFormComponent } from './components/expert-form/expert-form.compon
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CreateAnnonceComponent } from './components/create-annonce/create-annonce.component';
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { AdminRegisterComponent } from './components/admin-register/admin-register.component';
+import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
 
 @NgModule({ 
   declarations: [
@@ -28,7 +31,10 @@ import { CreateAnnonceComponent } from './components/create-annonce/create-annon
     ExpertFormComponent,
     UpdateProfileComponent,
     ProfileComponent,
-    CreateAnnonceComponent
+    CreateAnnonceComponent,
+    AdminLoginComponent,
+    AdminRegisterComponent,
+    AdminProfileComponent
   ],
   imports: [
     BrowserModule,
