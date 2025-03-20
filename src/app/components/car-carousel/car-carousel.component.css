@@ -1,0 +1,128 @@
+.carousel-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+  }
+  
+  .carousel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+  }
+  
+  .slides-container {
+    width: 80%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .slides {
+    display: flex;
+    transition: transform 1.5s ease-in-out; /* Transition plus lente */
+    width: 106%; /* 4 marques visibles à chaque fois */
+  }
+  
+  
+  .slide {
+    flex: 0 0 25%; /* 4 images visibles à la fois */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .slide img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin: 0 10px;
+  }
+  
+  .prev, .next {
+    cursor: pointer;
+    background: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .prev { left: 10px; }
+  .next { right: 10px; }
+  
+  .dots {
+    margin-top: 20px;
+  }
+  
+  .dots span {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .dots .active {
+    background-color: #555;
+  }
+  
+  /* Adaptation responsive */
+  @media (max-width: 768px) {
+    .slide {
+      flex: 0 0 50%; /* 2 images visibles à la fois sur petits écrans */
+    }
+    .slides {
+      width: 400%;
+    }
+}
+
+    h2{
+        color: #1d2e5f;
+    font-size: 50px; /* Augmente la taille */
+    font-weight: bold;
+    /* text-transform: uppercase; Met en majuscules pour un effet plus prestigieux */
+    letter-spacing: 1px; /* Espacement pour plus d'élégance */
+    margin-bottom: 40px;
+    background: linear-gradient(90deg, #1d2e5f, #1d2e5f, #1d2e5f);
+    background-size: 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientAnimation 5s infinite linear alternate;
+    position: relative;
+    cursor: pointer;
+    animation: fadeIn 1.2s ease-out;
+    }
+    @keyframes gradientAnimation {
+        0% { background-position: 0%; }
+        100% { background-position: 100%; }
+    }
+    
+    /* Effet au survol */
+    h2:hover {
+        transform: scale(1.05); /* Agrandissement léger */
+        transition: 0.3s ease-in-out;
+    }
+    
+    /* Effet d'apparition au chargement */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+  
