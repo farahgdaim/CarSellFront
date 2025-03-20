@@ -19,6 +19,9 @@ import { CreateAnnonceComponent } from './components/create-annonce/create-annon
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { AdminRegisterComponent } from './components/admin-register/admin-register.component';
 import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
+import { AdminExpertRequestsComponent } from './components/admin-expert-requests/admin-expert-requests.component';
+import { AdminExpertRequestDetailComponent } from './components/admin-expert-request-detail/admin-expert-request-detail.component';
+import { NotificationListComponent } from './components/notification-list/notification-list.component';
 
 @NgModule({ 
   declarations: [
@@ -34,7 +37,10 @@ import { AdminProfileComponent } from './components/admin-profile/admin-profile.
     CreateAnnonceComponent,
     AdminLoginComponent,
     AdminRegisterComponent,
-    AdminProfileComponent
+    AdminProfileComponent,
+    AdminExpertRequestsComponent,
+    AdminExpertRequestDetailComponent,
+    NotificationListComponent
   ],
   imports: [
     BrowserModule,

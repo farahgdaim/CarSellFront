@@ -48,7 +48,7 @@ export class ExpertFormComponent {
     // Envoyer la candidature via le service
     this.expertService.requestExpertRole(formData).subscribe({
       next: (res: any) => {
-        if (res.status === 200) {
+        if (res.status === 200 || res.status === 201) {
           this.success = "Votre candidature a été envoyée avec succès. Veuillez attendre la réponse de l'administration.";
         } else if (res.status === 400) {
           this.error = res.data || "Une demande est déjà en cours ou vous êtes déjà expert.";

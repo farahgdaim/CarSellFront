@@ -14,6 +14,9 @@ import { CreateAnnonceComponent } from './components/create-annonce/create-annon
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { AdminRegisterComponent } from './components/admin-register/admin-register.component';
 import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
+import { AdminExpertRequestsComponent } from './components/admin-expert-requests/admin-expert-requests.component';
+import { AdminExpertRequestDetailComponent } from './components/admin-expert-request-detail/admin-expert-request-detail.component';  
+import { NotificationListComponent } from './components/notification-list/notification-list.component';
 
 
 const routes: Routes = [
@@ -24,10 +27,14 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'update-profile', component: UpdateProfileComponent, canActivate: [AuthGuard] },
   { path: 'creerAnnonce', component: CreateAnnonceComponent, canActivate: [AuthGuard] },
+  { path: 'notifications', component: NotificationListComponent, canActivate: [AuthGuard] },
+
 
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/register', component: AdminRegisterComponent },
   { path: 'admin/profile', component: AdminProfileComponent, canActivate: [AdminGuard] },
+  { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
+  { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
   
   { path: 'annonces', component: AnnoncesListComponent },
   { path: 'annonce/:id', component: AnnonceDetailComponent },
