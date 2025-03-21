@@ -1,0 +1,13 @@
+<div class="container mt-4">
+  <h2>Mes Conversations</h2>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <ul class="list-group">
+    <li 
+      class="list-group-item d-flex justify-content-between align-items-center" 
+      *ngFor="let conv of conversations" 
+      (click)="viewConversation(conv)" style="cursor: pointer;">
+      <span><strong>ID:</strong> {{ conv._id || conv.id }}</span>
+      <span class="badge bg-primary">Voir détails</span>
+    </li>
+  </ul>
+</div>

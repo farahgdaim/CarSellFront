@@ -1,0 +1,45 @@
+.chat-window {
+    max-height: 500px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  
+  .message-item {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    max-width: 75%;
+  }
+  
+  .message-item.sent {
+    background-color: #d4f0ff;
+    margin-left: auto;
+    text-align: right;
+  }
+  
+  .message-item.received {
+    background-color: #e4e4e4;
+    text-align: left;
+  }
+  
+  .message-content {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .message-timestamp {
+    margin: 0;
+    font-size: 12px;
+  }
+  
+  .message-input textarea {
+    resize: none;
+  }
+  
+  .message-input button {
+    background-color: #007bff;
+    color: white;
+  }
+  

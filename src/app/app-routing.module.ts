@@ -13,12 +13,15 @@ import { AdminLoginComponent } from './components/admin-login/admin-login.compon
 import { AdminRegisterComponent } from './components/admin-register/admin-register.component';
 import { AdminProfileComponent } from './components/admin-profile/admin-profile.component';
 import { AdminExpertRequestsComponent } from './components/admin-expert-requests/admin-expert-requests.component';
-import { AdminExpertRequestDetailComponent } from './components/admin-expert-request-detail/admin-expert-request-detail.component';  
+import { AdminExpertRequestDetailComponent } from './components/admin-expert-request-detail/admin-expert-request-detail.component';
 import { NotificationListComponent } from './components/notification-list/notification-list.component';
-
+import { UserListComponent } from './components/user-list/user-list.component';
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
+import { ConversationListComponent } from './components/conversation-list/conversation-list.component';
+import { ConversationDetailComponent } from './components/conversation-detail/conversation-detail.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'annonces', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'devenir-expert', component: ExpertFormComponent, canActivate: [AuthGuard] },
@@ -26,20 +29,22 @@ const routes: Routes = [
   { path: 'update-profile', component: UpdateProfileComponent, canActivate: [AuthGuard] },
   { path: 'creerAnnonce', component: CreateAnnonceComponent, canActivate: [AuthGuard] },
   { path: 'notifications', component: NotificationListComponent, canActivate: [AuthGuard] },
-
-
+  { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
+  { path: 'profile/:id', component: PublicProfileComponent, canActivate: [AuthGuard] },
+  { path: 'conversations', component: ConversationListComponent, canActivate: [AuthGuard] },
+  { path: 'conversation/:userId1/:userId2', component: ConversationDetailComponent, canActivate: [AuthGuard] }, // Updated route
+  
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/register', component: AdminRegisterComponent },
   { path: 'admin/profile', component: AdminProfileComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
-  
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: 'annonces' },
+  { path: '**', redirectTo: 'dashboard' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
