@@ -47,36 +47,34 @@ export class PublicProfileComponent implements OnInit {
   }
 
   startConversation(userId: string): void {
-    console.log("logged in user:", this.loggedInUserId, "target user: ", userId);
-    // Check if a conversation exists between logged-in user and the target user
+    // Check if a conversation exists between the logged-in user and the target user
     this.conversationService.getConversationBetweenUsers(this.loggedInUserId, userId).subscribe({
       next: (res: any) => {
         if (res && res.status === 200 && res.data) {
-          console.log("conversation exists");
-          // Navigate to the existing conversation
-          const conversationId = res.data._id || res.data.id;
-          console.log("conversation id: ", res.data);
-          this.router.navigate(['/conversation', conversationId], { state: { conversation: res.data } });
+          // Navigate to the existing conversation using the two user IDs
+          const userId1 = res.data.Ref_id_user1;
+          const userId2 = res.data.Ref_id_user2;
+          this.router.navigate(['/conversation', userId1, userId2], { state: { conversation: res.data } });
         } else {
-          console.log("conversation does not exist");
           // If no conversation exists, create a new one
           this.createNewConversation(userId);
         }
       },
       error: (err) => {
         // Handle the error when the conversation does not exist or another issue occurs
-        console.log("Error or conversation not found");
+        console.error("Error or conversation not found", err);
         this.createNewConversation(userId);
       }
     });
   }
-
+  
   private createNewConversation(userId: string): void {
     this.conversationService.createConversation(userId).subscribe({
       next: (createRes: any) => {
         const newConversation = createRes.data;
-        const conversationId = newConversation._id || newConversation.id;
-        this.router.navigate(['/conversation', conversationId], { state: { conversation: newConversation } });
+        const userId1 = newConversation.Ref_id_user1;
+        const userId2 = newConversation.Ref_id_user2;
+        this.router.navigate(['/conversation', userId1, userId2], { state: { conversation: newConversation } });
       },
       error: (createErr) => {
         alert('Erreur lors de la création de la conversation.');
@@ -84,5 +82,5 @@ export class PublicProfileComponent implements OnInit {
       }
     });
   }
-
+  
 }

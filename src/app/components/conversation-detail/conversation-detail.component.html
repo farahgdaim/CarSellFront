@@ -1,35 +1,38 @@
-<div class="container mt-4" *ngIf="conversation; else errorTemplate">
-  <!-- Conversation Header -->
-  <h2 class="text-center text-primary">
-    Conversation avec {{ conversation.user1?.nom || 'Utilisateur' }} et {{ conversation.user2?.nom || 'Utilisateur' }}
-  </h2>
+<div class="chat-container" *ngIf="conversation; else errorTemplate">
+  <!-- Chat Header -->
+  <div class="chat-header">
+    <h2>
+      Chat with {{ conversation.user1?.nom || 'User One' }} &amp; {{ conversation.user2?.nom || 'User Two' }}
+    </h2>
+  </div>
 
-  <!-- Messages Display -->
-  <div class="card mb-4">
-    <div class="card-body chat-window">
+  <!-- Chat Body -->
+  <div class="chat-body">
+    <div class="messages">
       <div *ngIf="conversation.messages && conversation.messages.length > 0; else noMessages">
-        <div *ngFor="let msg of conversation.messages" class="mb-3 message-item" 
-             [ngClass]="{'sent': msg.senderId === userId1, 'received': msg.senderId !== userId2}">
-          <p class="message-content">{{ msg.contenu }}</p>
-          <p class="message-timestamp text-muted small">{{ msg.dateEnvoi | date:'short' }}</p>
+        <div *ngFor="let msg of conversation.messages" 
+             class="message-item" 
+             [ngClass]="{'sent': msg.senderId === userId1, 'received': msg.senderId !== userId1}">
+          <div class="message-content">{{ msg.contenu }}</div>
+          <div class="message-timestamp">{{ msg.dateEnvoi | date:'shortTime' }}</div>
         </div>
       </div>
       <ng-template #noMessages>
-        <p class="text-center text-muted">Aucun message pour le moment.</p>
+        <div class="no-messages">No messages yet. Start the conversation!</div>
       </ng-template>
     </div>
   </div>
 
-  <!-- Send Message Section -->
-  <div class="message-input">
-    <textarea class="form-control" rows="2" placeholder="Écrivez un message..." [(ngModel)]="newMessage" name="newMessage"></textarea>
-    <button class="btn btn-primary mt-2 w-100" (click)="sendMessage()">Envoyer</button>
+  <!-- Chat Input -->
+  <div class="chat-input">
+    <textarea class="form-control" rows="2" placeholder="Type your message..." [(ngModel)]="newMessage"></textarea>
+    <button class="btn btn-primary" (click)="sendMessage()">Send</button>
   </div>
 </div>
 
-<!-- Error Template -->
+
 <ng-template #errorTemplate>
   <div class="alert alert-danger mt-4">
     {{ error }}
-  </div>
+  </div> 
 </ng-template>

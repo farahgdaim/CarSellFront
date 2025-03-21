@@ -30,14 +30,22 @@ export class ConversationListComponent implements OnInit {
       }
     });
   }
-
   viewConversation(conversation: any): void {
-    const conversationId = conversation._id || conversation.id;
-    if (!conversationId) {
-      alert('Identifiant de conversation introuvable.');
+    if (!conversation || !conversation.Ref_id_user1 || !conversation.Ref_id_user2) {
+      alert('Les identifiants des utilisateurs sont introuvables.');
       return;
     }
-    // Pass the conversation in router state for convenience
-    this.router.navigate(['/conversation', conversationId], { state: { conversation } });
+  
+    const userId1 = conversation.Ref_id_user1;
+    const userId2 = conversation.Ref_id_user2;
+  
+    // Validate user IDs
+    if (typeof userId1 !== 'string' || userId1.trim() === '' || typeof userId2 !== 'string' || userId2.trim() === '') {
+      alert('Les identifiants des utilisateurs sont invalides.');
+      return;
+    }
+  
+    // Navigate to the conversation detail page with the two user IDs
+    this.router.navigate(['/conversation', userId1, userId2]);
   }
-}
+}  
