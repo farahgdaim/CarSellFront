@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AnnoncesListComponent } from './components/annonces-list/annonces-list.component';
-import { AnnonceDetailComponent } from './components/annonce-detail/annonce-detail.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { ExpertFormComponent } from './components/expert-form/expert-form.component';
@@ -36,8 +34,6 @@ const routes: Routes = [
   { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
   
-  { path: 'annonces', component: AnnoncesListComponent },
-  { path: 'annonce/:id', component: AnnonceDetailComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'annonces' },
 ];

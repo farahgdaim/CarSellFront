@@ -8,8 +8,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AnnoncesListComponent } from './components/annonces-list/annonces-list.component';
-import { AnnonceDetailComponent } from './components/annonce-detail/annonce-detail.component';
 
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ExpertFormComponent } from './components/expert-form/expert-form.component';
@@ -29,8 +27,6 @@ import { NotificationListComponent } from './components/notification-list/notifi
     LoginComponent,
     RegisterComponent,
     DashboardComponent,
-    AnnoncesListComponent,
-    AnnonceDetailComponent,
     ExpertFormComponent,
     UpdateProfileComponent,
     ProfileComponent,
