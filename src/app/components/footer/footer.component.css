@@ -2,7 +2,7 @@
     background-color: #1d2e5f;
     color: #ffffff;
     padding: 30px 0;
-    font-family: "Poppins", sans-serif;
+    font-family: "Poppins", sans-serif!important;
 }
 
 .container {

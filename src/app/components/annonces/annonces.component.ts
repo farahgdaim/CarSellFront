@@ -74,7 +74,10 @@ handleImageError(event: Event, url: string) {
   console.error("Erreur de chargement de l'image:", event);
 }
 
-  
+logAnnonce(ann: any) {
+  console.log('Annonce cliquée :', ann);
+}
+
 
 
 }

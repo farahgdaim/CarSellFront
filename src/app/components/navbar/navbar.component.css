@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif !important;
   background-color: #202124;
   color: #f9f9f9;
   transition: 0.3s;
@@ -33,12 +33,17 @@ p:hover {
   top: 0;
   z-index: 1000;
   color: white;
-  background-color: transparent; /* Transparente au début */
+  background-color:  #1d2e5f!important; 
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
+.navbar.home-page:not(.scrolled) {
+  background-color: initial !important; /* Plus fiable que 'transparent' */
+  box-shadow: none !important;
+}
+
 
 .navbar.scrolled {
-  background-color: #1d2e5f; /* Couleur après le scroll */
+  background-color: #1d2e5f !important; /* Couleur après le scroll */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Ajout d'une ombre pour plus de visibilité */
 }
 
@@ -158,14 +163,17 @@ p:hover {
 .nav-item.dropdown:hover .navbar-3-dropdown {
   display: block;
 }
-
 #menuToggle {
   font-size: 24px;
-  font-family:"Poppins", sans-serif; 
+  font-family: "Poppins", sans-serif;
   color: white;
   cursor: pointer;
-  justify-content: center;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+#menuToggle:hover {
+  color: #ff4747;
+  transform: scale(1.1);
 }
 
 #fullscreenMenu {
@@ -175,12 +183,21 @@ p:hover {
   right: 0;
   width: 300px;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
   color: white;
   padding-top: 60px;
   z-index: 999;
   overflow-y: auto;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.7);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .menu-list {
@@ -189,19 +206,42 @@ p:hover {
   margin: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Espacement équitable */
-  height: 90vh; /* Prend toute la hauteur du menu */
-  padding-left: 20px;
+  justify-content: space-between;
+  height: 90vh;
   text-align: center;
 }
 
 .menu-list li {
   margin: 15px 0;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 1px;
-  transition: transform 0.3s, color 0.3s;
+  transition: all 0.3s ease;
   cursor: pointer;
+  padding: 10px 0;
+  position: relative;
+}
+
+.menu-list li::after {
+  content: "";
+  width: 0%;
+  height: 2px;
+  background: #ff4747;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.menu-list li:hover {
+  color: #ff4747;
+  transform: scale(1.05);
+  letter-spacing: 1.2px;
+}
+
+.menu-list li:hover::after {
+  width: 80%;
 }
 
 .menu-list li a {
@@ -209,18 +249,11 @@ p:hover {
   text-decoration: none;
   display: block;
   width: 100%;
-  padding: 10px 0;
-  transition: color 0.3s;
+  transition: color 0.3s ease;
 }
 
-.menu-list li a:hover{
+.menu-list li a:hover {
   color: #ff4747;
-}
-
-.menu-list li:hover {
-  color: #ff4747; /* Couleur au survol */
-  transform: scale(1.05); /* Légère mise en avant */
-  letter-spacing: 1.2px; /* Espacement des lettres */
 }
 
 .close-btn {
@@ -230,7 +263,7 @@ p:hover {
   font-size: 32px;
   color: #fff;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .close-btn:hover {

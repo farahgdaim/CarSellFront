@@ -1,3 +1,32 @@
+/* Animation de fondu et glissement */
+.fade-slide {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease forwards;
+  }
+  
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Exemple d'animation de rotation */
+  .rotate {
+    animation: rotate360 2s linear infinite;
+  }
+  
+  @keyframes rotate360 {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+
 
 html {
 

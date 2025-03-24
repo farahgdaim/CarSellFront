@@ -3,7 +3,8 @@ import { DataService } from 'src/app/service/data.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  
 })
 export class NavbarComponent {
   notification:any;
@@ -22,7 +23,7 @@ export class NavbarComponent {
   }
   loadNavbarScript() {
     const script = document.createElement('script');
-    script.src = './navbar.js'; // Chemin relatif au component
+    script.src = 'assets/navbar.js'; // Chemin relatif au component
     script.type = 'text/javascript';
     document.body.appendChild(script);
   }

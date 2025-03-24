@@ -14,12 +14,12 @@ import { FooterComponent } from './components/footer/footer.component';
 
 
 
-const appRoutes:Routes = [
+/* const appRoutes:Routes = [
   { path: '', component: AnnoncesComponent },
   { path: 'annonce/:id', component: AnnoncesDetailsComponent }
 
   
-];
+]; */
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ const appRoutes:Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes),
+    // RouterModule.forRoot(appRoutes),
     HttpClientModule,
     FormsModule,
     AppRoutingModule

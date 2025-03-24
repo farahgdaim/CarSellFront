@@ -25,12 +25,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+               "src/assets/css/global.css"
               
             ],
             "scripts": [
               "src/assets/navbar.js",
-              "src/assets/menu.js"
+              "src/assets/menu.js",
+              "src/assets/animation.js"
             ]
           },
           "configurations": {
