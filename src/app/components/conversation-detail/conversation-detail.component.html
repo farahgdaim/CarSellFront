@@ -1,38 +1,71 @@
-<div class="chat-container" *ngIf="conversation; else errorTemplate">
+<div class="container mt-4" *ngIf="conversation; else errorTemplate">
   <!-- Chat Header -->
-  <div class="chat-header">
-    <h2>
-      Chat with {{ conversation.user1?.nom || 'User One' }} &amp; {{ conversation.user2?.nom || 'User Two' }}
-    </h2>
+  <div class="chat-header mb-4 p-3 bg-primary text-white rounded-top">
+    <div class="d-flex align-items-center">
+      <div class="avatar mr-3">
+        <i class="fas fa-user fa-2x"></i>
+      </div>
+      <div>
+        <h4 class="mb-0">{{ conversation.user2?.name || 'Chat Participant' }}</h4>
+      </div>
+    </div>
   </div>
 
-  <!-- Chat Body -->
-  <div class="chat-body">
-    <div class="messages">
+  <!-- Chat Messages Container -->
+  <div class="chat-messages card mb-4">
+    <div class="card-body" style="height: 60vh; overflow-y: auto;">
       <div *ngIf="conversation.messages && conversation.messages.length > 0; else noMessages">
-        <div *ngFor="let msg of conversation.messages" 
-             class="message-item" 
-             [ngClass]="{'sent': msg.senderId === userId1, 'received': msg.senderId !== userId1}">
-          <div class="message-content">{{ msg.contenu }}</div>
-          <div class="message-timestamp">{{ msg.dateEnvoi | date:'shortTime' }}</div>
+        <div *ngFor="let msg of conversation.messages" class="message-container">
+          <!-- Received Message -->
+          <div *ngIf="msg.senderId !== userId1" class="message received">
+            <div class="message-content">
+              <div class="message-text">{{ msg.contenu }}</div>
+              <div class="message-time text-muted">
+                <small>{{ msg.dateEnvoi | date:'shortTime' }}</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sent Message -->
+          <div *ngIf="msg.senderId === userId1" class="message sent">
+            <div class="message-content">
+              <div class="message-text">{{ msg.contenu }}</div>
+              <div class="message-time text-light">
+                <small>{{ msg.dateEnvoi | date:'shortTime' }}</small>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      
       <ng-template #noMessages>
-        <div class="no-messages">No messages yet. Start the conversation!</div>
+        <div class="text-center text-muted py-4">
+          Aucun message pour le moment. Commencez la conversation!
+        </div>
       </ng-template>
     </div>
   </div>
 
-  <!-- Chat Input -->
-  <div class="chat-input">
-    <textarea class="form-control" rows="2" placeholder="Type your message..." [(ngModel)]="newMessage"></textarea>
-    <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+  <!-- Message Input Area -->
+  <div class="message-input bg-light p-3 rounded-bottom">
+    <div class="input-group">
+      <textarea 
+        class="form-control" 
+        rows="2" 
+        placeholder="Écrivez votre message..." 
+        [(ngModel)]="newMessage" 
+        name="newMessage"
+        (keydown.enter)="sendMessage()"
+      ></textarea>
+      <div class="input-group-append">
+        <button class="btn btn-primary" (click)="sendMessage()">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
-
 <ng-template #errorTemplate>
-  <div class="alert alert-danger mt-4">
-    {{ error }}
-  </div> 
+  <div class="alert alert-danger mt-4">{{ error }}</div>
 </ng-template>

@@ -30,22 +30,18 @@ export class ConversationListComponent implements OnInit {
       }
     });
   }
+
   viewConversation(conversation: any): void {
-    if (!conversation || !conversation.Ref_id_user1 || !conversation.Ref_id_user2) {
-      alert('Les identifiants des utilisateurs sont introuvables.');
-      return;
-    }
-  
+    // Use fallback if necessary (check _id or id)
     const userId1 = conversation.Ref_id_user1;
     const userId2 = conversation.Ref_id_user2;
-  
-    // Validate user IDs
-    if (typeof userId1 !== 'string' || userId1.trim() === '' || typeof userId2 !== 'string' || userId2.trim() === '') {
-      alert('Les identifiants des utilisateurs sont invalides.');
+
+    if (!userId1 || !userId2 || typeof userId1 !== 'string' || typeof userId2 !== 'string') {
+      alert('Les identifiants des utilisateurs sont introuvables ou invalides.');
       return;
     }
   
     // Navigate to the conversation detail page with the two user IDs
-    this.router.navigate(['/conversation', userId1, userId2]);
+    this.router.navigate(['/conversation', userId1, userId2], { state: { conversation } });
   }
-}  
+}

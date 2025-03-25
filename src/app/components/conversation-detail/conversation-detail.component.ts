@@ -1,20 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { ConversationService } from '../../services/conversation.service';
+import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
+import { io, Socket } from 'socket.io-client';
 
 @Component({
   selector: 'app-conversation-detail',
   templateUrl: './conversation-detail.component.html',
   styleUrls: ['./conversation-detail.component.css']
 })
-export class ConversationDetailComponent implements OnInit {
-  userId1: string = ''; // ID of the logged-in user
-  userId2: string = ''; // ID of the other user in the conversation
-  conversation: any = null;
+export class ConversationDetailComponent implements OnInit, OnDestroy {
+  userId1: string = '';
+  userId2: string = '';
+  conversation: any = { messages: [] };
   newMessage: string = '';
   error: string | null = null;
+  private socket!: Socket;
+  test1: string = '';
+  test2: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -24,77 +28,109 @@ export class ConversationDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Get the logged-in user's ID from AuthService
+    this.initializeSocket();
+    
     this.authService.getUser().subscribe({
       next: (res: any) => {
-        this.userId1 = res.data.id; // Initialize userId1
+        this.userId1 = res.data.id || res.data._id;
+        const test1 = this.route.snapshot.paramMap.get('userId1') || '';
+        const test2 = this.route.snapshot.paramMap.get('userId2') || '';
+        this.userId2 = test1 === this.userId1 ? test2 : test1;
+
         this.loadConversation();
+        this.setupSocketListeners();
       },
       error: (err) => {
-        this.error = 'Error retrieving your profile.';
+        this.error = 'Erreur lors de la récupération de votre profil.';
         console.error(err);
       }
     });
+  }
 
-    // Get the other user's ID from route params
-    this.userId2 = this.route.snapshot.paramMap.get('userId2') || '';
+  private initializeSocket(): void {
+    this.socket = io('http://localhost:3000', {
+      withCredentials: true,
+      transports: ['websocket', 'polling']
+    });
+  }
+
+  private setupSocketListeners(): void {
+    this.socket.on('connect', () => {
+      console.log('Connected to WebSocket server');
+    });
+
+    this.socket.on('newMessage', (message: any) => {
+      console.log('New message received via WebSocket:', message);
+      this.conversation.messages.push(message);
+    });
+
+    this.socket.on('connect_error', (err: any) => {
+      console.error('WebSocket connection error:', err);
+    });
+  }
+
+  sendMessage(): void {
+    if (!this.newMessage.trim()) {
+      alert('Veuillez saisir un message.');
+      return;
+    }
+
+    const messageData = {
+      contenu: this.newMessage,
+      senderId: this.userId1,
+      recipientId: this.userId2,
+    };
+
+    this.conversationService.addMessage(this.userId1, this.userId2, messageData).subscribe({
+      next: () => {
+        this.socket.emit('sendMessage', messageData);
+        this.newMessage = '';
+      },
+      error: (err) => {
+        alert('Erreur lors de l’envoi du message.');
+        console.error(err);
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.socket) {
+      this.socket.disconnect();
+      console.log('Disconnected from WebSocket server');
+    }
   }
 
   loadConversation(): void {
     this.conversationService.getConversationBetweenUsers(this.userId1, this.userId2).subscribe({
       next: (res: any) => {
         this.conversation = res.data;
-        // Fetch user names from the utilisateur collection using the user IDs.
         this.loadUserNames();
       },
       error: (err) => {
-        this.error = 'Error loading the conversation.';
+        this.error = 'Erreur lors du chargement de la conversation.';
         console.error(err);
       }
     });
   }
 
   loadUserNames(): void {
-    // Assuming conversation object contains user1 and user2 IDs as properties.
     if (this.conversation) {
-      // Fetch details for user1 if not already available.
       this.userService.getUserById(this.userId1).subscribe({
         next: (userRes: any) => {
-          this.conversation.user1 = userRes.data; // assuming the response contains a data property with user info
+          this.conversation.user1 = userRes.data;
         },
         error: (err) => {
-          console.error('Error fetching logged-in user details', err);
+          console.error('Erreur lors du chargement des détails de l’utilisateur connecté', err);
         }
       });
-      
-      // Fetch details for user2.
       this.userService.getUserById(this.userId2).subscribe({
         next: (userRes: any) => {
           this.conversation.user2 = userRes.data;
         },
         error: (err) => {
-          console.error('Error fetching other user details', err);
+          console.error('Erreur lors du chargement des détails de l’autre utilisateur', err);
         }
       });
     }
-  }
-
-  sendMessage(): void {
-    if (!this.newMessage.trim()) {
-      alert('Please enter a message.');
-      return;
-    }
-
-    const messageData = { contenu: this.newMessage };
-    this.conversationService.addMessage(this.userId1, this.userId2, messageData).subscribe({
-      next: (res: any) => {
-        this.loadConversation(); // Reload conversation to update messages
-        this.newMessage = '';
-      },
-      error: (err) => {
-        alert('Error sending your message.');
-        console.error(err);
-      }
-    });
   }
 }

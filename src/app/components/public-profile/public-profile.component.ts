@@ -5,7 +5,7 @@ import { ConversationService } from '../../services/conversation.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'app-public-profile',
   templateUrl: './public-profile.component.html'
 })
 export class PublicProfileComponent implements OnInit {
@@ -22,10 +22,13 @@ export class PublicProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const userId = this.route.snapshot.paramMap.get('id');
-
+    const targetUserId = this.route.snapshot.paramMap.get('id');
+    if (!targetUserId) {
+      this.error = 'Identifiant utilisateur manquant.';
+      return;
+    }
     // Load the target user's profile
-    this.userService.getUserById(userId!).subscribe({
+    this.userService.getUserById(targetUserId).subscribe({
       next: (res: any) => {
         this.user = res.data || res;
       },
@@ -35,10 +38,10 @@ export class PublicProfileComponent implements OnInit {
       }
     });
 
-    // Get the logged-in user's ID
+    // Get the logged-in user's ID with a fallback
     this.authService.getUser().subscribe({
       next: (res: any) => {
-        this.loggedInUserId = res.data.id ;
+        this.loggedInUserId = res.data.id || res.data._id;
       },
       error: (err) => {
         console.error('Erreur lors de la récupération du profil connecté', err);
@@ -46,30 +49,28 @@ export class PublicProfileComponent implements OnInit {
     });
   }
 
-  startConversation(userId: string): void {
-    // Check if a conversation exists between the logged-in user and the target user
-    this.conversationService.getConversationBetweenUsers(this.loggedInUserId, userId).subscribe({
+  startConversation(targetUserId: string): void {
+    // Use the logged-in user ID and the target user's ID to get or create a conversation.
+    this.conversationService.getConversationBetweenUsers(this.loggedInUserId, targetUserId).subscribe({
       next: (res: any) => {
         if (res && res.status === 200 && res.data) {
-          // Navigate to the existing conversation using the two user IDs
-          const userId1 = res.data.Ref_id_user1;
-          const userId2 = res.data.Ref_id_user2;
-          this.router.navigate(['/conversation', userId1, userId2], { state: { conversation: res.data } });
+          const conv = res.data;
+          const userId1 = conv.Ref_id_user1;
+          const userId2 = conv.Ref_id_user2;
+          this.router.navigate(['/conversation', userId1, userId2], { state: { conversation: conv } });
         } else {
-          // If no conversation exists, create a new one
-          this.createNewConversation(userId);
+          this.createNewConversation(targetUserId);
         }
       },
       error: (err) => {
-        // Handle the error when the conversation does not exist or another issue occurs
-        console.error("Error or conversation not found", err);
-        this.createNewConversation(userId);
+        console.error("Erreur ou conversation introuvée", err);
+        this.createNewConversation(targetUserId);
       }
     });
   }
   
-  private createNewConversation(userId: string): void {
-    this.conversationService.createConversation(userId).subscribe({
+  private createNewConversation(targetUserId: string): void {
+    this.conversationService.createConversation(targetUserId).subscribe({
       next: (createRes: any) => {
         const newConversation = createRes.data;
         const userId1 = newConversation.Ref_id_user1;
@@ -78,9 +79,8 @@ export class PublicProfileComponent implements OnInit {
       },
       error: (createErr) => {
         alert('Erreur lors de la création de la conversation.');
-        console.error('Conversation creation error:', createErr);
+        console.error('Erreur création conversation:', createErr);
       }
     });
   }
-  
 }
