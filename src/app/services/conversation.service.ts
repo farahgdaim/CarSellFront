@@ -13,7 +13,6 @@ export class ConversationService {
 
   // Get a conversation between two users
   getConversationBetweenUsers(userId1: string, userId2: string): Observable<any> {
-    console.log("Fetching conversation between:", userId1, userId2);
     return this.http.get(`${this.apiUrl}/${userId1}/${userId2}`);
   }
 

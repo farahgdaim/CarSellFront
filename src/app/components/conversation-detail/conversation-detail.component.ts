@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConversationService } from '../../services/conversation.service';
 import { AuthService } from '../../services/auth.service';
@@ -10,7 +10,7 @@ import { io, Socket } from 'socket.io-client';
   templateUrl: './conversation-detail.component.html',
   styleUrls: ['./conversation-detail.component.css']
 })
-export class ConversationDetailComponent implements OnInit, OnDestroy {
+export class ConversationDetailComponent implements OnInit, OnDestroy, AfterViewChecked {
   userId1: string = '';
   userId2: string = '';
   conversation: any = { messages: [] };
@@ -20,16 +20,19 @@ export class ConversationDetailComponent implements OnInit, OnDestroy {
   test1: string = '';
   test2: string = '';
 
+  @ViewChild('chatContainer') private chatContainer!: ElementRef;
+
   constructor(
     private route: ActivatedRoute,
     private conversationService: ConversationService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private zone: NgZone // Inject NgZone
   ) {}
 
   ngOnInit(): void {
     this.initializeSocket();
-    
+
     this.authService.getUser().subscribe({
       next: (res: any) => {
         this.userId1 = res.data.id || res.data._id;
@@ -47,11 +50,16 @@ export class ConversationDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initializeSocket(): void {
-    this.socket = io('http://localhost:3000', {
-      withCredentials: true,
-      transports: ['websocket', 'polling']
-    });
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom(): void {
+    try {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error('Scroll to bottom failed:', err);
+    }
   }
 
   private setupSocketListeners(): void {
@@ -60,8 +68,13 @@ export class ConversationDetailComponent implements OnInit, OnDestroy {
     });
 
     this.socket.on('newMessage', (message: any) => {
-      console.log('New message received via WebSocket:', message);
-      this.conversation.messages.push(message);
+      // Use NgZone to ensure Angular change detection runs
+      this.zone.run(() => {
+        console.log('New message received via WebSocket:', message);
+        this.conversation.messages.push(message);
+        // Optional: If you want to scroll immediately after receiving a new message
+        setTimeout(() => this.scrollToBottom(), 100);
+      });
     });
 
     this.socket.on('connect_error', (err: any) => {
@@ -75,21 +88,51 @@ export class ConversationDetailComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // Include the conversation ID in the messageData
     const messageData = {
       contenu: this.newMessage,
       senderId: this.userId1,
       recipientId: this.userId2,
+      conversationId: this.conversation.id // Add conversation ID here
     };
 
     this.conversationService.addMessage(this.userId1, this.userId2, messageData).subscribe({
       next: () => {
         this.socket.emit('sendMessage', messageData);
         this.newMessage = '';
+        // Optionally, force scroll after sending a message
+        setTimeout(() => this.scrollToBottom(), 100);
       },
       error: (err) => {
         alert('Erreur lors de l’envoi du message.');
         console.error(err);
+      }
+    });
+  }
+
+  loadConversation(): void {
+    this.conversationService.getConversationBetweenUsers(this.userId1, this.userId2).subscribe({
+      next: (res: any) => {
+        this.conversation = res.data;
+        this.loadUserNames();
+        // Join the conversation room by emitting an event with the conversation ID
+        if (this.conversation.id) {
+          this.socket.emit('joinConversation', this.conversation.id);
+        }
+        // Scroll to bottom after loading messages
+        setTimeout(() => this.scrollToBottom(), 100);
       },
+      error: (err) => {
+        this.error = 'Erreur lors du chargement de la conversation.';
+        console.error(err);
+      }
+    });
+  }
+
+  private initializeSocket(): void {
+    this.socket = io('http://localhost:3000', {
+      withCredentials: true,
+      transports: ['websocket', 'polling']
     });
   }
 
@@ -98,19 +141,6 @@ export class ConversationDetailComponent implements OnInit, OnDestroy {
       this.socket.disconnect();
       console.log('Disconnected from WebSocket server');
     }
-  }
-
-  loadConversation(): void {
-    this.conversationService.getConversationBetweenUsers(this.userId1, this.userId2).subscribe({
-      next: (res: any) => {
-        this.conversation = res.data;
-        this.loadUserNames();
-      },
-      error: (err) => {
-        this.error = 'Erreur lors du chargement de la conversation.';
-        console.error(err);
-      }
-    });
   }
 
   loadUserNames(): void {
@@ -128,9 +158,9 @@ export class ConversationDetailComponent implements OnInit, OnDestroy {
           this.conversation.user2 = userRes.data;
         },
         error: (err) => {
-          console.error('Erreur lors du chargement des détails de l’autre utilisateur', err);
+          console.error('Error loading user2 details:', err);
         }
-      });
+      });      
     }
   }
 }

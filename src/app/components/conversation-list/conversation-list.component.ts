@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ConversationService } from '../../services/conversation.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-conversation-list',
@@ -9,20 +11,54 @@ import { Router } from '@angular/router';
 export class ConversationListComponent implements OnInit {
   conversations: any[] = [];
   error: string | null = null;
+  currentUser: any;
 
   constructor(
     private conversationService: ConversationService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.loadConversations();
+    // Get the current user first, then load conversations.
+    this.authService.getUser().subscribe({
+      next: (res: any) => {
+        this.currentUser = res.data;
+        this.loadConversations();
+      },
+      error: (err) => {
+        this.error = 'Erreur lors de la récupération de votre profil.';
+        console.error(err);
+      }
+    });
   }
 
   loadConversations(): void {
     this.conversationService.getConversations().subscribe({
       next: (res: any) => {
         this.conversations = res.data || [];
+        // For each conversation, determine and fetch the "other" user's name.
+        this.conversations.forEach(conv => {
+          const userId1 = conv.Ref_id_user1;
+          const userId2 = conv.Ref_id_user2;
+          let otherUserId: string;
+          if (this.currentUser.id === userId1) {
+            otherUserId = userId2;
+          } else {
+            otherUserId = userId1;
+          }
+          // Fetch the other user's details
+          this.userService.getUserById(otherUserId).subscribe({
+            next: (userRes: any) => {
+              conv.otherUserName = userRes.data.nom.concat(' ', userRes.data.prenom) || 'Inconnu';
+            },
+            error: (err) => {
+              console.error('Erreur lors du chargement des détails de l’autre utilisateur', err);
+              conv.otherUserName = 'Utilisateur inconnu';
+            }
+          });
+        });
       },
       error: (err) => {
         this.error = 'Erreur lors du chargement des conversations.';
@@ -32,7 +68,7 @@ export class ConversationListComponent implements OnInit {
   }
 
   viewConversation(conversation: any): void {
-    // Use fallback if necessary (check _id or id)
+    // Validate the conversation participants.
     const userId1 = conversation.Ref_id_user1;
     const userId2 = conversation.Ref_id_user2;
 
@@ -41,7 +77,7 @@ export class ConversationListComponent implements OnInit {
       return;
     }
   
-    // Navigate to the conversation detail page with the two user IDs
+    // Navigate to the conversation detail page with the two user IDs.
     this.router.navigate(['/conversation', userId1, userId2], { state: { conversation } });
   }
 }
