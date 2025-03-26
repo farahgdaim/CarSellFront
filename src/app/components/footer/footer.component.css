@@ -1,0 +1,106 @@
+.footer {
+    background-color: #1d2e5f;
+    color: #ffffff;
+    padding: 30px 0;
+    font-family: "Poppins", sans-serif!important;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    flex-wrap: wrap;
+    align-items: flex-start; /* Aligne les contenus en haut */
+}
+
+.footer-left, .footer-middle, .footer-right {
+    flex: 1;
+    min-width: 300px; /* Assure une bonne répartition */
+    margin: 10px;
+}
+
+.footer-left .logo {
+    margin-bottom: 20px; /* Espacement pour éviter le décalage */
+}
+
+.footer-left-content {
+    padding-top: 20px; /* Ajuste la hauteur du texte pour l’aligner avec les autres */
+}
+
+.footer-left img {
+    width: 150px;
+}
+
+.footer-left p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.contact {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.contact i {
+    margin-right: 8px;
+    color: #db3232;
+}
+
+.footer-middle h3, .footer-right h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #db3232;
+}
+
+.footer-middle ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-middle ul li {
+    margin-bottom: 8px;
+}
+
+.footer-middle ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-middle ul li a:hover {
+    text-decoration: underline;
+}
+
+.social-links {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.social-links a {
+    color: #ffffff;
+    font-size: 20px;
+    margin-right: 10px;
+    text-decoration: none;
+   
+}
+
+.social-links a:hover {
+    color: #db3232;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px 0;
+    font-size: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Ajout pour aligner le texte avec les titres */
+.footer-right , .footer-middle {
+    margin-top: 200px; /* Ajustez cette valeur si nécessaire */
+}
+.footer-middle{
+    margin-left: 100px;
+}

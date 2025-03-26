@@ -1,0 +1,28 @@
+<div class="carousel-container">
+    <h2 style="color:#1d2e5f;">Nos Marques Partenaires</h2>
+  
+    <div class="carousel">
+      <button class="prev" (click)="prevSlide()">&#10094;</button>
+  
+      <div class="slides-container">
+        <div
+          class="slides"
+          [style.transform]="'translateX(' + (-currentSlide * (100 / brandsPerPage)) + '%)'"
+        >
+          <div class="slide" *ngFor="let brand of carBrands">
+            <img [src]="brand.logo" [alt]="brand.name" />
+          </div>
+        </div>
+      </div>
+  
+      <button class="next" (click)="nextSlide()">&#10095;</button>
+    </div>
+  
+    <div class="dots">
+      <span *ngFor="let index of getDotCount()"
+            (click)="goToSlide(index)"
+            [class.active]="index === currentSlide / brandsPerPage">
+      </span>
+    </div>
+  </div>
+  

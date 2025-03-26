@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votre Titre</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="annonces.component.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+
+</head>
+
+<body>
+    <header>
+        <header>
+            <div class="bg-image">
+                <img src="assets/3.png" alt="Image Pleine Largeur" class="full-width-image">
+                <a href="#service" class="scroll-down" style="text-decoration: none; color: white;">
+                    <div
+                        style="display: flex; align-items: center; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); cursor: pointer; gap: 10px; animation: bounce 1.5s infinite;">
+                        <span style="font-size: 16px;font-family: 'Poppins', sans-serif;">Explorer plus</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-chevron-double-down animate-bounce" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            <path fill-rule="evenodd"
+                                d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </header>
+
+    </header>
+
+
+
+    <section class="services fade-slide">
+        <div class="services-title">
+            <h1 style="color:#1d2e5f; margin-top: 200px;" id="service">Tout pour Votre Voiture</h1>
+        </div>
+        <br>
+
+        <div class="services-container">
+            <div class="service">
+                <img src="https://cdn-icons-png.flaticon.com/512/2331/2331943.png" alt="Vente">
+                <h2>Vente de Véhicules</h2>
+                <p>Découvrez notre sélection de voitures neuves et d'occasion adaptées à votre budget.</p>
+            </div>
+
+            <div class="service">
+                <img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt="Entretien">
+                <h2>Entretien & Évaluation</h2>
+                <p>Nos experts évaluent avec précision l’état de votre véhicule pour vous fournir un diagnostic complet
+                    et fiable.</p>
+            </div>
+
+            <div class="service">
+                <img src="https://cdn-icons-png.flaticon.com/512/2331/2331944.png" alt="Financement">
+                <h2>Financement & Assurance</h2>
+                <p>Des solutions flexibles pour financer et assurer votre voiture en toute sérénité.</p>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Fichier HTML adapté au thème de ton site -->
+
+    <div class="container my-5">
+        <div class="row d-flex align-items-start">
+            <!-- Formulaire de filtrage -->
+            <div class="col-lg-3 col-md-4">
+                <div class="filters-container">
+                    <h5 class="filter-title">Filtrer les annonces</h5>
+                    <form (ngSubmit)="onSearch()" class="filters-form">
+                        <div class="filter-group">
+                            <label><i class="fas fa-list"></i> Catégorie :</label>
+                            <select [(ngModel)]="searchCriteria.categorie" name="categorie">
+                                <option value="Voiture">Voiture</option>
+                                <option value="Camion">Camion</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-car"></i> Marque :</label>
+                            <input type="text" [(ngModel)]="searchCriteria.marque" name="marque">
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-cogs"></i> Modèle :</label>
+                            <input type="text" [(ngModel)]="searchCriteria.modele" name="modele">
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-tachometer-alt"></i> Puissance :</label>
+                            <input type="number" [(ngModel)]="searchCriteria.puissance" name="puissance">
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-road"></i> Kilométrage :</label>
+                            <input type="number" [(ngModel)]="searchCriteria.kilometrage" name="kilometrage">
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-calendar-alt"></i> Mise en circulation :</label>
+                            <input type="date" [(ngModel)]="searchCriteria.dateMiseEnCirculation"
+                                name="dateMiseEnCirculation">
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-gas-pump"></i> Énergie :</label>
+                            <select [(ngModel)]="searchCriteria.energie" name="energie">
+                                <option value="Essence">Essence</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="GPL">GPL</option>
+                                <option value="Electrique">Électrique</option>
+                                <option value="Hybride">Hybride</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-cogs"></i> Boîte de vitesses :</label>
+                            <select [(ngModel)]="searchCriteria.boiteVitesse" name="boiteVitesse">
+                                <option value="manuelle">Manuelle</option>
+                                <option value="automatique">Automatique</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-car-crash"></i> État :</label>
+                            <select [(ngModel)]="searchCriteria.etat" name="etat">
+                                <option value="neuf">Neuf</option>
+                                <option value="excellent">Excellent</option>
+                                <option value="correct">Correct</option>
+                                <option value="endommagé">Endommagé</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label><i class="fas fa-tools"></i> Équipements :</label>
+                            <div class="equipements-container">
+                                <div class="equipement-item" *ngFor="let equipement of equipementsOptions">
+                                    <input type="checkbox" [(ngModel)]="searchCriteria.equipements[equipement]"
+                                        name="equipements">
+                                    <span>{{equipement}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="filter-btn"><i class="fas fa-search"></i> Rechercher</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Annonces -->
+            <div class="col-lg-9 col-md-8" id="annonces">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex" *ngFor="let ann of annonces">
+                        <div class="card annonce-card w-100 my-2 shadow-2-strong" [routerLink]="['/annonce', ann.id]"(click)="logAnnonce(ann)">
+                            <img [src]="'http://127.0.0.1:8000' + ann.images[0]?.url" alt="Image de l'annonce"class="card-img-top"
+                            style="aspect-ratio: 1 / 1"
+                            alt="Image de l'annonce" />
+
+                             
+
+
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title" style="color: #1d2e5f;font-weight: 700;">{{ann.titre}}</h5>
+                                <p>{{ann.description}}</p>
+                                <p class="card-text fw-bold">{{ann.prix}} TND</p>
+
+                                <!-- Infos supplémentaires avec icônes -->
+                                <div class="row text-muted small">
+                                    <div class="col-6"><i class="fas fa-car"></i> {{ann.vehicule['Marque']}} /
+                                        {{ann.vehicule['Modèle']}}</div>
+                                    <div class="col-6"><i class="fas fa-tachometer-alt"></i>
+                                        {{ann.vehicule['Kilométrage']}} km</div>
+                                    <div class="col-6"><i class="fas fa-gas-pump"></i>
+                                        {{ann.vehicule.TypeCarburant}}</div>
+                                    <div class="col-6"><i class="fas fa-cogs"></i> {{ann.vehicule.boiteVitesse}}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Fin du container -->
+
+
+
+
+    <section class="why-choose-us">
+        <h2>Pourquoi choisir <span>EliteAuto ?</span></h2>
+        <div class="features">
+            <div class="feature">
+                <i class="icon fa-solid fa-car"></i>
+                <div>
+                    <h3>Évaluation par des experts</h3>
+                    <p>Faites examiner votre véhicule par un professionnel agréé pour une transparence maximale.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="icon fa-solid fa-brain"></i>
+                <div>
+                    <h3>IA avancée & estimation</h3>
+                    <p>Notre algorithme analyse le marché en temps réel pour un prix de vente optimal.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="icon fa-solid fa-mask"></i>
+                <div>
+                    <h3>Floutage des plaques</h3>
+                    <p>Protection automatique de votre vie privée avec un floutage intelligent.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="icon fa-solid fa-sync-alt"></i>
+                <div>
+                    <h3>Annonce en temps réel</h3>
+                    <p>Vos annonces sont mises à jour instantanément pour éviter les offres obsolètes.</p>
+                </div>
+            </div>
+
+            <div class="feature">
+                <i class="icon fa-solid fa-comments"></i>
+                <div>
+                    <h3>Messagerie sécurisée</h3>
+                    <p>Discutez en toute sécurité avec les vendeurs et acheteurs sur notre plateforme.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="icon fa-solid fa-credit-card"></i>
+                <div>
+                    <h3>Paiement sécurisé</h3>
+                    <p>Finalisez vos transactions en toute sérénité avec notre solution de paiement intégrée.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt-5" id="devenir-expert">
+        <div class="row align-items-center">
+
+            <div class="col-md-6">
+                <h2 class="fw-bold text-uppercase" style="color: #1d2e5f;">Rejoignez Nos Experts</h2>
+                <p class="text-muted">
+                    Vous êtes passionné par l’automobile et souhaitez mettre vos compétences
+                    au service d'une communauté dynamique ? Devenez expert et contribuez
+                    à des évaluations fiables et professionnelles pour nos utilisateurs.
+                </p>
+                <p class="text-muted">
+                    Rejoignez-nous et bénéficiez d’une plateforme où votre expertise sera
+                    valorisée, tout en vous offrant une visibilité unique dans le domaine.
+                </p>
+                <a href="/devenir-expert" class="btn btn-primary px-4 py-2 mt-3"
+                    style="background-color: #1d2e5f; border: none;">
+                    Postuler Maintenant
+                </a>
+            </div>
+
+
+            <div class="col-md-6">
+                <img src="assets/Designer.jpeg" alt="Devenir Expert" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+
+    <app-car-carousel></app-car-carousel>
+
+
+
+
+</body>
+
+</html>

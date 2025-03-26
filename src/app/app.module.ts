@@ -2,15 +2,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AnnoncesComponent } from './components/annonces/annonces.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { AnnoncesDetailsComponent } from './components/annonces-details/annonces-details.component';
+import { CarCarouselComponent } from './components/car-carousel/car-carousel.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { ExpertFormComponent } from './components/expert-form/expert-form.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -26,12 +29,26 @@ import { ConversationDetailComponent } from './components/conversation-detail/co
 import { UserListComponent } from './components/user-list/user-list.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 
-@NgModule({ 
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+
+/* Example routes if needed in the future
+const appRoutes: Routes = [
+  { path: '', component: AnnoncesComponent },
+  { path: 'annonce/:id', component: AnnoncesDetailsComponent }
+];
+*/
+
+@NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
     DashboardComponent,
+    AnnoncesComponent,
+    NavbarComponent,
+    AnnoncesDetailsComponent,
+    CarCarouselComponent,
+    FooterComponent,
     ExpertFormComponent,
     UpdateProfileComponent,
     ProfileComponent,

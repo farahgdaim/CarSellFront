@@ -32,9 +32,14 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "src/assets/css/global.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/navbar.js",
+              "src/assets/menu.js",
+              "src/assets/animation.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -101,14 +106,18 @@
               "src/assets"
             ],
             "styles": [
-            "node_modules/bootstrap/dist/css/bootstrap.min.css",
-            "src/styles.css",
-            "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
-          ],
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "src/assets/css/global.css"
+            ],
             "scripts": []
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
