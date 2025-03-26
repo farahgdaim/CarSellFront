@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AppComponent } from './app.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { CarCarouselComponent } from './components/car-carousel/car-carousel.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -21,17 +24,14 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { ConversationListComponent } from './components/conversation-list/conversation-list.component';
 import { ConversationDetailComponent } from './components/conversation-detail/conversation-detail.component';
-import { AppComponent } from './app.component';
 import { AnnoncesComponent } from './components/annonces/annonces.component';
-import { HttpClientModule } from '@angular/common/http';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { FormsModule } from '@angular/forms';
 import { AnnoncesDetailsComponent } from './components/annonces-details/annonces-details.component';
-import { CarCarouselComponent } from './components/car-carousel/car-carousel.component';
-import { FooterComponent } from './components/footer/footer.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
+  { path: '', component: AnnoncesComponent },
+  { path: 'annonce/:id', component: AnnoncesDetailsComponent },
+  
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'devenir-expert', component: ExpertFormComponent, canActivate: [AuthGuard] },
@@ -49,9 +49,9 @@ const routes: Routes = [
   { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'annonce/:id', component: AnnoncesDetailsComponent },
-  { path: '', component: AnnoncesComponent },
-  { path: '**', redirectTo: 'dashboard' }
+
+  
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

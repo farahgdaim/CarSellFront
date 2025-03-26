@@ -14,7 +14,7 @@ export class CreateAnnonceComponent {
   submittedStep1: boolean = false;
   submittedStep3: boolean = false;
   
-  // New properties for error handling
+  // Error handling properties
   photoError: string = '';
   submissionError: string = '';
 
@@ -38,8 +38,8 @@ export class CreateAnnonceComponent {
     titre: '',
     description: '',
     prix: '',
-    photos: [],
-    // Additional fields (region, delegation, telephone, etc.)
+    photos: [] // We'll store a FileList here
+    // Additional fields (region, delegation, telephone, etc.) can be added if needed
   };
 
   // Equipment options (Step 2)
@@ -80,7 +80,7 @@ export class CreateAnnonceComponent {
       Object.keys(form.controls).forEach(field => {
         form.controls[field].markAsTouched();
       });
-      // Manually check for radio button fields that are not part of form controls
+      // Check required radio buttons for "etat" and "boiteVitesse"
       if (!this.annonce.vehicule.etat || !this.annonce.vehicule.boiteVitesse) {
         return;
       }
@@ -113,6 +113,7 @@ export class CreateAnnonceComponent {
     }
   }
 
+  // Toggle equipment selection on a single click event.
   toggleEquipment(equipName: string) {
     const index = this.annonce.vehicule.equipements.indexOf(equipName);
     if (index === -1) {
@@ -124,12 +125,12 @@ export class CreateAnnonceComponent {
 
   onPhotosSelected(event: any) {
     const files = event.target.files;
-    if (files.length < 3) {
+    if (!files || files.length < 3) {
       this.photoError = "Minimum 3 photos requises.";
       this.annonce.photos = [];
     } else {
       this.photoError = "";
-      this.annonce.photos = files;
+      this.annonce.photos = files; // FileList is stored here.
     }
   }
 
@@ -146,54 +147,48 @@ export class CreateAnnonceComponent {
       return;
     }
 
-    // Transform equipment array into a string.
-    this.annonce.vehicule.equipement = this.annonce.vehicule.equipements.join(', ');
-    delete this.annonce.vehicule.equipements;
+    // Transform equipment array into a comma-separated string.
+    const equipementString = this.annonce.vehicule.equipements.join(', ');
 
-    let images = [];
+    // Create FormData to send files and other fields.
+    const formData = new FormData();
+    formData.append('titre', this.annonce.titre);
+    formData.append('description', this.annonce.description);
+    formData.append('prix', this.annonce.prix);
+
+    // Append vehicule data using bracket notation.
+    formData.append('vehicule[Categorie]', this.annonce.vehicule.Categorie);
+    formData.append('vehicule[Marque]', this.annonce.vehicule.Marque);
+    formData.append('vehicule[Modèle]', this.annonce.vehicule["Modèle"]);
+    formData.append('vehicule[TypeCarburant]', this.annonce.vehicule.TypeCarburant);
+    formData.append('vehicule[Puissance]', this.annonce.vehicule.Puissance);
+    formData.append('vehicule[DateDeMiseEnCirculation]', this.annonce.vehicule.DateDeMiseEnCirculation);
+    formData.append('vehicule[Cylindre]', this.annonce.vehicule.Cylindre);
+    formData.append('vehicule[Kilométrage]', String(this.annonce.vehicule['Kilométrage']));
+    formData.append('vehicule[nbPortes]', String(this.annonce.vehicule.nbPortes));
+    formData.append('vehicule[boiteVitesse]', this.annonce.vehicule.boiteVitesse);
+    formData.append('vehicule[etat]', this.annonce.vehicule.etat);
+    formData.append('vehicule[equipement]', equipementString);
+
+    // Append each photo file.
     for (let i = 0; i < this.annonce.photos.length; i++) {
-      let file = this.annonce.photos[i];
-      images.push({
-        chemin: file.name,
-        format: file.type,
-        taille: file.size.toString()
-      });
+      formData.append('images[]', this.annonce.photos[i]);
     }
-    this.annonce.images = images;
-    delete this.annonce.photos;
 
-    const payload = {
-      titre: this.annonce.titre,
-      description: this.annonce.description,
-      prix: Number(this.annonce.prix),
-      vehicule: {
-        Categorie: this.annonce.vehicule.Categorie,
-        Marque: this.annonce.vehicule.Marque,
-        "Modèle": this.annonce.vehicule["Modèle"],
-        TypeCarburant: this.annonce.vehicule.TypeCarburant,
-        Puissance: this.annonce.vehicule.Puissance,
-        DateDeMiseEnCirculation: this.annonce.vehicule.DateDeMiseEnCirculation,
-        Cylindre: this.annonce.vehicule.Cylindre,
-        Kilométrage: Number(this.annonce.vehicule['Kilométrage']),
-        nbPortes: String(this.annonce.vehicule.nbPortes), 
-        boiteVitesse: this.annonce.vehicule.boiteVitesse,
-        etat: this.annonce.vehicule.etat,
-        equipement: this.annonce.vehicule.equipement
-      },
-      images: this.annonce.images
-    };
+    console.log('Payload sent to backend:', formData);
 
-    console.log('Payload sent to backend:', payload);
-
-    this.annonceService.createAnnonce(payload).subscribe({
+    // Call the annonce service with the FormData payload.
+    this.annonceService.createAnnonce(formData).subscribe({
       next: (res: any) => {
         // Inform the user of success
         alert('Votre annonce a été créée avec succès!');
         this.router.navigate(['/profile']);
       },
       error: (err: any) => {
-        console.error(err);
-        this.submissionError = "Une erreur est survenue lors de la création de l'annonce. Veuillez réessayer.";
+        console.error('Erreur lors de la création de l\'annonce:', err);
+        this.submissionError = err.error && err.error.message
+          ? err.error.message
+          : "Une erreur est survenue lors de la création de l'annonce. Veuillez réessayer.";
       }
     });
   }
