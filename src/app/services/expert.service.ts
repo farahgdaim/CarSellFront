@@ -14,4 +14,9 @@ export class ExpertService {
   requestExpertRole(formData: FormData): Observable<any> {
     return this.http.post(`${this.baseUrl}/expert-request`, formData);
   }
+
+  // Fetch all experts (with accepted status)
+  getAllExperts(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/experts`);
+  }
 }

@@ -1,0 +1,18 @@
+<div class="container mt-4">
+    <h2>Liste des Experts</h2>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <div class="row">
+      <div class="col-md-4 mb-3" *ngFor="let expert of experts">
+        <div class="card h-100" style="cursor: pointer;" (click)="viewExpertProfile(expert)">
+          <div class="card-body">
+            <h5 class="card-title">{{ expert.domaineExpertise }}</h5>
+            <p class="card-text">
+              Années d'expérience : {{ expert.anneesExperience }}
+            </p>
+            <!-- Optionally, add a thumbnail or certification icon if available -->
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  

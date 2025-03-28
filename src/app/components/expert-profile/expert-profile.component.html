@@ -1,0 +1,23 @@
+<div class="container mt-4" *ngIf="user && expert; else errorTemplate">
+    <h2>Profil Expert de {{ user.nom }} {{ user.prenom }}</h2>
+    <p><strong>Email :</strong> {{ user.email }}</p>
+    <hr>
+    <h4>Domaine d'Expertise</h4>
+    <p>{{ expert.domaineExpertise }}</p>
+    <h4>Années d'Expérience</h4>
+    <p>{{ expert.anneesExperience }}</p>
+    <h4>Certifications</h4>
+    <ul *ngIf="expert.certifications && expert.certifications.length > 0; else noCert">
+      <li *ngFor="let cert of expert.certifications">
+        <a [href]="'http://localhost:8000/storage/' + cert" target="_blank">Voir Certification</a>
+      </li>
+    </ul>
+    <ng-template #noCert>
+      <p>Aucune certification disponible.</p>
+    </ng-template>
+  </div>
+  
+  <ng-template #errorTemplate>
+    <div class="alert alert-danger mt-4">{{ error }}</div>
+  </ng-template>
+  

@@ -26,6 +26,8 @@ import { ConversationListComponent } from './components/conversation-list/conver
 import { ConversationDetailComponent } from './components/conversation-detail/conversation-detail.component';
 import { AnnoncesComponent } from './components/annonces/annonces.component';
 import { AnnoncesDetailsComponent } from './components/annonces-details/annonces-details.component';
+import { ExpertsListComponent } from './components/experts-list/experts-list.component';
+import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
 
 
 const routes: Routes = [
@@ -50,7 +52,9 @@ const routes: Routes = [
   { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-
+  { path: 'experts', component: ExpertsListComponent, canActivate: [AuthGuard] },
+  { path: 'expert-profile/:id', component: ExpertProfileComponent, canActivate: [AuthGuard] },
+  
   
   { path: '**', redirectTo: '' }
 ];

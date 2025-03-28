@@ -29,6 +29,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ExpertsListComponent } from './components/experts-list/experts-list.component';
+import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
 
 /* Example routes if needed in the future
 const appRoutes: Routes = [
@@ -61,7 +63,9 @@ const appRoutes: Routes = [
     ConversationListComponent,
     ConversationDetailComponent,
     UserListComponent,
-    PublicProfileComponent
+    PublicProfileComponent,
+    ExpertsListComponent,
+    ExpertProfileComponent
   ],
   
   imports: [
