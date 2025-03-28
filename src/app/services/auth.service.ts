@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +13,15 @@ export class AuthService {
   public currentUser = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) {
-    const token = localStorage.getItem(this.tokenKey);
-    if (token) {
-      this.currentUser.next({ token });
+    const token = this.getToken();
+    if (token && this.isTokenValid()) {
+      this.getUser().subscribe(user => {
+        this.currentUser.next(user);
+      });
     }
   }
 
-  register(userData: any): Observable<any> { 
+  register(userData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
@@ -30,24 +32,52 @@ export class AuthService {
           localStorage.setItem(this.tokenKey, res.data.access_token);
           this.currentUser.next(res.data);
         }
-      })
-    );    
-  }
-
-  logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
-      tap(() => {
-        localStorage.removeItem(this.tokenKey);
-        this.currentUser.next(null);
+      }),
+      catchError((error) => {
+        console.error('Login failed:', error);
+        throw error;
       })
     );
   }
 
+  logout(): Observable<any> {
+    // Clear local token before the API call to ensure safety
+    localStorage.removeItem(this.tokenKey);
+    this.currentUser.next(null);
+    return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
+      tap(() => console.log('Logged out successfully'))
+    );
+  }
+
   getUser(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/me`);
+    return this.http.get(`${this.apiUrl}/me`).pipe(
+      catchError((error) => {
+        console.error('Failed to fetch user data:', error);
+        throw error;
+      })
+    );
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken() && this.isTokenValid();
+  }
+
+  isTokenValid(): boolean {
+    const token = this.getToken();
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decode token
+      return payload.exp * 1000 > Date.now(); // Check expiration
+    } catch (e) {
+      console.error('Token validation error:', e);
+      return false;
+    }
   }
 }

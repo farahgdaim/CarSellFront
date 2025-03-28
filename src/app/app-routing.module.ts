@@ -27,6 +27,7 @@ import { ConversationDetailComponent } from './components/conversation-detail/co
 import { AnnoncesComponent } from './components/annonces/annonces.component';
 import { AnnoncesDetailsComponent } from './components/annonces-details/annonces-details.component';
 
+
 const routes: Routes = [
 
   { path: '', component: AnnoncesComponent },
@@ -55,7 +56,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled', // restaure la position à 0,0 lors de la navigation
+      anchorScrolling: 'enabled',            // active le scroll vers l'ancre
+      scrollOffset: [0, 64]                  // optionnel : ajuste le décalage en cas de navbar fixe, par exemple
+    })
+  ],
+  
+  
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
