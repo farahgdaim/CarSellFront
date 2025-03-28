@@ -26,12 +26,12 @@
             ],
             "styles": [
               "src/styles.css",
-               "src/assets/css/global.css"
-              
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
               "src/assets/navbar.js",
               "src/assets/menu.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "src/assets/animation.js"
             ]
           },

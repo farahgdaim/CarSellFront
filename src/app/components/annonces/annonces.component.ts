@@ -1,6 +1,7 @@
 import { Component,OnInit} from '@angular/core';
 import { DataService } from 'src/app/service/data.service';
 import { Router } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 @Component({
   selector: 'app-annonces',
   templateUrl: './annonces.component.html',
@@ -28,7 +29,7 @@ export class AnnoncesComponent implements OnInit  {
     'Radar De Recul', 'Antipatinage', 'Fermeture centrale', 'Limiteur De Vitesse',
     'Régulateur de vitesse', 'Toit ouvrant'
   ];
-  constructor(private dataService:DataService,private router: Router){}
+  constructor(private dataService:DataService,private router: Router, private viewportScroller: ViewportScroller){}
   ngOnInit(): void{
     this.getAnnoncesData();
   }
@@ -48,12 +49,15 @@ export class AnnoncesComponent implements OnInit  {
     });
   }
   goToAnnonceDetails(id: string) {
-    this.router.navigate(['/annonce', id]); // Redirige vers /annonce/{id}
+    this.router.navigate(['/annonce', id])/* .then(() => {
+      this.viewportScroller.scrollToPosition([0, 0]);
+    }) */; // Redirige vers /annonce/{id}
   }
   
   onSearch() {
-    this.dataService.searchAnnonces(this.searchCriteria).subscribe((data: any) => {
-      this.annonces = data.data; // Met à jour la liste des annonces affichées
+    this.dataService.searchAnnonces(this.searchCriteria).subscribe((res) => {
+      console.log("resultat de recherche",res);
+      //this.annonces = res.data;  Met à jour la liste des annonces affichées
     });
   }
   getEquipementIcon(equipement: string): string {

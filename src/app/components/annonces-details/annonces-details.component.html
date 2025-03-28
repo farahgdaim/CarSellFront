@@ -1,3 +1,275 @@
-<section >
-    annonce détails
-</section>
+<!--Main Navigation-->
+<header>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="annonces-details.component.css" rel="stylesheet" />
+
+  <!-- Carousel wrapper
+    <div id="introCarousel" class="carousel slide carousel-fade shadow-2-strong" data-mdb-carousel-init>
+      
+      <div class="carousel-indicators">
+        <li data-mdb-target="#introCarousel" data-mdb-slide-to="0" class="active"></li>
+        <li data-mdb-target="#introCarousel" data-mdb-slide-to="1"></li>
+        <li data-mdb-target="#introCarousel" data-mdb-slide-to="2"></li>
+      </div>
+  
+      
+      <div class="carousel-inner">
+        
+        <div class="carousel-item active">
+          <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+            <div class="d-flex justify-content-center align-items-center h-100">
+              <div class="text-white text-center" data-mdb-theme="dark">
+                <h1 class="mb-3">Learn Bootstrap 5 with MDB</h1>
+                <h5 class="mb-4">Best & free guide of responsive web design</h5>
+                <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="https://www.youtube.com/watch?v=c9B4TPnak1A"
+                   role="button" rel="nofollow" target="_blank">Start tutorial</a>
+                <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="https://mdbootstrap.com/docs/standard/"
+                   target="_blank" role="button">Download MDB UI KIT</a>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        
+        <div class="carousel-item">
+          <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
+            <div class="d-flex justify-content-center align-items-center h-100">
+              <div class="text-white text-center">
+                <h2>You can place here any content</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        
+        <div class="carousel-item">
+          <div class="mask" style="
+                                   background: linear-gradient(
+                                   45deg,
+                                   rgba(29, 236, 197, 0.7),
+                                   rgba(91, 14, 214, 0.7) 100%
+                                   );
+                                   ">
+            <div class="d-flex justify-content-center align-items-center h-100" data-mdb-theme="dark">
+              <div class="text-white text-center">
+                <h2>And cover it with any mask</h2>
+                <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init
+                   href="https://mdbootstrap.com/docs/standard/content-styles/masks/" target="_blank" role="button">Learn
+                  about masks</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+  
+      
+      <a class="carousel-control-prev" href="#introCarousel" role="button" data-mdb-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#introCarousel" role="button" data-mdb-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div> -->
+  <!-- Carousel wrapper -->
+</header>
+<!--Main Navigation-->
+
+<!--Main layout-->
+<main class="mt-5">
+  <div class="container">
+    <div class="services-title">
+      <h1 style="color:#1d2e5f; margin-top: 140 px;">{{ annonce.titre }}</h1>
+    </div>
+    <!--Section: Content-->
+    <section class="annonce-container">
+      <!-- CARROUSEL -->
+      <div class="carousel-container">
+        <div class="slides-container">
+          <div class="slides" [style.transform]="'translateX(' + (-currentSlide * 100) + '%)'">
+            <div class="slide" *ngFor="let image of annonce.images; let i = index">
+              <img [src]="'http://127.0.0.1:8000' + image.url" alt="Image de la voiture" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Dots dynamiques sous le carrousel -->
+        <div class="dots">
+          <span *ngFor="let image of annonce.images; let i = index" (click)="goToSlide(i)"
+            [class.active]="i === currentSlide">
+          </span>
+        </div>
+      </div>
+
+      <!-- SECTION INFO -->
+      <section class="info-container">
+
+        <h1>{{ formatPrix(annonce.prix) }} DT</h1>
+
+        <ul class="info-list">
+
+          <li>
+            <i class="fas fa-tags"></i>
+            <span>Catégorie</span>
+            <strong class="right">{{ annonce.vehicule['Categorie'] }}</strong>
+          </li>
+          <li>
+            <i class="fas fa-car"></i>
+            <span>Marque</span>
+            <strong class="right">{{ annonce.vehicule['Marque'] }}</strong>
+          </li>
+          <li>
+            <i class="fas fa-car-side"></i>
+            <span>Modèle</span>
+            <strong class="right">{{ annonce.vehicule['Modèle'] }}</strong>
+          </li>
+          <li>
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Kilométrage</span>
+            <strong class="right">{{ annonce.vehicule['Kilométrage'] }} KM</strong>
+          </li>
+          <li>
+            <i class="far fa-calendar-alt"></i>
+            <span>Mise en circulation</span>
+            <strong class="right">{{ annonce.vehicule['DateDeMiseEnCirculation'] }}</strong>
+          </li>
+
+          <li>
+            <i class="fas fa-gas-pump"></i>
+            <span>Énergie</span>
+            <strong class="right">{{ annonce.vehicule.TypeCarburant }}</strong>
+          </li>
+
+          <li>
+            <i class="fas fa-cogs"></i>
+            <span>Boîte vitesse</span>
+            <strong class="right">{{ annonce.vehicule.boiteVitesse }}</strong>
+          </li>
+
+          <li>
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Puissance fiscale</span>
+            <strong class="right">{{ annonce.vehicule.Puissance }}</strong>
+          </li>
+
+          <li>
+            <i class="far fa-calendar-check"></i>
+            <span>Date de l'annonce</span>
+            <strong class="right">{{ annonce.created_at | date: 'yyyy-MM-dd' }}</strong>
+          </li>
+        </ul>
+
+        <!-- <div class="contact-buttons">
+          <button class="btn phone">
+             <i class="fas fa-phone-alt"></i> {{ annonce.contact.telephone }}
+          </button>
+          <button class="btn sms">
+            <i class="fas fa-sms"></i> SMS
+          </button>
+          <button class="btn whatsapp">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </button>
+        </div> -->
+      </section>
+
+    </section>
+    
+    <section class="Desc-container">
+      <h2 class="section-title">Description</h2>
+      <div class="title-divider"></div>
+
+
+      <p>{{annonce.description}}</p>
+    </section>
+
+    <section class="annonce-container">
+
+
+      <!-- SECTION INFO -->
+      <section class="info-container">
+
+
+        <h2 class="section-title">Détails du Véhicule</h2>
+        <div class="title-divider"></div>
+        
+
+        <ul class="info-list">
+
+          <!-- Cylindre -->
+          <li>
+            <i class="fas fa-cogs"></i> <!-- Icône pour la mécanique -->
+            <span>Cylindre</span>
+            <strong class="right">{{ annonce.vehicule['Cylindre'] }} </strong>
+          </li>
+
+          <!-- Nombre de Portes -->
+          <li>
+            <i class="fas fa-door-open"></i> <!-- Icône pour les portes -->
+            <span>Nombre de Portes</span>
+            <strong class="right">{{ annonce.vehicule['nbPortes'] }}</strong>
+          </li>
+
+          <!-- État du Véhicule -->
+          <li>
+            <i class="fas fa-info-circle"></i> <!-- Icône pour l'information ou l'état -->
+            <span>État</span>
+            <strong class="right">{{ annonce.vehicule['etat'] }}</strong>
+          </li>
+
+        </ul>
+
+
+        <!-- <div class="contact-buttons">
+          <button class="btn phone">
+             <i class="fas fa-phone-alt"></i> {{ annonce.contact.telephone }}
+          </button>
+          <button class="btn sms">
+            <i class="fas fa-sms"></i> SMS
+          </button>
+          <button class="btn whatsapp">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </button>
+        </div> -->
+      </section>
+      <section class="Equip-container">
+        <h2>Équipements</h2>
+        <hr />
+        
+        <div class="equipements-container">
+          <div *ngFor="let categorie of categories" class="equipement-card">
+            <h3>{{ categorie.nom }}</h3>
+            <ul>
+              <li *ngFor="let equip of categorie.equipements" [class.gris]="equip.estEnGris">
+                <span *ngIf="equip.estEnGris">✔️</span> {{ equip.nom }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+
+        <!-- <div class="contact-buttons">
+          <button class="btn phone">
+             <i class="fas fa-phone-alt"></i> {{ annonce.contact.telephone }}
+          </button>
+          <button class="btn sms">
+            <i class="fas fa-sms"></i> SMS
+          </button>
+          <button class="btn whatsapp">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </button>
+        </div> -->
+      </section>
+
+    </section>
+
+
+    

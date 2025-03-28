@@ -27,7 +27,7 @@ export class NavbarComponent {
     script.type = 'text/javascript';
     document.body.appendChild(script);
   }
-  onSearch() {
+  /* onSearch() {
     if (this.searchTerm.trim()) {
       this.dataService.searchAnnonces(this.searchTerm).subscribe(
         (response: any) => {
@@ -43,6 +43,6 @@ export class NavbarComponent {
       );
     }
   }
-  
+   */
 
 }

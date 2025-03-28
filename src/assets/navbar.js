@@ -3,10 +3,27 @@ console.log("hello");
 document.addEventListener("DOMContentLoaded", function () {
   // Code dépendant du DOM
   const navbar = document.querySelector(".navbar");
-  const isHomePage =
-    window.location.pathname === "/" ||
-    window.location.pathname === "/annonces";
+  const isHomePage = window.location.pathname.includes("annonces") || window.location.pathname === "/";
 
+  const annoncesSection = document.querySelector("#annonces");
+  const devenirExpertSection = document.querySelector("#devenir-expert");
+  
+  console.log("Section annonces : ", annoncesSection);
+  console.log("Section devenir-expert : ", devenirExpertSection);
+
+  document.querySelectorAll("a[href^='#']").forEach(link => {
+    link.addEventListener("click", (e) => {
+      // e.preventDefault();
+      const targetId = link.getAttribute("href").substring(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  });
+   
+  
+  
   if (navbar) {
     navbar.className = "navbar";
     if (isHomePage) {
@@ -38,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error("Navbar non trouvée.");
   }
 
-  const searchButton = document.getElementById("searchButton");
+ /*  const searchButton = document.getElementById("searchButton");
   const searchInput = document.getElementById("searchInput");
 
   if (searchButton && searchInput) {
@@ -50,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let regex = new RegExp(searchQuery, "gi");
       let hasMatch = false;
 
-      function highlightMatches(node) {
+/*       function highlightMatches(node) {
         if (node.nodeType === 3) {
           let match = node.nodeValue.match(regex);
           if (match) {
@@ -79,5 +96,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   } else {
     console.error("Éléments de recherche non trouvés.");
-  }
-});
+  }*/
+}); 

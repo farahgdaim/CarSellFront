@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule ,Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { AnnoncesDetailsComponent } from './components/annonces-details/annonces-details.component';
 import { CarCarouselComponent } from './components/car-carousel/car-carousel.component';
 import { FooterComponent } from './components/footer/footer.component';
+
+
 
 
 
@@ -29,7 +31,7 @@ import { FooterComponent } from './components/footer/footer.component';
     AnnoncesDetailsComponent,
     CarCarouselComponent,
     FooterComponent,
-    
+   
    
     
     
