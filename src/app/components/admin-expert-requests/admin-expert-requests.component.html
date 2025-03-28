@@ -1,0 +1,31 @@
+<div class="container mt-5">
+    <h2>Demandes d'expert en attente</h2>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <table class="table table-striped" *ngIf="expertRequests.length > 0; else noRequests">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Domaine d'expertise</th>
+          <th>Années d'expérience</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let req of expertRequests">
+          <!-- Use fallback for the ID -->
+          <td>{{ req._id || req.id }}</td>
+          <td>{{ req.domaineExpertise }}</td>
+          <td>{{ req.anneesExperience }}</td>
+          <td>{{ req.status }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" (click)="viewRequest(req)">Voir détails</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noRequests>
+      <p>Aucune demande d'expert en attente.</p>
+    </ng-template>
+  </div>
+  

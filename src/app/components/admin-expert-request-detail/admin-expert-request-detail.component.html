@@ -1,0 +1,33 @@
+<div class="container mt-5" *ngIf="expertRequest; else errorTemplate">
+  <h2>Détails de la Demande Expert</h2>
+  <div class="card mb-3">
+    <div class="card-body">
+      <p><strong>ID:</strong> {{ expertRequest._id || expertRequest.id }}</p>
+      <p><strong>Domaine d'expertise:</strong> {{ expertRequest.domaineExpertise }}</p>
+      <p><strong>Années d'expérience:</strong> {{ expertRequest.anneesExperience }}</p>
+      <p><strong>Status:</strong> {{ expertRequest.status }}</p>
+      <!-- Display certification PDF link if available -->
+      <div *ngIf="expertRequest.certifications && expertRequest.certifications.length > 0">
+        <p><strong>Certification PDF:</strong></p>
+        <ul>
+          <li *ngFor="let cert of expertRequest.certifications">
+            <!-- Assuming cert contains the file path, adjust if necessary -->
+            <a [href]="'http://localhost:8000/storage/' + cert" target="_blank">
+              Voir la Certification
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="mt-3 d-flex justify-content-between">
+    <button class="btn btn-danger" (click)="rejectRequest()">Rejeter</button>
+    <button class="btn btn-success" (click)="acceptRequest()">Accepter</button>
+  </div>
+</div>
+
+<ng-template #errorTemplate>
+  <div class="alert alert-danger mt-5">
+    {{ error }}
+  </div>
+</ng-template>

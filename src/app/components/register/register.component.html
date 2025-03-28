@@ -1,0 +1,41 @@
+<div class="container-fluid vh-100">
+  <div class="row h-100">
+    <!-- Left Panel -->
+    <div class="col-md-6 d-none d-md-block p-0">
+      <div class="h-100" style="background: url('https://via.placeholder.com/800x800') no-repeat center center; background-size: cover;"></div>
+    </div>
+    <!-- Right Panel -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+      <div class="w-75">
+        <h2 class="mb-3">Inscrivez-vous sur EliteAuto</h2>
+        <p class="mb-4">Rejoignez EliteAuto dès aujourd'hui pour profiter de toutes nos fonctionnalités !</p>
+        <form (submit)="register(); $event.preventDefault();">
+          <div class="mb-3">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" id="nom" class="form-control" [(ngModel)]="user.nom" name="nom" required>
+          </div>
+          <div class="mb-3">
+            <label for="prenom" class="form-label">Prénom</label>
+            <input type="text" id="prenom" class="form-control" [(ngModel)]="user.prenom" name="prenom" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Adresse e-mail</label>
+            <input type="email" id="email" class="form-control" [(ngModel)]="user.email" name="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="telephone" class="form-label">Téléphone</label>
+            <input type="text" id="telephone" class="form-control" [(ngModel)]="user.telephone" name="telephone" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input type="password" id="password" class="form-control" [(ngModel)]="user.password" name="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+          <!-- Display success and error messages -->
+          <div *ngIf="success" class="alert alert-success mt-3">{{ success }}</div>
+          <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
