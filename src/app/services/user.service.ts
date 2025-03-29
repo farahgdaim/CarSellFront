@@ -15,4 +15,16 @@ export class UserService {
   updateProfile(profileData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/profile`, profileData);
   }
+  
+  // New method to get all users
+  getAllUsers(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users`);
+  }
+
+  // Get user by ID (for profile)
+  getUserById(userId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/${userId}`);
+  }
 }
+
+

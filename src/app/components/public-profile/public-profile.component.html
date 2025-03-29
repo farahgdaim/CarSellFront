@@ -1,0 +1,13 @@
+<div class="container mt-4" *ngIf="user; else errorTemplate">
+    <h2>Profil de {{ user.nom }} {{ user.prenom }}</h2>
+    <p><strong>Email :</strong> {{ user.email }}</p>
+    <!-- Add other public info as needed -->
+    <button *ngIf="user._id !== loggedInUserId" class="btn btn-success mt-3" (click)="startConversation(user.id)">
+      Démarrer une conversation
+    </button>
+  </div>
+  
+  <ng-template #errorTemplate>
+    <div class="alert alert-danger mt-4">{{ error }}</div>
+  </ng-template>
+  

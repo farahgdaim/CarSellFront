@@ -1,0 +1,24 @@
+/* Ensure html and body take full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Flex container that fills the viewport */
+  #page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* This content area expands to fill available space */
+  .content-wrap {
+    flex: 1;
+  }
+  
+  /* Optionally, add margin at the top if needed */
+  .container {
+    margin-top: 40px;
+  }
+  

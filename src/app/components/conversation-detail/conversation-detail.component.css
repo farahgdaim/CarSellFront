@@ -1,0 +1,111 @@
+h4.mb-0 { 
+  margin-bottom: 0; /* Ensures no space below the heading */
+  font-size: 1.5rem; /* Sets the font size */
+  font-weight: bold; /* Makes the text bold */
+  line-height: 1.5; 
+  margin-left: 10px;
+}
+/* Chat Messages Styling */
+.chat-messages {
+  background-color: #f0f2f5;
+}
+
+.message-container {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  max-width: 75%;
+  min-width: 120px; /* Minimum width for very short messages */
+  margin-bottom: 0.5rem;
+  width: fit-content; /* This makes the bubble fit the content */
+}
+
+.message-content {
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  position: relative;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Long messages will wrap properly */
+.message-text {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+/* Received messages */
+.message.received .message-content {
+  background-color: white;
+  border: 1px solid #e9ecef;
+  border-radius: 0 1rem 1rem 1rem;
+}
+
+/* Sent messages */
+.message.sent .message-content {
+  background-color: #007bff;
+  color: white;
+  border-radius: 1rem 1rem 0 1rem;
+}
+
+/* Align sent messages to right */
+.message.sent {
+  margin-left: auto;
+}
+
+/* Time styling */
+.message-time {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  text-align: right;
+}
+
+/* Input Area Styling */
+.message-input textarea {
+  resize: none;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #e9ecef;
+}
+
+.message-input textarea:focus {
+  box-shadow: none;
+  border-color: #007bff;
+}
+
+/* Chat Header Styling */
+.chat-header {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #007bff;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

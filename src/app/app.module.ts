@@ -1,4 +1,3 @@
-
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule ,Routes } from '@angular/router';
@@ -14,10 +13,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AnnoncesListComponent } from './components/annonces-list/annonces-list.component';
-import { AnnonceDetailComponent } from './components/annonce-detail/annonce-detail.component';
-
-
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ExpertFormComponent } from './components/expert-form/expert-form.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
@@ -29,35 +24,26 @@ import { AdminProfileComponent } from './components/admin-profile/admin-profile.
 import { AdminExpertRequestsComponent } from './components/admin-expert-requests/admin-expert-requests.component';
 import { AdminExpertRequestDetailComponent } from './components/admin-expert-request-detail/admin-expert-request-detail.component';
 import { NotificationListComponent } from './components/notification-list/notification-list.component';
+import { ConversationListComponent } from './components/conversation-list/conversation-list.component';
+import { ConversationDetailComponent } from './components/conversation-detail/conversation-detail.component';
+import { UserListComponent } from './components/user-list/user-list.component';
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
+
+import { ExpertsListComponent } from './components/experts-list/experts-list.component';
+import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
 
 
-
-
-
-
-/* const appRoutes:Routes = [
-  { path: '', component: AnnoncesComponent },
-  { path: 'annonce/:id', component: AnnoncesDetailsComponent }
-
-  
-]; */
-
-
-@NgModule({ 
+@NgModule({
   declarations: [
     AppComponent,
-
+    LoginComponent,
+    RegisterComponent,
+    DashboardComponent,
     AnnoncesComponent,
     NavbarComponent,
     AnnoncesDetailsComponent,
     CarCarouselComponent,
     FooterComponent,
-   
-    LoginComponent,
-    RegisterComponent,
-    DashboardComponent,
-    AnnoncesListComponent,
-    AnnonceDetailComponent,
     ExpertFormComponent,
     UpdateProfileComponent,
     ProfileComponent,
@@ -67,7 +53,13 @@ import { NotificationListComponent } from './components/notification-list/notifi
     AdminProfileComponent,
     AdminExpertRequestsComponent,
     AdminExpertRequestDetailComponent,
-    NotificationListComponent
+    NotificationListComponent,
+    ConversationListComponent,
+    ConversationDetailComponent,
+    UserListComponent,
+    PublicProfileComponent,
+    ExpertsListComponent,
+    ExpertProfileComponent
     
     
   ],
@@ -81,17 +73,14 @@ import { NotificationListComponent } from './components/notification-list/notifi
 
    
   ],
-  /* imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-   
-  ], */
+
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
 
+
+    
   ],
+  
   bootstrap: [AppComponent]
 })
 export class AppModule { }
