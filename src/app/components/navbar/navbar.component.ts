@@ -11,6 +11,13 @@ export class NavbarComponent {
   searchTerm: string = '';
   searchResults: any[] = [];
   constructor(private dataService: DataService) { }
+  menuOpen = false;
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+    console.log('menuOpen:', this.menuOpen);
+  }
+  
 
   getNotificationsData(){
     this.dataService.getNotificationsData().subscribe(res=>{
@@ -19,15 +26,15 @@ export class NavbarComponent {
     });
   }
   ngOnInit():void{
-    this.loadNavbarScript();
+    //this.loadNavbarScript();
   }
-  loadNavbarScript() {
+  /*loadNavbarScript() {
     const script = document.createElement('script');
     script.src = 'assets/navbar.js'; // Chemin relatif au component
     script.type = 'text/javascript';
     document.body.appendChild(script);
-  }
-  /* onSearch() {
+  }*/
+  onSearch() {
     if (this.searchTerm.trim()) {
       this.dataService.searchAnnonces(this.searchTerm).subscribe(
         (response: any) => {
@@ -43,6 +50,6 @@ export class NavbarComponent {
       );
     }
   }
-   */
+  
 
 }
