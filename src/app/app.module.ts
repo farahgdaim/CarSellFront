@@ -31,6 +31,7 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
 
 import { ExpertsListComponent } from './components/experts-list/experts-list.component';
 import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
+import { MesAnnoncesComponent } from './components/mes-annonces/mes-annonces.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { ExpertProfileComponent } from './components/expert-profile/expert-profi
     UserListComponent,
     PublicProfileComponent,
     ExpertsListComponent,
-    ExpertProfileComponent
+    ExpertProfileComponent,
+    MesAnnoncesComponent
     
     
   ],

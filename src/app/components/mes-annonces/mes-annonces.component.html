@@ -1,0 +1,55 @@
+<div class="container">
+    <h2>Mes annonces</h2>
+    
+   <!--  <div *ngIf="annonces.length === 0">
+      <p>Aucune annonce trouvée.</p>
+    </div> 
+  
+    <div class="annonce-list" *ngFor="let annonce of annonces">
+      <div class="annonce-card">
+        <img [src]="'/assets/images/' + annonce.images[0]?.chemin" alt="Image annonce">
+        <h3>{{ annonce.titre }}</h3>
+        <p>{{ annonce.description }}</p>
+        <p><strong>Prix :</strong> {{ annonce.prix }} €</p>
+        <p><strong>Marque :</strong> {{ annonce.vehicule.Marque }}</p>
+        <p><strong>Modèle :</strong> {{ annonce.vehicule['Modèle'] }}</p>
+        <p><strong>Kilométrage :</strong> {{ annonce.vehicule['Kilométrage'] }} km</p>
+      </div>
+    </div>-->
+    <div class="col-lg-9 col-md-8"id="annonces" >
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 d-flex" *ngFor="let ann of annonces">
+                <div class="card annonce-card w-100 my-2 shadow-2-strong" [routerLink]="['/annonce', ann.id]"(click)="goToAnnonceDetails(ann.id)">
+                    <img [src]="'http://127.0.0.1:8000' + ann.images[0]?.url" alt="Image de l'annonce"class="card-img-top"
+                    style="aspect-ratio: 1 / 1"
+                    alt="Image de l'annonce" />
+
+                     
+
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title" style="color: #1d2e5f;font-weight: 700;">{{ann.titre}}</h5>
+                        <p>{{ann.description}}</p>
+                        <p class="card-text fw-bold">{{ann.prix}} TND</p>
+
+                        <!-- Infos supplémentaires avec icônes -->
+                        <div class="row text-muted small">
+                            <div class="col-6"><i class="fas fa-car"></i> {{ann.vehicule['Marque']}} /
+                                {{ann.vehicule['Modèle']}}</div>
+                            <div class="col-6"><i class="fas fa-tachometer-alt"></i>
+                                {{ann.vehicule['Kilométrage']}} km</div>
+                            <div class="col-6"><i class="fas fa-gas-pump"></i>
+                                {{ann.vehicule.TypeCarburant}}</div>
+                            <div class="col-6"><i class="fas fa-cogs"></i> {{ann.vehicule.boiteVitesse}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+  </div>
+  

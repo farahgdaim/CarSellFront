@@ -9,78 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link href="annonces-details.component.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
 
-  <!-- Carousel wrapper
-    <div id="introCarousel" class="carousel slide carousel-fade shadow-2-strong" data-mdb-carousel-init>
-      
-      <div class="carousel-indicators">
-        <li data-mdb-target="#introCarousel" data-mdb-slide-to="0" class="active"></li>
-        <li data-mdb-target="#introCarousel" data-mdb-slide-to="1"></li>
-        <li data-mdb-target="#introCarousel" data-mdb-slide-to="2"></li>
-      </div>
-  
-      
-      <div class="carousel-inner">
-        
-        <div class="carousel-item active">
-          <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
-            <div class="d-flex justify-content-center align-items-center h-100">
-              <div class="text-white text-center" data-mdb-theme="dark">
-                <h1 class="mb-3">Learn Bootstrap 5 with MDB</h1>
-                <h5 class="mb-4">Best & free guide of responsive web design</h5>
-                <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="https://www.youtube.com/watch?v=c9B4TPnak1A"
-                   role="button" rel="nofollow" target="_blank">Start tutorial</a>
-                <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="https://mdbootstrap.com/docs/standard/"
-                   target="_blank" role="button">Download MDB UI KIT</a>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        
-        <div class="carousel-item">
-          <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-            <div class="d-flex justify-content-center align-items-center h-100">
-              <div class="text-white text-center">
-                <h2>You can place here any content</h2>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        
-        <div class="carousel-item">
-          <div class="mask" style="
-                                   background: linear-gradient(
-                                   45deg,
-                                   rgba(29, 236, 197, 0.7),
-                                   rgba(91, 14, 214, 0.7) 100%
-                                   );
-                                   ">
-            <div class="d-flex justify-content-center align-items-center h-100" data-mdb-theme="dark">
-              <div class="text-white text-center">
-                <h2>And cover it with any mask</h2>
-                <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init
-                   href="https://mdbootstrap.com/docs/standard/content-styles/masks/" target="_blank" role="button">Learn
-                  about masks</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-  
-      
-      <a class="carousel-control-prev" href="#introCarousel" role="button" data-mdb-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#introCarousel" role="button" data-mdb-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div> -->
-  <!-- Carousel wrapper -->
 </header>
 <!--Main Navigation-->
 
@@ -168,21 +98,21 @@
           </li>
         </ul>
 
-        <!-- <div class="contact-buttons">
-          <button class="btn phone">
-             <i class="fas fa-phone-alt"></i> {{ annonce.contact.telephone }}
+        <div class="contact-buttons">
+
+          <button class="btn start-discussion">
+            <i class="fas fa-comment-alt"></i> Lancer Discussion
           </button>
-          <button class="btn sms">
-            <i class="fas fa-sms"></i> SMS
+
+          <button class="btn buy">
+            <i class="fas fa-shopping-cart"></i> Acheter Véhicule
           </button>
-          <button class="btn whatsapp">
-            <i class="fab fa-whatsapp"></i> WhatsApp
-          </button>
-        </div> -->
+        </div>
+
       </section>
 
     </section>
-    
+
     <section class="Desc-container">
       <h2 class="section-title">Description</h2>
       <div class="title-divider"></div>
@@ -200,7 +130,7 @@
 
         <h2 class="section-title">Détails du Véhicule</h2>
         <div class="title-divider"></div>
-        
+
 
         <ul class="info-list">
 
@@ -226,24 +156,29 @@
           </li>
 
         </ul>
+        <div class="modal" [ngClass]="{'show': modalVisible}" (click)="closeModal()">
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h2>Annonce Signalée avec Succès!</h2>
+            <p>Votre signalement a bien été pris en compte. Merci !</p>
+          </div>
+        </div>
 
+        <div class="contact-buttons">
+          <button class="btn report" (click)="reportAnnonce('annonce.id')">
+            <i class="fas fa-exclamation-triangle"></i> Signaler
+          </button>
 
-        <!-- <div class="contact-buttons">
-          <button class="btn phone">
-             <i class="fas fa-phone-alt"></i> {{ annonce.contact.telephone }}
+          <button class="btn status">
+            <i class="fas fa-tasks"></i> État Demande d'Évaluation
           </button>
-          <button class="btn sms">
-            <i class="fas fa-sms"></i> SMS
-          </button>
-          <button class="btn whatsapp">
-            <i class="fab fa-whatsapp"></i> WhatsApp
-          </button>
-        </div> -->
+
+        </div>
       </section>
       <section class="Equip-container">
         <h2>Équipements</h2>
         <hr />
-        
+
         <div class="equipements-container">
           <div *ngFor="let categorie of categories" class="equipement-card">
             <h3>{{ categorie.nom }}</h3>
@@ -254,7 +189,7 @@
             </ul>
           </div>
         </div>
-        
+
 
         <!-- <div class="contact-buttons">
           <button class="btn phone">
@@ -270,6 +205,4 @@
       </section>
 
     </section>
-
-
-    
+  </div>

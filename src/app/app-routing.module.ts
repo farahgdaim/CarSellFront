@@ -30,17 +30,18 @@ import { ConversationListComponent } from './components/conversation-list/conver
 import { ConversationDetailComponent } from './components/conversation-detail/conversation-detail.component';
 import { ExpertsListComponent } from './components/experts-list/experts-list.component';
 import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
+import { MesAnnoncesComponent } from './components/mes-annonces/mes-annonces.component';
 
 
 const routes: Routes = [
-
-  { path: '', component: AnnoncesComponent },
-  { path: 'annonce/:id', component: AnnoncesDetailsComponent },
-  { path: '**', redirectTo: '' } ,
   { path: '', redirectTo: 'annonces', pathMatch: 'full' },
-
+  { path: 'annonces', component: AnnoncesComponent },
+  { path: 'annonce/:id', component: AnnoncesDetailsComponent },
+  { path: 'mesAnnonces',component:MesAnnoncesComponent},
+  
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+
   { path: 'devenir-expert', component: ExpertFormComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'update-profile', component: UpdateProfileComponent, canActivate: [AuthGuard] },
@@ -50,18 +51,21 @@ const routes: Routes = [
   { path: 'profile/:id', component: PublicProfileComponent, canActivate: [AuthGuard] },
   { path: 'conversations', component: ConversationListComponent, canActivate: [AuthGuard] },
   { path: 'conversation/:userId1/:userId2', component: ConversationDetailComponent, canActivate: [AuthGuard] },
+
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/register', component: AdminRegisterComponent },
   { path: 'admin/profile', component: AdminProfileComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
+
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: 'annonces' },
   { path: 'experts', component: ExpertsListComponent, canActivate: [AuthGuard] },
   { path: 'expert-profile/:id', component: ExpertProfileComponent, canActivate: [AuthGuard] },
-  
 
+  // Redirection finale pour toute URL invalide
+  { path: '**', redirectTo: 'annonces' },
 ];
+
 /* 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {

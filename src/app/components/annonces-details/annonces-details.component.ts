@@ -31,7 +31,7 @@ export class AnnoncesDetailsComponent implements OnInit {
     'FONCTIONNELS': ['Direction assistée', 'Fermeture centrale', 'Limiteur De Vitesse', 'Régulateur de vitesse']
   };
 
-
+  modalVisible: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -112,5 +112,20 @@ export class AnnoncesDetailsComponent implements OnInit {
       };
     });
   }
-  
+  reportAnnonce(id:string){
+    this.annonceService.reportAnnonces(id).subscribe(
+      (response) => {
+        console.log('Annonce signalée avec succès', response);
+        // Affiche le modal de succès
+        this.modalVisible = true;
+      },
+      (error) => {
+        console.error('Erreur lors du signalement de l\'annonce', error);
+        // Affiche un message d'erreur si nécessaire
+      }
+    );}
+     closeModal() {
+    this.modalVisible = false;
+  }
+
 }
