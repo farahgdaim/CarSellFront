@@ -1,15 +1,32 @@
-<div class="container mt-5">
-    <h2 class="mb-4">Mon Profil</h2>
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-    <div *ngIf="user">
-      <p><strong>Nom :</strong> {{ user.nom }}</p>
-      <p><strong>Prénom :</strong> {{ user.prenom }}</p>
-      <p><strong>Email :</strong> {{ user.email }}</p>
-      <p><strong>Téléphone :</strong> {{ user.telephone }}</p>
-      
-      <!-- Boutons pour mettre à jour le profil et se déconnecter -->
+<div class="container mt-5 profile-page">
+  <h2 class="mb-4" style="color:#1d2e5f;">Mon Profil</h2>
+
+  <!-- Feedback d'erreur -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <!-- Contenu du profil -->
+  <div *ngIf="user" class="profile-content">
+    <div class="card p-4 shadow-sm">
+      <h3 class="mb-3" style="color:#1d2e5f;">Informations personnelles</h3>
+      <p><strong>Nom :</strong> {{ user.nom || 'Non défini' }}</p>
+      <p><strong>Prénom :</strong> {{ user.prenom || 'Non défini' }}</p>
+      <p><strong>Email :</strong> {{ user.email || 'Non défini' }}</p>
+      <p><strong>Téléphone :</strong> {{ user.telephone || 'Non défini' }}</p>
+      <!-- Supposons que l'API renvoie aussi une date d'inscription -->
+      <p *ngIf="user.createdAt"><strong>Date d'inscription :</strong> {{ user.createdAt | date:'longDate' }}</p>
+    </div>
+
+    <!-- Section supplémentaire (ex: Activité récente) -->
+    <div class="card mt-4 p-4 shadow-sm">
+      <h3 class="mb-3" style="color:#1d2e5f;">Activité récente</h3>
+      <p>Pas d'activité récente pour le moment.</p>
+      <!-- Vous pouvez intégrer ici un composant ou une liste d'activités si votre backend le supporte -->
+    </div>
+
+    <!-- Boutons d'action -->
+    <div class="mt-4">
       <button class="btn btn-primary me-2" (click)="goToUpdateProfile()">Mettre à jour mon profil</button>
       <button class="btn btn-danger" (click)="logout()">Déconnexion</button>
     </div>
   </div>
-  
+</div>

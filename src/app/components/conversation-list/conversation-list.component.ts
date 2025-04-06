@@ -3,6 +3,7 @@ import { ConversationService } from '../../services/conversation.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-conversation-list',
@@ -17,11 +18,13 @@ export class ConversationListComponent implements OnInit {
     private conversationService: ConversationService,
     private router: Router,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    // Get the current user first, then load conversations.
+    this.loadingService.show();
+    // Récupération de l'utilisateur connecté, puis chargement des conversations
     this.authService.getUser().subscribe({
       next: (res: any) => {
         this.currentUser = res.data;
@@ -30,6 +33,7 @@ export class ConversationListComponent implements OnInit {
       error: (err) => {
         this.error = 'Erreur lors de la récupération de votre profil.';
         console.error(err);
+        this.loadingService.hide();
       }
     });
   }
@@ -38,7 +42,7 @@ export class ConversationListComponent implements OnInit {
     this.conversationService.getConversations().subscribe({
       next: (res: any) => {
         this.conversations = res.data || [];
-        // For each conversation, determine and fetch the "other" user's name.
+        // Pour chaque conversation, déterminer et charger le nom de l'autre utilisateur.
         this.conversations.forEach(conv => {
           const userId1 = conv.Ref_id_user1;
           const userId2 = conv.Ref_id_user2;
@@ -48,27 +52,28 @@ export class ConversationListComponent implements OnInit {
           } else {
             otherUserId = userId1;
           }
-          // Fetch the other user's details
+          // Charger les détails de l'autre utilisateur
           this.userService.getUserById(otherUserId).subscribe({
             next: (userRes: any) => {
               conv.otherUserName = userRes.data.nom.concat(' ', userRes.data.prenom) || 'Inconnu';
             },
             error: (err) => {
-              console.error('Erreur lors du chargement des détails de l’autre utilisateur', err);
+              console.error("Erreur lors du chargement des détails de l’autre utilisateur", err);
               conv.otherUserName = 'Utilisateur inconnu';
             }
           });
         });
+        this.loadingService.hide();
       },
       error: (err) => {
         this.error = 'Erreur lors du chargement des conversations.';
         console.error(err);
+        this.loadingService.hide();
       }
     });
   }
 
   viewConversation(conversation: any): void {
-    // Validate the conversation participants.
     const userId1 = conversation.Ref_id_user1;
     const userId2 = conversation.Ref_id_user2;
 
@@ -77,7 +82,7 @@ export class ConversationListComponent implements OnInit {
       return;
     }
   
-    // Navigate to the conversation detail page with the two user IDs.
+    // Navigation vers la page de détail de conversation
     this.router.navigate(['/conversation', userId1, userId2], { state: { conversation } });
   }
 }

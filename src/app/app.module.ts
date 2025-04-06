@@ -31,7 +31,7 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ExpertsListComponent } from './components/experts-list/experts-list.component';
 import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
-
+import { NgxSpinnerModule } from "ngx-spinner";
 /* Example routes if needed in the future
 const appRoutes: Routes = [
   { path: '', component: AnnoncesComponent },
@@ -73,7 +73,8 @@ const appRoutes: Routes = [
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

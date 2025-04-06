@@ -1,13 +1,20 @@
-<div class="container mt-4" *ngIf="user; else errorTemplate">
-    <h2>Profil de {{ user.nom }} {{ user.prenom }}</h2>
-    <p><strong>Email :</strong> {{ user.email }}</p>
-    <!-- Add other public info as needed -->
-    <button *ngIf="user._id !== loggedInUserId" class="btn btn-success mt-3" (click)="startConversation(user.id)">
-      Démarrer une conversation
-    </button>
-  </div>
-  
-  <ng-template #errorTemplate>
-    <div class="alert alert-danger mt-4">{{ error }}</div>
-  </ng-template>
-  
+<div class="container mt-4 public-profile-page">
+
+  <ng-container>
+    <div *ngIf="error" class="alert alert-danger mt-4">{{ error }}</div>
+    
+    <div *ngIf="user" class="card p-4 shadow-sm">
+      <h2 style="color:#1d2e5f;">Profil de {{ user.nom }} {{ user.prenom }}</h2>
+      <p><strong>Email :</strong> {{ user.email }}</p>
+      <!-- Ajoutez ici d'autres informations publiques si disponibles -->
+      <p *ngIf="user.telephone"><strong>Téléphone :</strong> {{ user.telephone }}</p>
+      <!-- Par exemple, la date d'inscription -->
+      <p *ngIf="user.created_at"><strong>Date d'inscription :</strong> {{ user.created_at | date:'longDate' }}</p>
+      
+      <!-- Bouton de démarrage de conversation, visible si le profil consulté n'est pas celui de l'utilisateur connecté -->
+      <button *ngIf="user.id !== loggedInUserId && user.id" class="btn btn-success mt-3" (click)="startConversation(user.id)">
+        Démarrer une conversation
+      </button>
+    </div>
+  </ng-container>
+</div>

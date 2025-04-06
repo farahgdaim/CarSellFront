@@ -1,6 +1,11 @@
 <div id="page-container">
   <app-navbar></app-navbar>
   
+  <!-- Spinner global -->
+  <div *ngIf="loading | async" class="global-spinner">
+    <div class="spinner"></div>
+  </div>
+
   <div class="content-wrap container">
     <hr>
     <div class="row">
@@ -12,5 +17,6 @@
     </div>
   </div>
   
-  <app-footer></app-footer>
+  <div class="space"></div>
+  <app-footer class="footer"></app-footer>
 </div>
