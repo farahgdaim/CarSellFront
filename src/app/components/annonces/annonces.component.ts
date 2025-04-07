@@ -35,8 +35,6 @@ export class AnnoncesComponent implements OnInit  {
   getAnnoncesData(){
     
     this.dataService.getData().subscribe(res=>{
-      //this.annonces = res;
-      console.log(res);
       // Vérifier si 'res' est un objet et contient 'data'
     if (res && typeof res === 'object' && 'data' in res) {
       this.annonces = res.data; 

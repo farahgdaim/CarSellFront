@@ -38,7 +38,7 @@ export class ExpertFormComponent {
     // Reset feedback messages before making a new request
     this.error = null;
     this.success = null;
-
+ 
     // Préparer les données à envoyer en FormData
     const formData = new FormData();
     formData.append('certification', this.expert.certificationFile);

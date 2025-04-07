@@ -7,7 +7,8 @@ import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-conversation-list',
-  templateUrl: './conversation-list.component.html'
+  templateUrl: './conversation-list.component.html',
+  styleUrls: ['./conversation-list.component.css']
 })
 export class ConversationListComponent implements OnInit {
   conversations: any[] = [];
@@ -24,7 +25,6 @@ export class ConversationListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadingService.show();
-    // Récupération de l'utilisateur connecté, puis chargement des conversations
     this.authService.getUser().subscribe({
       next: (res: any) => {
         this.currentUser = res.data;
@@ -42,7 +42,6 @@ export class ConversationListComponent implements OnInit {
     this.conversationService.getConversations().subscribe({
       next: (res: any) => {
         this.conversations = res.data || [];
-        // Pour chaque conversation, déterminer et charger le nom de l'autre utilisateur.
         this.conversations.forEach(conv => {
           const userId1 = conv.Ref_id_user1;
           const userId2 = conv.Ref_id_user2;
@@ -52,7 +51,6 @@ export class ConversationListComponent implements OnInit {
           } else {
             otherUserId = userId1;
           }
-          // Charger les détails de l'autre utilisateur
           this.userService.getUserById(otherUserId).subscribe({
             next: (userRes: any) => {
               conv.otherUserName = userRes.data.nom.concat(' ', userRes.data.prenom) || 'Inconnu';
@@ -81,8 +79,6 @@ export class ConversationListComponent implements OnInit {
       alert('Les identifiants des utilisateurs sont introuvables ou invalides.');
       return;
     }
-  
-    // Navigation vers la page de détail de conversation
     this.router.navigate(['/conversation', userId1, userId2], { state: { conversation } });
   }
 }

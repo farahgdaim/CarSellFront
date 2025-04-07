@@ -1,5 +1,5 @@
 <div class="container mt-4 conversation-list-page">
-  <h2 class="mb-4" style="color:#1d2e5f;">Mes Conversations</h2>
+  <h2 class="mb-4">Mes Conversations</h2>
   
   <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
   
@@ -10,13 +10,12 @@
           <div>
             <h5 class="card-title">
               Conversation avec : 
-              <span class="text-primary">{{ conv.otherUserName }}</span>
+              <span class="other-user">{{ conv.otherUserName }}</span>
             </h5>
             <p class="card-text">
-              <small class="text-muted">ID: {{ conv._id || conv.id }}</small>
+              <small>ID: {{ conv._id || conv.id }}</small>
             </p>
           </div>
-          <span class="badge bg-primary">Voir détails</span>
         </div>
       </div>
     </div>

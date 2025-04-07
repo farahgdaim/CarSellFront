@@ -1,5 +1,4 @@
 // Fonction pour détecter si l'élément est visible
-console.log("hello animation.js")
 
 function isVisible(element) {
     const rect = element.getBoundingClientRect();
