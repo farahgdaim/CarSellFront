@@ -32,6 +32,8 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
 import { ExpertsListComponent } from './components/experts-list/experts-list.component';
 import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
 import { MesAnnoncesComponent } from './components/mes-annonces/mes-annonces.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { NgChartsConfiguration, NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -61,7 +63,8 @@ import { MesAnnoncesComponent } from './components/mes-annonces/mes-annonces.com
     PublicProfileComponent,
     ExpertsListComponent,
     ExpertProfileComponent,
-    MesAnnoncesComponent
+    MesAnnoncesComponent,
+    AdminDashboardComponent
     
     
   ],
@@ -71,13 +74,15 @@ import { MesAnnoncesComponent } from './components/mes-annonces/mes-annonces.com
     HttpClientModule,
     FormsModule,
     AppRoutingModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgChartsModule
 
    
   ],
 
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: NgChartsConfiguration, useValue: { generateColors: false } }
 
 
     

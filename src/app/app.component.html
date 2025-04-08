@@ -1,19 +1,19 @@
 
 <div id="page-container">
-  <app-navbar></app-navbar>
-  
-  <div class="content-wrap container">
-    <hr>
+  <app-navbar *ngIf="!isAdmin"></app-navbar>
+  <div *ngIf="isAdmin">
+    <router-outlet></router-outlet>
+  </div>
+   <div *ngIf="!isAdmin" class="content-wrap container">
     <div class="row">
       <div class="col mt-1 mb-1">
         <div class="col-md-11 mx-auto">
           <router-outlet></router-outlet>
         </div>
-
       </div>
     </div>
-  </div>
+  </div> 
   
-  <app-footer></app-footer>
+  <app-footer *ngIf="!isAdmin"></app-footer>
 </div>
 

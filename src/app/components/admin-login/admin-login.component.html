@@ -1,10 +1,54 @@
-<div class="container-fluid vh-100">
+
+<div class="container">
+  <div class="row">
+      <div class="col-lg-3 col-md-2"></div>
+      <div class="col-lg-6 col-md-8 login-box">
+          <div class="col-lg-12 login-key">
+              <i class="fa fa-key" aria-hidden="true"></i>
+          </div>
+          <div class="col-lg-12 login-title">
+              ADMIN PANEL
+          </div>
+
+          <div class="col-lg-12 login-form">
+              <div class="col-lg-12 login-form">
+                  <form>
+                      <div class="form-group">
+                          <label class="form-control-label">EMAIL</label>
+                          <input type="email" id="email" class="form-control" [(ngModel)]="credentials.email" name="email" required>
+                      </div>
+                      <div class="form-group">
+                          <label class="form-control-label">PASSWORD</label>
+                          <input type="password" id="password" class="form-control" [(ngModel)]="credentials.password" name="password" required>
+                      </div>
+
+                      <div class="col-lg-12 loginbttm">
+                          <div class="col-lg-6 login-btm login-text">
+                              <!-- Error Message -->
+                          </div>
+                          <div class="col-lg-6 login-btm login-button">
+                              <button type="submit" class="btn btn-outline-primary">LOGIN</button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+          <div class="col-lg-3 col-md-2"></div>
+      </div>
+  </div>
+
+
+
+
+
+
+<!-- <div class="container-fluid vh-100">
     <div class="row h-100">
-      <!-- Left Panel: Placeholder image -->
-      <div class="col-md-6 d-none d-md-block p-0">
+       
+      <div class="col-md-6 d-none d-md-block p-0"> 
         <div class="h-100" style="background: url('https://via.placeholder.com/800x800') no-repeat center center; background-size: cover;"></div>
       </div>
-      <!-- Right Panel: Login Form -->
+      
       <div class="col-md-6 d-flex align-items-center justify-content-center">
         <div class="w-75">
           <h2 class="mb-4">Admin - Connexion</h2>
@@ -24,4 +68,4 @@
       </div>
     </div>
   </div>
-  
+   -->

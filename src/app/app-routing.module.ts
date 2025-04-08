@@ -11,7 +11,7 @@ import { CarCarouselComponent } from './components/car-carousel/car-carousel.com
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+// import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { ExpertFormComponent } from './components/expert-form/expert-form.component';
@@ -31,7 +31,7 @@ import { ConversationDetailComponent } from './components/conversation-detail/co
 import { ExpertsListComponent } from './components/experts-list/experts-list.component';
 import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
 import { MesAnnoncesComponent } from './components/mes-annonces/mes-annonces.component';
-
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'annonces', pathMatch: 'full' },
@@ -57,8 +57,9 @@ const routes: Routes = [
   { path: 'admin/profile', component: AdminProfileComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
+  { path: 'admin/dashboard', component: AdminDashboardComponent},
 
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  // { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'experts', component: ExpertsListComponent, canActivate: [AuthGuard] },
   { path: 'expert-profile/:id', component: ExpertProfileComponent, canActivate: [AuthGuard] },
 

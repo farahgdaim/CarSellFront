@@ -40,7 +40,8 @@
               "src/assets/navbar.js",
               "src/assets/menu.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "src/assets/animation.js"
+              "src/assets/animation.js",
+              "src/assets/adminDashboard.js"
             ]
           },
           "configurations": {

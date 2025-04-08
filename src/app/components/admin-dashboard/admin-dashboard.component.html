@@ -1,0 +1,180 @@
+<html>
+<!--Main Navigation-->
+<header>
+  <!-- <script src="src/assets/adminDashboard.js"></script> -->
+  <nav id="sidebarMenu" class="sidebar">
+    <div class="position-sticky">
+      <!-- Logo et Nom du site -->
+      <div class="sidebar-header text-center py-4">
+        <div class="logo-container">
+          <img src="assets/22.PNG" alt="Logo Elite Auto" class="logo">
+        </div>
+      </div>
+
+      <div class="menu">
+        <a href="#" class="menu-item active">
+          <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-user-circle"></i><span>Profil</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-user-tie"></i><span>Expert</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-bullhorn"></i><span>Annonce</span>
+        </a>
+        <a href="#" class="menu-item">
+          <i class="fas fa-file-alt"></i><span>Rapport</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<body>
+
+  <!--Main Navigation-->
+  <main>
+    <section class="dashboard-header">
+      <h1>Dashboard</h1>
+      <p class="subtitle">Vue d'ensemble des performances</p>
+    </section>
+
+    <section class="kpi-grid">
+      <div class="top">
+        <div class="kpi-card">
+          <div class="icon bg-green"><i class="far fa-user"></i></div>
+          <div class="info">
+            <h3>{{ totalUsers }}</h3>
+            <p>Membres inscrits</p>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="icon bg-blue">
+            <i class="fas fa-bullhorn"></i>
+          </div>
+          <div class="info">
+            <h3>{{ totalAnnonces }}</h3>
+            <p>Offres disponibles </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+
+    <section class="charts">
+      <div class="chart-row">
+        <div class="chart-card  chart-65">
+          <h3>📈 Évolution mensuelle des annonces</h3>
+          <canvas baseChart [data]="lineChartData1" [labels]="lineChartLabels1" [options]="lineChartOptions1"
+            [type]="'line'"></canvas>
+        </div>
+
+        <div class="chart-card chart-30">
+          <h3>📍 Annonces par marque</h3>
+          <canvas baseChart [data]="pieChartData1" [labels]="pieChartLabels1" [options]="pieChartOptions1"
+            [type]="'pie'"></canvas>
+        </div>
+      </div>
+
+
+      <section class="sales-performance">
+        <div class="card">
+          <h2>🚗 Plage de prix des annonces</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Prix Minimum</th>
+                <th>Prix Maximum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Valeur</td>
+                <td>{{ prixMin }} DT</td>
+                <td>{{ prixMax }} DT</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+
+
+      <section class="annoncesVendues">
+        <div class="chart-card chart-30">
+          <h3>🏁 Répartition des ventes par marque</h3>
+          <canvas baseChart [data]="barChartData1" [labels]="barChartLabels1" [options]="barChartOptions1"
+            chartType="bar"></canvas>
+        </div>
+
+        <div class="chart-card chart-30">
+          <h3>📊 Évolution mensuelle des ventes</h3>
+          <canvas baseChart [data]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+            [type]="'line'"></canvas>
+        </div>
+
+        <div class="chart-card chart-30">
+          <h3><i class="fas fa-percentage"  ></i>  Part de marché des annonces vendues</h3>
+          <div *ngIf="showPieChart">
+            <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [options]="pieChartOptions"
+              [type]="'pie'"></canvas>
+          </div>
+        </div>
+      </section>
+      <section class="kpi-grid">
+        <div class="milieu">
+          <div class="kpi-card">
+            <div class="icon bg-orange"><i class="fas fa-tags"></i></div>
+            <div class="info">
+              <h3>{{ prixMoyen }} DT</h3>
+              <p>Prix Moyen</p>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="icon bg-blue"><i class="fas fa-coins"></i></div>
+            <div class="info">
+              <h3>{{ prixTotal }} DT</h3>
+              <p>Valeur Cumulative des Annonces</p>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="icon bg-orange"><i class="fas fa-hand-holding-usd"></i></div>
+            <div class="info">
+              <h3>{{ prixtotalVente }} DT</h3>
+              <p>Revenus Cumulés des Ventes</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="users">
+        <div class="chart-card chart-50">
+          <h3>🚦 Distance Moyenne Parcourue par Marque</h3>
+          <canvas baseChart [data]="lineChartData2" [labels]="lineChartLabels2" [options]="lineChartOptions2"
+            [type]="'line'"></canvas>
+        </div>
+
+        <div class="chart-card chart-50">
+          <h3>👑 Classement des utilisateurs  les plus actifs</h3>
+          <canvas baseChart [data]="barChartData2" [labels]="barChartLabels2" [options]="barChartOptions2"
+            chartType="bar"></canvas>
+        </div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+</body>
+
+</html>
+<!--Main layout-->

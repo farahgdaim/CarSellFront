@@ -9,7 +9,7 @@ export class DataService {
   constructor(private httpClient: HttpClient) {}
 
   getData() {
-    return this.httpClient.get('http://127.0.0.1:8000/api/annonces');
+    return this.httpClient.get('http://127.0.0.1:8000/api/annoncesEnAttente');
   }
   getNotificationsData() {
     return this.httpClient.get('http://127.0.0.1:8000/api/notifications');

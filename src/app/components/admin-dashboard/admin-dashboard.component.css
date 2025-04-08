@@ -1,0 +1,475 @@
+/* @media (min-width: 991.98px) {
+
+} */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.kpi-card, .chart-card {
+  animation: fadeUp 0.8s ease-out both;
+}
+
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 220px; /* Légèrement plus large pour un aspect plus robuste */
+  background: #3d5ec9;
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px; /* Un peu plus d'espace en haut */
+  box-shadow: 5px 0 20px rgba(0, 0, 0, 0.25); /* Ombre plus prononcée */
+  z-index: 1000; /* S'assurer que le sidebar est au-dessus */
+}
+
+.sidebar-header {
+  padding: 25px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Ligne de séparation subtile */
+}
+
+.logo-container {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 15px; /* Espace sous le logo */
+}
+
+/* Taille et centrage du logo */
+.logo {
+  max-width: 160px; /* Légèrement réduit */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px; /* Espace avant le premier élément du menu */
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 18px 20px; /* Un peu plus de padding vertical */
+  text-decoration: none;
+  color: #f0f8ff; /* Couleur de texte légèrement plus claire */
+  font-size: 16px; /* Taille de police légèrement plus petite */
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-left-color 0.3s ease;
+  border-left: 5px solid transparent;
+  margin-bottom: 10px; /* Réduction de l'espace entre les éléments */
+}
+
+.menu-item i {
+  margin-right: 15px;
+  font-size: 20px; /* Taille des icônes légèrement réduite */
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background-color: rgba(255, 255, 255, 0.1); /* Léger effet de survol */
+  color: #fff; /* Couleur du texte au survol/actif */
+  font-weight: bold;
+  border-left-color: #fff;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #fdfbf9;
+  margin: 0;
+  min-height: 100vh;
+  padding-left: 220px; /* Correspond à la nouvelle largeur du sidebar */
+  padding-right: 50px;
+  transition: padding-left 0.3s ease; /* Pour une transition fluide si le sidebar change de taille (optionnel) */
+}
+
+main {
+  padding: 30px 20px;
+  min-height: 100vh;
+  /* Réduction du padding principal */
+}
+
+/* HEADER */
+.dashboard-header {
+  text-align: left;
+  margin-bottom: 30px; /* Réduction de la marge */
+}
+
+.dashboard-header h1 {
+  /* color: var(--main-blue); */
+  color: #1d2e5f;
+  margin: 0 0 15px 0;
+  font-size: 50px; /* Augmente la taille */
+  font-weight: bold;
+  /* text-transform: uppercase;  Met en majuscules pour un effet plus prestigieux */
+  letter-spacing: 2px; /* Espacement pour plus d'élégance */
+
+  background: linear-gradient(90deg, #1d2e5f, #1d2e5f, #1d2e5f);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientAnimation 5s infinite linear alternate;
+  position: relative;
+  cursor: pointer; /* Ajout d'une petite marge en bas */
+}
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+.chart-row {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  align-items: stretch;
+}
+.annoncesVendues{
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  align-items: stretch;
+}
+.users{
+  margin-top: 20px;
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  align-items: stretch;
+}
+
+.chart-65{
+  flex: 0 0 65%;
+  max-width: 70%;
+}
+.chart-50 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  
+}
+
+.chart-30 {
+  flex: 0 0 30%;
+  max-width: 30%;
+  /* margin-right: 25px; */
+}
+@media (max-width: 768px) {
+  .chart-row {
+    flex-direction: column;
+  }
+
+  .chart-65,
+  .chart-30 {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+/* Effet au survol */
+.dashboard-header h1:hover {
+  transform: scale(1.02); /* Agrandissement léger */
+  transition: 0.3s ease-in-out;
+  margin: 0 0 15px 0;
+}
+
+/* Effet d'apparition au chargement */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-header h1 {
+  animation: fadeIn 1.2s ease-out;
+}
+.subtitle {
+  font-size: 14px;
+  margin: 0 0 15px 0; /* Légèrement réduit */
+  color: #777; /* Couleur de sous-titre légèrement plus claire */
+}
+
+/* KPI CARDS */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* Grid responsive */
+  gap: 15px; /* Réduction de l'espacement */
+  margin-bottom: 30px;
+  /* Réduction de la marge */
+}
+.top{
+  display: flex;
+  gap: 20px; 
+}
+.milieu{
+  display: flex;
+  gap: 20px; 
+  margin-top: 25px;
+}
+.kpi-card {
+  background: linear-gradient(145deg, #ffffff, #f4f4f4);
+  border-left: 10px solid #dc3545;
+  border-radius: 16px; /* Bords légèrement moins arrondis */
+  padding: 35px; /* Réduction du padding */
+  display: flex;
+  align-items: center;
+  /* box-shadow: 0 2px 5px var(--shadow); Ombre plus subtile */
+  /* transition: transform 0.2s ease-in-out; */
+  width: 50%;
+  /* padding: 20px; */
+  border-radius: 10px;
+  text-align: center;
+  /* width: 300px; */
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.kpi-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.15); /* Léger effet de zoom au survol */
+}
+
+.icon {
+  font-size: 28px; /* Réduction de la taille de l'icône */
+  width: 50px; /* Taille fixe pour maintenir l'alignement */
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: rgb(0, 0, 0);
+  margin-right: 15px; /* Réduction de la marge */
+}
+
+/* .bg-green { background: var(--green); }
+.bg-blue { background: var(--main-blue); }
+.bg-orange { background: var(--orange); }
+.bg-purple { background: var(--purple); }
+.bg-teal { background: var(--teal); } */
+
+.info h3 {
+  margin: 0 0 3px 0; /* Petite marge en bas du titre */
+  font-size: 20px; /* Réduction de la taille du titre */
+  /* color: var(--main-blue); */
+  font-weight: 600;
+}
+
+.info p {
+  margin: 0;
+  font-size: 13px; /* Réduction de la taille du paragraphe */
+  color: #777;
+}
+
+/* SALES PERFORMANCE */
+.sales-performance {
+  margin: 60px auto;
+  max-width: 10000px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sales-performance .card {
+  background: linear-gradient(145deg, #ffffff, #f4f4f4);
+  border-radius: 16px;
+  padding: 35px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  border-left: 6px solid #007BFF; /* Nouveau bleu */
+  transition: all 0.3s ease-in-out;
+}
+
+.sales-performance .card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.15);
+}
+
+.sales-performance h2 {
+  margin-bottom: 30px;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  color: #333;
+  font-weight: 700;
+}
+
+.sales-performance h2::before {
+ 
+  margin-right: 12px;
+  font-size: 1.5em;
+}
+
+.sales-performance table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 123, 255, 0.1); /* Adapté au bleu */
+}
+
+.sales-performance thead {
+  background: 	#3055a3; /* Nouveau bleu */
+  color: white;
+}
+
+.sales-performance th,
+.sales-performance td {
+  padding: 18px;
+  font-size: 16px;
+}
+
+.sales-performance th {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sales-performance tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.sales-performance tbody tr:last-child {
+  border-bottom: none;
+}
+
+.sales-performance td {
+  color: #333;
+}
+
+.sales-performance td:first-child {
+  font-weight: bold;
+  color: #3055a3; /* Nouveau bleu */
+}
+
+/* CHARTS */
+.charts {
+  /* display: grid; */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Disposition en grille plus logique */
+  gap: 20px;
+  margin-top: 30px; /* Ajout de marge en haut */
+}
+
+.chart-card {
+  /* background: var(--white); */
+  /* background: linear-gradient(145deg, #ffffff, #f4f4f4); */
+  border-radius: 16px;
+  padding: 35px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  /*border-left: 6px solid #007BFF;  Nouveau bleu */
+  transition: all 0.3s ease-in-out;
+  background: rgb(255, 255, 255);
+  /* padding: 1rem; */
+  /* border-radius: 12px; */
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+}
+.chart-card:hover{
+  
+  transform: scale(1.01);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.15);
+}
+
+.chart-card h3 {
+  margin-bottom: 15px;
+  /* color: var(--main-blue); */
+  font-weight: 600;
+  font-size: 16px; /* Réduction de la taille du titre */
+}
+
+.chart-card canvas {
+  width: 100% !important;
+  max-height: 280px; /* Réduction de la hauteur maximale */
+}
+
+/* Styles spécifiques pour les histogrammes
+.chart-card canvas[chartType="bar"] {
+  /* Diminuer l'épaisseur des barres (nécessite potentiellement des options de configuration de la librairie de graphiques) */
+/* Exemple d'une option hypothétique (peut varier selon la librairie) */
+/* --bar-thickness: 15px; 
+}*/
+
+/* Style pour l'histogramme circulaire (Pie Chart) */
+.chart-card canvas[chartType="pie"] {
+  /* Vous pouvez ajouter des styles spécifiques ici si nécessaire */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    padding-left: 0; /* Le contenu prend toute la largeur sur les petits écrans */
+  }
+
+  .sidebar {
+    width: 100%;
+    position: static; /* Le sidebar devient statique et prend toute la largeur */
+    flex-direction: row; /* Menu horizontal */
+    overflow-x: auto; /* Permet de scroller horizontalement si le menu est trop long */
+    padding: 15px 0;
+    box-shadow: 0 2px 5px var(--shadow);
+  }
+
+  .sidebar-header {
+    display: none; /* Masquer l'en-tête sur les petits écrans (logo) */
+  }
+
+  .menu {
+    flex-direction: row;
+    padding-top: 0;
+  }
+
+  .menu-item {
+    margin-bottom: 0;
+    margin-right: 15px;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+
+  .menu-item i {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+
+  .menu-item:hover,
+  .menu-item.active {
+    border-bottom-color: white;
+    border-left-color: transparent;
+    background-color: transparent;
+  }
+
+  main {
+    padding: 0px;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .chart-card {
+    flex-basis: 100%; /* Les cartes de graphique prennent toute la largeur */
+  }
+}
