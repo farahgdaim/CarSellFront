@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ExpertService } from '../../services/expert.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-expert-form',
@@ -16,13 +17,13 @@ export class ExpertFormComponent {
   error: string | null = null;
   success: string | null = null;
 
-  constructor(private expertService: ExpertService) {}
+  constructor(private expertService: ExpertService, private loadingService: LoadingService) {}
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (file && file.type === 'application/pdf') {
       this.expert.certificationFile = file;
-      this.error = null; // Reset any previous error
+      this.error = null; // Réinitialise l'erreur
     } else {
       this.error = "Veuillez sélectionner un fichier PDF valide.";
       this.expert.certificationFile = null;
@@ -34,20 +35,20 @@ export class ExpertFormComponent {
       this.error = "Le fichier de certification est requis.";
       return;
     }
-
-    // Reset feedback messages before making a new request
+    // Réinitialiser les messages de feedback
     this.error = null;
     this.success = null;
  
-    // Préparer les données à envoyer en FormData
+    // Préparer les données avec FormData
     const formData = new FormData();
     formData.append('certification', this.expert.certificationFile);
     formData.append('domaineExpertise', this.expert.domaineExpertise);
     formData.append('anneesExperience', this.expert.anneesExperience.toString());
 
-    // Envoyer la candidature via le service
+    this.loadingService.show();
     this.expertService.requestExpertRole(formData).subscribe({
       next: (res: any) => {
+        this.loadingService.hide();
         if (res.status === 200 || res.status === 201) {
           this.success = "Votre candidature a été envoyée avec succès. Veuillez attendre la réponse de l'administration.";
         } else if (res.status === 400) {
@@ -57,6 +58,7 @@ export class ExpertFormComponent {
         }
       },
       error: (err: any) => {
+        this.loadingService.hide();
         this.error = err.error.data || "Erreur lors de l'envoi de la candidature.";
       }
     });

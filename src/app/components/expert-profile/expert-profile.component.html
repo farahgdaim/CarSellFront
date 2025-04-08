@@ -1,23 +1,63 @@
-<div class="container mt-4" *ngIf="user && expert; else errorTemplate">
-    <h2>Profil Expert de {{ user.nom }} {{ user.prenom }}</h2>
-    <p><strong>Email :</strong> {{ user.email }}</p>
-    <hr>
-    <h4>Domaine d'Expertise</h4>
-    <p>{{ expert.domaineExpertise }}</p>
-    <h4>Années d'Expérience</h4>
-    <p>{{ expert.anneesExperience }}</p>
-    <h4>Certifications</h4>
-    <ul *ngIf="expert.certifications && expert.certifications.length > 0; else noCert">
-      <li *ngFor="let cert of expert.certifications">
-        <a [href]="'http://localhost:8000/storage/' + cert" target="_blank">Voir Certification</a>
-      </li>
-    </ul>
-    <ng-template #noCert>
-      <p>Aucune certification disponible.</p>
-    </ng-template>
+<div class="container expert-profile-page" *ngIf="user && expert; else errorTemplate">
+  <div class="profile-header">
+    <div class="profile-picture">
+      <i class="fas fa-user"></i>
+    </div>
+    <div class="profile-info">
+      <h2>{{ user.nom }} {{ user.prenom }}</h2>
+      <p class="email"><i class="fas fa-envelope"></i> {{ user.email }}</p>
+      <p class="phone" *ngIf="user.telephone"><i class="fas fa-phone"></i> {{ user.telephone }}</p>
+    </div>
   </div>
   
-  <ng-template #errorTemplate>
-    <div class="alert alert-danger mt-4">{{ error }}</div>
-  </ng-template>
+  <hr>
   
+  <div class="expert-details">
+    <div class="detail-section">
+      <h4>Domaine d'Expertise</h4>
+      <p>{{ expert.domaineExpertise || 'Non renseigné' }}</p>
+    </div>
+    
+    <div class="detail-section">
+      <h4>Années d'Expérience</h4>
+      <p>{{ expert.anneesExperience }} ans</p>
+    </div>
+    
+    <div class="detail-section" *ngIf="expert.biographie">
+      <h4>Biographie</h4>
+      <p>{{ expert.biographie }}</p>
+    </div>
+    
+    <div class="detail-section">
+      <h4>Certifications</h4>
+      <ul *ngIf="expert.certifications && expert.certifications.length > 0; else noCert">
+        <li *ngFor="let cert of expert.certifications">
+          <a [href]="'http://localhost:8000/storage/' + cert" target="_blank">Voir Certification</a>
+        </li>
+      </ul>
+      <ng-template #noCert>
+        <p>Aucune certification disponible.</p>
+      </ng-template>
+    </div>
+    
+    <div class="detail-section" *ngIf="expert.portfolio && expert.portfolio.length > 0">
+      <h4>Portfolio</h4>
+      <div class="portfolio-items">
+        <div *ngFor="let item of expert.portfolio" class="portfolio-item">
+          <img [src]="item" alt="Réalisations">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bouton pour démarrer une conversation -->
+  <div class="conversation-btn-container">
+    <button class="btn conversation-btn" (click)="startConversation(user.id)">
+      Commencez une conversation
+    </button>
+  </div>
+</div>
+
+<ng-template #errorTemplate>
+  <div class="alert alert-danger mt-4">{{ error }}</div>
+</ng-template>

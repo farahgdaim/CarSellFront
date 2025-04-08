@@ -1,20 +1,35 @@
 <div class="container mt-4 public-profile-page">
-
   <ng-container>
     <div *ngIf="error" class="alert alert-danger mt-4">{{ error }}</div>
     
-    <div *ngIf="user" class="card p-4 shadow-sm">
-      <h2 style="color:#1d2e5f;">Profil de {{ user.nom }} {{ user.prenom }}</h2>
-      <p><strong>Email :</strong> {{ user.email }}</p>
-      <!-- Ajoutez ici d'autres informations publiques si disponibles -->
-      <p *ngIf="user.telephone"><strong>Téléphone :</strong> {{ user.telephone }}</p>
-      <!-- Par exemple, la date d'inscription -->
-      <p *ngIf="user.created_at"><strong>Date d'inscription :</strong> {{ user.created_at | date:'longDate' }}</p>
+    <div *ngIf="user" class="card p-4 shadow-sm profile-card">
+      <div class="profile-header">
+        <!-- Profile Icon -->
+        <div class="profile-picture">
+          <i class="fas fa-user"></i>
+        </div>
+        
+        <!-- Profile Information -->
+        <div class="profile-info">
+          <h2>Profil de {{ user.nom }} {{ user.prenom }}</h2>
+          <p class="email">
+            <i class="fas fa-envelope"></i> {{ user.email }}
+          </p>
+          <p class="phone" *ngIf="user.telephone">
+            <i class="fas fa-phone"></i> {{ user.telephone }}
+          </p>
+          <p class="registration" *ngIf="user.created_at">
+            <i class="fas fa-calendar-alt"></i> Inscrit le {{ user.created_at | date:'longDate' }}
+          </p>
+        </div>
+      </div>
       
-      <!-- Bouton de démarrage de conversation, visible si le profil consulté n'est pas celui de l'utilisateur connecté -->
-      <button *ngIf="user.id !== loggedInUserId && user.id" class="btn btn-success mt-3" (click)="startConversation(user.id)">
-        Démarrer une conversation
-      </button>
+      <!-- Conversation Button (only for users who are not the owner of the profile) -->
+      <div class="button-container">
+        <button *ngIf="user.id !== loggedInUserId && user.id" class="btn conversation-btn" (click)="startConversation(user.id)">
+          Démarrer une conversation
+        </button>
+      </div>
     </div>
   </ng-container>
 </div>

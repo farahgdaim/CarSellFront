@@ -10,7 +10,7 @@ import { LoadingService } from '../../services/loading.service';
   styleUrls: ['./create-annonce.component.css']
 })
 export class CreateAnnonceComponent {
-  currentStep: number = 4;
+  currentStep: number = 1;
   step2Error: string = '';
   submittedStep1: boolean = false;
   submittedStep3: boolean = false;
