@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AnnoncesComponent } from './components/annonces/annonces.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AnnoncesDetailsComponent } from './components/annonces-details/annonces-details.component';
@@ -25,7 +24,6 @@ import { AdminExpertRequestDetailComponent } from './components/admin-expert-req
 import { NotificationListComponent } from './components/notification-list/notification-list.component';
 import { ConversationListComponent } from './components/conversation-list/conversation-list.component';
 import { ConversationDetailComponent } from './components/conversation-detail/conversation-detail.component';
-import { UserListComponent } from './components/user-list/user-list.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -44,7 +42,6 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent,
     AnnoncesComponent,
     NavbarComponent,
     AnnoncesDetailsComponent,
@@ -62,7 +59,6 @@ const appRoutes: Routes = [
     NotificationListComponent,
     ConversationListComponent,
     ConversationDetailComponent,
-    UserListComponent,
     PublicProfileComponent,
     ExpertsListComponent,
     ExpertProfileComponent

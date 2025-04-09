@@ -16,7 +16,9 @@
       </div>
     </div>
   </div>
-  
+
   <div class="space"></div>
-  <app-footer class="footer"></app-footer>
+  
+  <!-- Conditionally render Footer -->
+  <app-footer class="footer" *ngIf="!isLoginOrRegister()"></app-footer>
 </div>

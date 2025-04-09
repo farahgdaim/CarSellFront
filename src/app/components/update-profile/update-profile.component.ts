@@ -7,7 +7,8 @@ import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-update-profile',
-  templateUrl: './update-profile.component.html'
+  templateUrl: './update-profile.component.html',
+  styleUrls: ['./update-profile.component.css']
 })
 export class UpdateProfileComponent implements OnInit {
   profile = {

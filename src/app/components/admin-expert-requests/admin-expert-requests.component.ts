@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-expert-requests',
-  templateUrl: './admin-expert-requests.component.html'
+  templateUrl: './admin-expert-requests.component.html',
+  styleUrls: ['./admin-expert-requests.component.css']
 })
 export class AdminExpertRequestsComponent implements OnInit {
   expertRequests: any[] = [];

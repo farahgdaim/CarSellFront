@@ -5,7 +5,8 @@ import { AdminService } from '../../services/admin.service';
 
 @Component({
   selector: 'app-admin-expert-request-detail',
-  templateUrl: './admin-expert-request-detail.component.html'
+  templateUrl: './admin-expert-request-detail.component.html',
+  styleUrls: ['./admin-expert-request-detail.component.css']
 })
 export class AdminExpertRequestDetailComponent implements OnInit {
   requestId: string = '';
