@@ -3,20 +3,18 @@
 .login-register-page {
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
-  background-color: #f9f9f9;
 }
 
 .login-register-bg {
   height: 100%;
   width: 100%;
-  filter: brightness(0.85);
+  padding-top: 150px !important;
 }
 
 /* Conteneur du formulaire */
 .form-container {
-  width: 75%;
+  width: auto;
   padding: 30px;
-  background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   animation: fadeInUp 1s ease forwards;

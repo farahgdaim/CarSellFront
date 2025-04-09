@@ -1,0 +1,70 @@
+/* Notification List - Thème EliteAuto */
+.notification-list-page {
+    font-family: 'Poppins', sans-serif;
+    color: #1d2e5f;
+  }
+  
+  .notification-list-page h2 {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .list-group {
+    border: 1px solid #1d2e5f;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .list-group-item {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 15px;
+    transition: background-color 0.3s;
+  }
+  
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+  
+  .notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .notification-content p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+  
+  .notification-text {
+    margin-bottom: 5px;
+  }
+  
+  .notification-date,
+  .notification-status {
+    color: #B22222;
+    font-size: 0.85rem;
+  }
+  
+  .notification-action .mark-btn {
+    background-color: #1d2e5f;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 0.9rem;
+  }
+  
+  .notification-action .mark-btn:hover {
+    background-color: #151e39;
+  }
+  
+  .no-notifications {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+  }
+  

@@ -41,8 +41,9 @@ export class ConversationListComponent implements OnInit {
   loadConversations(): void {
     this.conversationService.getConversations().subscribe({
       next: (res: any) => {
-        this.conversations = res.data || [];
-        this.conversations.forEach(conv => {
+        let convs = res.data || [];
+        // Pour chaque conversation, charger le nom de l'autre utilisateur
+        convs.forEach((conv: any) => {
           const userId1 = conv.Ref_id_user1;
           const userId2 = conv.Ref_id_user2;
           let otherUserId: string;
@@ -53,7 +54,7 @@ export class ConversationListComponent implements OnInit {
           }
           this.userService.getUserById(otherUserId).subscribe({
             next: (userRes: any) => {
-              conv.otherUserName = userRes.data.nom.concat(' ', userRes.data.prenom) || 'Inconnu';
+              conv.otherUserName = (userRes.data.nom + ' ' + userRes.data.prenom) || 'Inconnu';
             },
             error: (err) => {
               console.error("Erreur lors du chargement des détails de l’autre utilisateur", err);
@@ -61,6 +62,19 @@ export class ConversationListComponent implements OnInit {
             }
           });
         });
+
+        // Trier les conversations par date du dernier message (les plus récentes en premier)
+        this.conversations = convs.sort((a: any, b: any) => {
+          // Si la conversation a des messages, utiliser la date d'envoi du dernier message, sinon 0
+          const aLastDate = (a.messages && a.messages.length > 0)
+            ? new Date(a.messages[a.messages.length - 1].dateEnvoi).getTime()
+            : 0;
+          const bLastDate = (b.messages && b.messages.length > 0)
+            ? new Date(b.messages[b.messages.length - 1].dateEnvoi).getTime()
+            : 0;
+          return bLastDate - aLastDate;
+        });
+
         this.loadingService.hide();
       },
       error: (err) => {

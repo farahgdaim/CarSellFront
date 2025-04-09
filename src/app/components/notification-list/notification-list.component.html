@@ -1,20 +1,26 @@
-<div class="container mt-4">
-    <h2>Mes Notifications</h2>
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let notification of notifications; let i = index">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <p><strong>Contenu:</strong> {{ notification.contenu }}</p>
-            <p><small><strong>Date:</strong> {{ notification.date | date:'short' }}</small></p>
-            <p><small><strong>Statut:</strong> {{ notification.statut }}</small></p>
-          </div>
-          <!-- Show the button only if the notification is not yet read -->
-          <div *ngIf="notification.statut === 'non_lu'">
-            <button class="btn btn-sm btn-primary" (click)="markNotificationAsRead(i)">Marquer comme lue</button>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
+<div class="container mt-4 notification-list-page">
+  <h2>Mes Notifications</h2>
   
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <ul class="list-group" *ngIf="notifications && notifications.length > 0; else noNotifications">
+    <li class="list-group-item" *ngFor="let notification of notifications; let i = index">
+      <div class="notification-item">
+        <div class="notification-content">
+          <p class="notification-text"><strong>Contenu :</strong> {{ notification.contenu }}</p>
+          <p class="notification-date"><small><strong>Date :</strong> {{ notification.date | date:'short' }}</small></p>
+          <p class="notification-status"><small><strong>Statut :</strong> {{ notification.statut }}</small></p>
+        </div>
+        <div *ngIf="notification.statut === 'non_lu'" class="notification-action">
+          <button class="btn mark-btn" (click)="markNotificationAsRead(notification)">Marquer comme lue</button>
+        </div>        
+      </div>
+    </li>
+  </ul>
+
+  <ng-template #noNotifications>
+    <div class="no-notifications">
+      <p>Aucune notification pour le moment.</p>
+    </div>
+  </ng-template>
+</div>
