@@ -1,4 +1,5 @@
-<div class="container mt-5">
+
+<!-- <div class="container mt-5">
     <h2>Demandes d'expert en attente</h2>
     <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
     <table class="table table-striped" *ngIf="expertRequests.length > 0; else noRequests">
@@ -8,16 +9,20 @@
           <th>Domaine d'expertise</th>
           <th>Années d'expérience</th>
           <th>Status</th>
+          <th>nom</th>
+          <th>prenom</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let req of expertRequests">
-          <!-- Use fallback for the ID -->
+        <tr *ngFor="let req of expertRequests"> 
+          
           <td>{{ req._id || req.id }}</td>
           <td>{{ req.domaineExpertise }}</td>
           <td>{{ req.anneesExperience }}</td>
           <td>{{ req.status }}</td>
+          <td>{{req.utilisateur_nom}}</td>
+          <td>{{req.utilisateur_prenom}}</td>
           <td>
             <button class="btn btn-primary btn-sm" (click)="viewRequest(req)">Voir détails</button>
           </td>
@@ -28,4 +33,40 @@
       <p>Aucune demande d'expert en attente.</p>
     </ng-template>
   </div>
-  
+   -->
+
+
+<div class="container">
+  <div class="main-body">
+
+    <!-- Breadcrumb -->
+    <app-admin-navbar></app-admin-navbar>
+    <!-- /Breadcrumb -->
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 gutters-sm"  style="padding-left: 100px;padding-top: 15px;">
+      <div class="col mb-3" *ngFor="let expert of expertRequests">
+        <div class="card">
+         <div class="card-cover"></div>
+         
+          <div class="card-body text-center">
+            <!-- <div class="avatar-wrapper"></div> -->
+            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" style="width:100px;margin-top:-65px;"
+              alt="User" class="img-fluid img-thumbnail rounded-circle border-0 mb-3">
+            <h5 class="card-title">{{expert.utilisateur_nom}} {{expert.utilisateur_prenom}}</h5>
+            <p class="text-secondary mb-1">{{ expert.domaineExpertise }}</p>
+            <p class="text-muted font-size-sm">{{ expert.anneesExperience }} années d'expérience</p>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-light btn-sm bg-white has-icon btn-block" type="button"(click)="viewRequest(expert)">Voir détails</button>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+ 
+    </div>
+  </div>
+</div>

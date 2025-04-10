@@ -3,10 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { ConversationService } from '../../services/conversation.service';
 import { AuthService } from '../../services/auth.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-public-profile',
-  templateUrl: './public-profile.component.html'
+  templateUrl: './public-profile.component.html',
+  styleUrls: ['./public-profile.component.css']
 })
 export class PublicProfileComponent implements OnInit {
   user: any = null;
@@ -18,27 +20,32 @@ export class PublicProfileComponent implements OnInit {
     private userService: UserService,
     private conversationService: ConversationService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
+
   ) {}
 
   ngOnInit(): void {
     const targetUserId = this.route.snapshot.paramMap.get('id');
     if (!targetUserId) {
       this.error = 'Identifiant utilisateur manquant.';
+      this.loadingService.hide();
       return;
     }
-    // Load the target user's profile
+    // Charger le profil de l'utilisateur cible
     this.userService.getUserById(targetUserId).subscribe({
       next: (res: any) => {
         this.user = res.data || res;
+        this.loadingService.hide();
       },
       error: (err) => {
         this.error = 'Erreur lors du chargement du profil.';
         console.error(err);
+        this.loadingService.hide();
       }
     });
 
-    // Get the logged-in user's ID with a fallback
+    // Récupérer l'identifiant de l'utilisateur connecté
     this.authService.getUser().subscribe({
       next: (res: any) => {
         this.loggedInUserId = res.data.id || res.data._id;
@@ -50,7 +57,6 @@ export class PublicProfileComponent implements OnInit {
   }
 
   startConversation(targetUserId: string): void {
-    // Use the logged-in user ID and the target user's ID to get or create a conversation.
     this.conversationService.getConversationBetweenUsers(this.loggedInUserId, targetUserId).subscribe({
       next: (res: any) => {
         if (res && res.status === 200 && res.data) {
@@ -68,7 +74,7 @@ export class PublicProfileComponent implements OnInit {
       }
     });
   }
-  
+
   private createNewConversation(targetUserId: string): void {
     this.conversationService.createConversation(targetUserId).subscribe({
       next: (createRes: any) => {

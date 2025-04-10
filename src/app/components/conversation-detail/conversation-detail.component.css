@@ -1,95 +1,165 @@
-h4.mb-0 { 
-  margin-bottom: 0; /* Ensures no space below the heading */
-  font-size: 1.5rem; /* Sets the font size */
-  font-weight: bold; /* Makes the text bold */
-  line-height: 1.5; 
-  margin-left: 10px;
-}
-/* Chat Messages Styling */
-.chat-messages {
-  background-color: #f0f2f5;
+/* Base Settings */
+.conversation-detail-page {
+  font-family: 'Poppins', sans-serif;
+  color: #1d2e5f;
 }
 
+/* Headings */
+h4.mb-0 {
+  margin-bottom: 0;
+  margin-left: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+/* Chat Header */
+.chat-header {
+  background-color: #1d2e5f;
+  color: #fff;
+  padding: 15px;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-header .avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #1d2e5f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.chat-header .chat-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* Chat Messages Container */
+.chat-messages {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 0 0 8px 8px;
+  padding: 10px;
+}
+
+/* Messages Layout */
+.messages-container,
 .message-container {
-  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  margin-bottom: 1rem;
 }
 
+/* Message Bubble Sizing & Positioning */
 .message {
-  max-width: 75%;
-  min-width: 120px; /* Minimum width for very short messages */
+  max-width: 75%;         /* Keeps bubble from stretching too far */
+  min-width: 120px;       /* Ensures even short messages have room */
+  width: fit-content;     /* Adjusts width based on content */
   margin-bottom: 0.5rem;
-  width: fit-content; /* This makes the bubble fit the content */
 }
 
+/* Message Content */
 .message-content {
   padding: 0.75rem 1rem;
-  border-radius: 1rem;
   position: relative;
   word-wrap: break-word;
   max-width: 100%;
 }
 
-/* Long messages will wrap properly */
+/* Text Wrapping */
 .message-text {
   white-space: pre-wrap;
   overflow-wrap: break-word;
 }
 
-/* Received messages */
+/* Received Messages */
 .message.received .message-content {
-  background-color: white;
-  border: 1px solid #e9ecef;
-  border-radius: 0 1rem 1rem 1rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0 15px 15px 15px;
 }
 
-/* Sent messages */
-.message.sent .message-content {
-  background-color: #007bff;
-  color: white;
-  border-radius: 1rem 1rem 0 1rem;
-}
-
-/* Align sent messages to right */
+/* Sent Messages */
 .message.sent {
   margin-left: auto;
 }
 
-/* Time styling */
+.message.sent .message-content {
+  background-color: #B22222;
+  color: #fff;
+  border: none;
+  border-radius: 15px 0 15px 15px;
+  align-self: flex-end;
+}
+
+/* Message Time */
 .message-time {
   font-size: 0.75rem;
-  margin-top: 0.25rem;
+  margin-top: 5px;
   text-align: right;
 }
 
-/* Input Area Styling */
+/* No Messages Notice */
+.no-messages {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}
+
+/* Message Input Area */
+.message-input {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 0 0 8px 8px;
+}
+
+.input-group {
+  display: flex;
+}
+
+.form-control {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  flex: 1;
+}
+
+.send-btn {
+  background-color: #1d2e5f;
+  border: none;
+  color: #fff;
+  padding: 0 15px;
+  border-radius: 8px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.send-btn:hover {
+  background-color: #151e39;
+}
+
+/* Textarea Styling (if used instead of .form-control) */
 .message-input textarea {
   resize: none;
   border-radius: 1rem;
   padding: 0.75rem;
-  border: 1px solid #e9ecef;
+  border: 1px solid #ddd;
 }
 
 .message-input textarea:focus {
   box-shadow: none;
-  border-color: #007bff;
-}
-
-/* Chat Header Styling */
-.chat-header {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #007bff;
+  border-color: #1d2e5f;
 }
 
 /* Scrollbar Styling */
@@ -102,10 +172,10 @@ h4.mb-0 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #ccc;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #aaa;
 }

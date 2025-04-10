@@ -5,12 +5,14 @@ import { AdminService } from '../../services/admin.service';
 
 @Component({
   selector: 'app-admin-expert-request-detail',
-  templateUrl: './admin-expert-request-detail.component.html'
+  templateUrl: './admin-expert-request-detail.component.html',
+  styleUrls:['./admin-expert-request-detail.component.css']
 })
 export class AdminExpertRequestDetailComponent implements OnInit {
   requestId: string = '';
   expertRequest: any = null;
   error: string | null = null;
+  modalVisible: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,8 +48,9 @@ export class AdminExpertRequestDetailComponent implements OnInit {
   acceptRequest() {
     this.adminExpertService.acceptExpertRequest(this.requestId).subscribe({
       next: () => {
-        alert('Demande acceptée.');
-        this.router.navigate(['/admin/expert-requests']);
+        this.modalVisible = true;
+        /* alert('Demande acceptée.');
+        this.router.navigate(['/admin/expert-requests']); */
       },
       error: (err) => {
         alert('Erreur lors de l\'acceptation de la demande.');
@@ -59,13 +62,18 @@ export class AdminExpertRequestDetailComponent implements OnInit {
   rejectRequest() {
     this.adminExpertService.rejectExpertRequest(this.requestId).subscribe({
       next: () => {
-        alert('Demande rejetée.');
-        this.router.navigate(['/admin/expert-requests']);
+       /*  alert('Demande rejetée.');
+        this.router.navigate(['/admin/expert-requests']); */
+        this.modalVisible = true;
       },
       error: (err) => {
         alert('Erreur lors du rejet de la demande.');
         console.error(err);
       }
     });
+  }
+
+  closeModal() {
+    this.modalVisible = false;
   }
 }

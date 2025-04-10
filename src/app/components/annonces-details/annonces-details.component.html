@@ -159,13 +159,15 @@
         <div class="modal" [ngClass]="{'show': modalVisible}" (click)="closeModal()">
           <div class="modal-content" (click)="$event.stopPropagation()">
             <span class="close" (click)="closeModal()">&times;</span>
-            <h2>Annonce Signalée avec Succès!</h2>
-            <p>Votre signalement a bien été pris en compte. Merci !</p>
+            <h2 [ngClass]="modalSuccess ? 'text-green-600' : 'text-red-600'">
+              {{ modalSuccess ? 'Annonce Signalée avec Succès!' : 'Signalement Échoué' }}
+            </h2>
+            <p>{{ modalMessage }}</p>
           </div>
         </div>
 
         <div class="contact-buttons">
-          <button class="btn report" (click)="reportAnnonce('annonce.id')">
+          <button class="btn report" (click)="reportAnnonce( annonce.id)">
             <i class="fas fa-exclamation-triangle"></i> Signaler
           </button>
 

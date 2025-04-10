@@ -1,0 +1,65 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 220px; /* Légèrement plus large pour un aspect plus robuste */
+    background: #3d5ec9;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px; /* Un peu plus d'espace en haut */
+    box-shadow: 5px 0 20px rgba(0, 0, 0, 0.25); /* Ombre plus prononcée */
+    z-index: 1000; /* S'assurer que le sidebar est au-dessus */
+  }
+  
+  .sidebar-header {
+    padding: 25px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Ligne de séparation subtile */
+  }
+  
+  .logo-container {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px; /* Espace sous le logo */
+  }
+  
+  /* Taille et centrage du logo */
+  .logo {
+    max-width: 160px; /* Légèrement réduit */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .menu {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px; /* Espace avant le premier élément du menu */
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 18px 20px; /* Un peu plus de padding vertical */
+    text-decoration: none;
+    color: #f0f8ff; /* Couleur de texte légèrement plus claire */
+    font-size: 16px; /* Taille de police légèrement plus petite */
+    transition: background-color 0.3s ease, color 0.3s ease,
+      border-left-color 0.3s ease;
+    border-left: 5px solid transparent;
+    margin-bottom: 10px; /* Réduction de l'espace entre les éléments */
+  }
+  
+  .menu-item i {
+    margin-right: 15px;
+    font-size: 20px; /* Taille des icônes légèrement réduite */
+  }
+  
+  .menu-item:hover,
+  .menu-item.active {
+    background-color: rgba(255, 255, 255, 0.1); /* Léger effet de survol */
+    color: #fff; /* Couleur du texte au survol/actif */
+    font-weight: bold;
+    border-left-color: #fff;
+  }
+ 

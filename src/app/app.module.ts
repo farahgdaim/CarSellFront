@@ -31,9 +31,17 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
 
 import { ExpertsListComponent } from './components/experts-list/experts-list.component';
 import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
+
 import { MesAnnoncesComponent } from './components/mes-annonces/mes-annonces.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { NgChartsConfiguration, NgChartsModule } from 'ng2-charts';
+
+import { NgxSpinnerModule } from "ngx-spinner";
+import { AdminNavbarComponent } from './components/admin-navbar/admin-navbar.component';
+import { RepportedAnnoncesComponent } from './components/repported-annonces/repported-annonces.component';
+import { RepportedAnnoncesDetailsComponent } from './components/repported-annonces-details/repported-annonces-details.component';
+
+
 
 
 @NgModule({
@@ -64,7 +72,11 @@ import { NgChartsConfiguration, NgChartsModule } from 'ng2-charts';
     ExpertsListComponent,
     ExpertProfileComponent,
     MesAnnoncesComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    AdminNavbarComponent,
+    RepportedAnnoncesComponent,
+    RepportedAnnoncesDetailsComponent,
+   
     
     
   ],
@@ -73,11 +85,13 @@ import { NgChartsConfiguration, NgChartsModule } from 'ng2-charts';
     // RouterModule.forRoot(appRoutes),
     HttpClientModule,
     FormsModule,
+
     AppRoutingModule, 
     ReactiveFormsModule,
-    NgChartsModule
-
+    NgChartsModule,
+    NgxSpinnerModule
    
+
   ],
 
   providers: [

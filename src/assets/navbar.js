@@ -1,5 +1,3 @@
-console.log("hello");
-
 document.addEventListener("DOMContentLoaded", function () {
   // Code dépendant du DOM
   const navbar = document.querySelector(".navbar");
@@ -28,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
     navbar.className = "navbar";
     if (isHomePage) {
         navbar.classList.add("home-page");
-        console.log("Navbar trouvée (Home)!");
   
 
         let lastScroll = 0;
@@ -49,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
         window.dispatchEvent(new Event('scroll'));
       } else {
         navbar.classList.add("scrolled");
-        console.log("Mode autre page activé");
       }
   } else {
     console.error("Navbar non trouvée.");
@@ -58,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
  /*  const searchButton = document.getElementById("searchButton");
   const searchInput = document.getElementById("searchInput");
 
-  if (searchButton && searchInput) {
+  /*if (searchButton && searchInput) {
     searchButton.addEventListener("click", function () {
       let searchQuery = searchInput.value.trim().toLowerCase();
       if (searchQuery === "") return;
@@ -97,4 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     console.error("Éléments de recherche non trouvés.");
   }*/
+
 }); 
+

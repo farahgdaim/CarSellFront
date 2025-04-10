@@ -1,18 +1,46 @@
-<div class="container mt-4">
-    <h2>Liste des Experts</h2>
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-    <div class="row">
-      <div class="col-md-4 mb-3" *ngFor="let expert of experts">
-        <div class="card h-100" style="cursor: pointer;" (click)="viewExpertProfile(expert)">
-          <div class="card-body">
-            <h5 class="card-title">{{ expert.domaineExpertise }}</h5>
-            <p class="card-text">
-              Années d'expérience : {{ expert.anneesExperience }}
-            </p>
-            <!-- Optionally, add a thumbnail or certification icon if available -->
+<div class="container experts-list-page mt-4">
+  <h2 class="page-title">Liste des Experts</h2>
+  <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+  
+  <!-- Experts Grid -->
+  <div class="experts-grid" *ngIf="experts && experts.length; else noExpertsTemplate">
+    <div class="expert-card" *ngFor="let expert of experts" (click)="viewExpertProfile(expert)">
+      <!-- Card Header: Photo (or Icon) and Full Name -->
+      <div class="card-header">
+        <div class="expert-photo">
+          <!-- If a photo URL is available, display it; otherwise, show a default icon -->
+          <img *ngIf="expert.photo" [src]="expert.photo" alt="Photo de {{ expert.nom }} {{ expert.prenom }}" />
+          <div *ngIf="!expert.photo" class="default-photo">
+            <i class="fas fa-user"></i>
           </div>
+        </div>
+        <h5 class="expert-name">
+          {{ expert.nom || 'Nom Inconnu' }} {{ expert.prenom || 'Prénom Inconnu' }}
+        </h5>
+      </div>
+      
+      <!-- Card Body: Expertise, Experience, and More Info -->
+      <div class="card-body">
+        <p class="expert-domain">
+          <strong>Domaine:</strong> {{ expert.domaineExpertise || 'Non renseigné' }}
+        </p>
+        <p class="experience">
+          <strong>Expérience:</strong> {{ expert.anneesExperience || 0 }} ans
+        </p>
+        <div class="extras">
+          <p *ngIf="expert.certifications && expert.certifications.length > 0">
+            <i class="fas fa-certificate"></i> {{ expert.certifications.length }} Certification<span *ngIf="expert.certifications.length > 1">s</span>
+          </p>
+          <p *ngIf="expert.portfolio && expert.portfolio.length > 0">
+            <i class="fas fa-briefcase"></i> {{ expert.portfolio.length }} Réalisation<span *ngIf="expert.portfolio.length > 1">s</span>
+          </p>
         </div>
       </div>
     </div>
-</div>
+  </div>
   
+  <!-- Fallback template when no experts are available -->
+  <ng-template #noExpertsTemplate>
+    <p class="no-experts">Aucun expert à afficher.</p>
+  </ng-template>
+</div>

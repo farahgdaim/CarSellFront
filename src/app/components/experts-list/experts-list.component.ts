@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ExpertService } from '../../services/expert.service';
+import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-experts-list',
@@ -11,27 +13,52 @@ export class ExpertsListComponent implements OnInit {
   experts: any[] = [];
   error: string | null = null;
 
-  constructor(private expertService: ExpertService, private router: Router) {}
+  constructor(
+    private expertService: ExpertService, 
+    private userService: UserService,
+    private router: Router,
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit(): void {
     this.loadExperts();
   }
 
   loadExperts(): void {
+    // Show loading spinner
+    this.loadingService.show();
+
     this.expertService.getAllExperts().subscribe({
       next: (res: any) => {
         this.experts = res.data || [];
+        // For each expert, fetch the user's full name from the UserService
+        this.experts.forEach((expert) => {
+          if (expert.ref_id_utilisateur) {
+            this.userService.getUserById(expert.ref_id_utilisateur).subscribe({
+              next: (userRes: any) => {
+                const userData = userRes.data || userRes;
+                expert.nom = userData.nom;
+                expert.prenom = userData.prenom;
+              },
+              error: (err) => {
+                console.error('Erreur lors du chargement du profil utilisateur pour expert:', err);
+              }
+            });
+          }
+        });
+        // Hide loading spinner after experts have been retrieved
+        this.loadingService.hide();
       },
       error: (err) => {
         this.error = 'Erreur lors du chargement des experts.';
         console.error(err);
+        this.loadingService.hide();
       }
     });
   }
 
   viewExpertProfile(expert: any): void {
-    // Navigate to the expert's public profile page using their ID.
-    // Here, we assume the expert object has a ref_id_utilisateur field which points to the user's ID.
+    // Navigate to the expert's public profile page using their ref_id_utilisateur.
     const expertUserId = expert.ref_id_utilisateur;
     if (!expertUserId) {
       alert('ID expert introuvable.');

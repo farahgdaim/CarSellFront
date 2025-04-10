@@ -1,44 +1,119 @@
+<style>
+  .divider:after,
+  .divider:before {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #eee;
+  }
 
-<div class="container">
-  <div class="row">
-      <div class="col-lg-3 col-md-2"></div>
-      <div class="col-lg-6 col-md-8 login-box">
-          <div class="col-lg-12 login-key">
-              <i class="fa fa-key" aria-hidden="true"></i>
-          </div>
-          <div class="col-lg-12 login-title">
-              ADMIN PANEL
-          </div>
+  .h-custom {
+      height: calc(100% - 73px);
+  }
 
-          <div class="col-lg-12 login-form">
-              <div class="col-lg-12 login-form">
-                  <form>
-                      <div class="form-group">
-                          <label class="form-control-label">EMAIL</label>
-                          <input type="email" id="email" class="form-control" [(ngModel)]="credentials.email" name="email" required>
-                      </div>
-                      <div class="form-group">
-                          <label class="form-control-label">PASSWORD</label>
-                          <input type="password" id="password" class="form-control" [(ngModel)]="credentials.password" name="password" required>
+  @media (max-width: 450px) {
+      .h-custom {
+          height: 100%;
+      }
+  }
+
+  .btn-2 {
+      scale: 0.8;
+      padding: 0 50px;
+      width: 160px;
+      height: 64px;
+      background: #5278bd;
+      color: white;
+      border: none;
+      border-radius: 32px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      position: absolute;
+      z-index: 1;
+      overflow: hidden;
+  }
+
+  .btn-2:hover {
+      color: black;
+  }
+
+  .btn-2:after {
+      content: "";
+      background: white;
+      position: absolute;
+      z-index: -1;
+      left: -20%;
+      right: -20%;
+      top: 0;
+      bottom: 0;
+      transform: skewX(-45deg) scale(0, 1);
+      transition: all 0.5s;
+  }
+
+  .btn-2:hover:after {
+      transform: skewX(-45deg) scale(1, 1);
+      -webkit-transition: all 0.5s;
+      transition: all 0.5s;
+  }
+</style>
+
+<section class="vh-100">
+  <div class="container-fluid h-custom">
+     <!--  <div *ngIf="message" class="alert alert-danger">
+          {{message}}
+      </div> -->
+      <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-md-9 col-lg-6 col-xl-5">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                  class="img-fluid" alt="Sample image">
+          </div>
+          <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+              <form  (ngSubmit)="login()">
+
+                  <div class="shadow p-3">
+                      <h1 class="text-center fs-1">Login</h1>
+                      <br>
+                      <!-- Email input -->
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <input type="email" id="email" class="form-control" [(ngModel)]="credentials.email" name="email" required>
+                        <label class="form-label" for="form3Example3">Email address</label>
                       </div>
 
-                      <div class="col-lg-12 loginbttm">
-                          <div class="col-lg-6 login-btm login-text">
-                              <!-- Error Message -->
-                          </div>
-                          <div class="col-lg-6 login-btm login-button">
-                              <button type="submit" class="btn btn-outline-primary">LOGIN</button>
-                          </div>
+                      <!-- Password input -->
+                      <div data-mdb-input-init class="form-outline mb-3">
+                        <input type="password" id="password" class="form-control" [(ngModel)]="credentials.password" name="password" required>
+                          <label class="form-label" for="form3Example4">Password</label>
                       </div>
-                  </form>
-              </div>
+                      
+                      <!-- <div class="d-flex justify-content-between align-items-center">
+                      
+                          <a href="#!" class="text-body">Forgot password?</a>
+                      </div>-->
+
+                      <div class="text-center text-lg-start mt-4 pt-2">
+                          <button  type="submit" data-mdb-button-init
+                              data-mdb-ripple-init class="btn-2"
+                              style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                              login
+                              <!-- <div *ngIf="processConnexion" class="spinner-border spinner-border-sm" role="status">
+                                  
+                              </div> -->
+                          </button>
+                          <br><br><br>
+                          <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+                          <br>
+                         <!--  <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account?
+                              <a href="/register" class="link-danger">Sign Up</a>
+                          </p> -->
+
+                      </div>
+                  </div>
+              </form>
           </div>
-          <div class="col-lg-3 col-md-2"></div>
       </div>
   </div>
-
-
-
+</section>
 
 
 

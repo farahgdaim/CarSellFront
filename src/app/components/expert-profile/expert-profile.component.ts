@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ExpertService } from '../../services/expert.service';
 import { UserService } from '../../services/user.service';
+import { ConversationService } from '../../services/conversation.service';
+import { AuthService } from '../../services/auth.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-expert-profile',
@@ -10,39 +13,53 @@ import { UserService } from '../../services/user.service';
 })
 export class ExpertProfileComponent implements OnInit {
   expert: any = null;
-  user: any = null; // The detailed user profile info corresponding to the expert
+  user: any = null;
   error: string | null = null;
+  loggedInUserId: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private expertService: ExpertService,
-    private userService: UserService
+    private userService: UserService,
+    private conversationService: ConversationService,
+    private authService: AuthService,
+    private router: Router,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id');
     if (!userId) {
       this.error = 'Identifiant de l\'expert manquant.';
+      this.loadingService.hide();
       return;
     }
-    // Option 1: If the expert object is passed in router state:
+    this.loadingService.show();
+
+    // Récupérer l'identifiant de l'utilisateur connecté
+    this.authService.getUser().subscribe({
+      next: (res: any) => {
+        this.loggedInUserId = res.data.id || res.data._id;
+      },
+      error: (err) => {
+        console.error("Erreur lors de la récupération de l'utilisateur connecté", err);
+      }
+    });
+
     if (history.state && history.state.expert) {
       this.expert = history.state.expert;
       this.loadUserProfile(userId);
     } else {
-      // Option 2: Fetch expert info based on userId
-      // For this example, we'll assume that the expert data is tied to the user's ID.
-      // You might need to create a new backend endpoint if needed.
       this.userService.getUserById(userId).subscribe({
         next: (res: any) => {
           this.user = res.data || res;
-          // Here you might also fetch the expert data corresponding to this user.
-          // For simplicity, we'll assume the user data contains expert details.
           this.expert = this.user.expert || null;
+          this.loadingService.hide();
         },
         error: (err) => {
           this.error = 'Erreur lors du chargement du profil expert.';
           console.error(err);
+          this.loadingService.hide();
         }
       });
     }
@@ -52,10 +69,46 @@ export class ExpertProfileComponent implements OnInit {
     this.userService.getUserById(userId).subscribe({
       next: (res: any) => {
         this.user = res.data || res;
+        this.loadingService.hide();
       },
       error: (err) => {
         this.error = 'Erreur lors du chargement du profil utilisateur.';
         console.error(err);
+        this.loadingService.hide();
+      }
+    });
+  }
+
+  startConversation(targetUserId: string): void {
+    this.conversationService.getConversationBetweenUsers(this.loggedInUserId, targetUserId).subscribe({
+      next: (res: any) => {
+        if (res && res.status === 200 && res.data) {
+          const conv = res.data;
+          const userId1 = conv.Ref_id_user1;
+          const userId2 = conv.Ref_id_user2;
+          this.router.navigate(['/conversation', userId1, userId2], { state: { conversation: conv } });
+        } else {
+          this.createNewConversation(targetUserId);
+        }
+      },
+      error: (err) => {
+        console.error("Erreur ou conversation introuvée", err);
+        this.createNewConversation(targetUserId);
+      }
+    });
+  }
+
+  private createNewConversation(targetUserId: string): void {
+    this.conversationService.createConversation(targetUserId).subscribe({
+      next: (createRes: any) => {
+        const newConversation = createRes.data;
+        const userId1 = newConversation.Ref_id_user1;
+        const userId2 = newConversation.Ref_id_user2;
+        this.router.navigate(['/conversation', userId1, userId2], { state: { conversation: newConversation } });
+      },
+      error: (createErr) => {
+        alert('Erreur lors de la création de la conversation.');
+        console.error('Erreur création conversation:', createErr);
       }
     });
   }

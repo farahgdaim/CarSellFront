@@ -67,6 +67,7 @@ export class AnnoncesComponent implements OnInit {
     // Synchroniser la valeur
     this.searchCriteria.marque = this.selectedMarque;
     
+
     if (this.selectedMarque) {
       this.dataService.getModeles(this.selectedMarque).subscribe(data => {
         console.log(this.selectedMarque);
@@ -97,6 +98,7 @@ export class AnnoncesComponent implements OnInit {
     this.dataService.getData().subscribe((res) => {
       //this.annonces = res;
       console.log(res);
+
       // Vérifier si 'res' est un objet et contient 'data'
       if (res && typeof res === 'object' && 'data' in res) {
         this.annonces = res.data;

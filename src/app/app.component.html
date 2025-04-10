@@ -1,10 +1,22 @@
 
 <div id="page-container">
+
   <app-navbar *ngIf="!isAdmin"></app-navbar>
+   <!-- Spinner global -->
+  <div *ngIf="loading | async" class="global-spinner">
+    <div class="spinner"></div>
+  </div>
+
   <div *ngIf="isAdmin">
     <router-outlet></router-outlet>
   </div>
    <div *ngIf="!isAdmin" class="content-wrap container">
+
+ 
+  
+ 
+
+  
     <div class="row">
       <div class="col mt-1 mb-1">
         <div class="col-md-11 mx-auto">
@@ -13,7 +25,8 @@
       </div>
     </div>
   </div> 
-  
-  <app-footer *ngIf="!isAdmin"></app-footer>
+
+  <div class="space"></div>
+  <app-footer class="footer"*ngIf="!isAdmin"></app-footer>
 </div>
 

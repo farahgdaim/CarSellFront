@@ -1,26 +1,28 @@
-<div class="container mt-4" *ngIf="conversation; else errorTemplate">
+<div class="container mt-4 conversation-detail-page" *ngIf="conversation; else errorTemplate">
   <!-- Chat Header -->
-  <div class="chat-header mb-4 p-3 bg-primary text-white rounded-top">
+  <div class="chat-header">
     <div class="d-flex align-items-center">
-      <div class="avatar mr-3">
-        <i class="fas fa-user fa-2x"></i>
+      <div class="avatar">
+        <i class="fas fa-user"></i>
       </div>
       <div>
-        <h4 class="mb-0">{{ conversation.user2?.nom || 'Chat Participant' }} {{ conversation.user2?.prenom || '' }}</h4>
+        <h4 class="chat-title">
+          {{ conversation.user2?.nom || 'Chat Participant' }} {{ conversation.user2?.prenom || '' }}
+        </h4>
       </div>
     </div>
   </div>
 
   <!-- Chat Messages Container -->
-  <div class="chat-messages card mb-4">
-    <div #chatContainer class="card-body" style="height: 60vh; overflow-y: auto;">
+  <div class="chat-messages">
+    <div #chatContainer class="messages-container" style="height: 60vh; overflow-y: auto;">
       <div *ngIf="conversation.messages && conversation.messages.length > 0; else noMessages">
         <div *ngFor="let msg of conversation.messages" class="message-container">
           <!-- Received Message -->
           <div *ngIf="msg.senderId !== userId1" class="message received">
             <div class="message-content">
               <div class="message-text">{{ msg.contenu }}</div>
-              <div class="message-time text-muted">
+              <div class="message-time">
                 <small>{{ msg.dateEnvoi | date:'shortTime' }}</small>
               </div>
             </div>
@@ -29,7 +31,7 @@
           <div *ngIf="msg.senderId === userId1" class="message sent">
             <div class="message-content">
               <div class="message-text">{{ msg.contenu }}</div>
-              <div class="message-time text-light">
+              <div class="message-time">
                 <small>{{ msg.dateEnvoi | date:'shortTime' }}</small>
               </div>
             </div>
@@ -37,16 +39,15 @@
         </div>
       </div>
       <ng-template #noMessages>
-        <div class="text-center text-muted py-4">
+        <div class="no-messages">
           Aucun message pour le moment. Commencez la conversation!
         </div>
       </ng-template>
     </div>
   </div>
   
-
   <!-- Message Input Area -->
-  <div class="message-input bg-light p-3 rounded-bottom">
+  <div class="message-input">
     <div class="input-group">
       <textarea 
         class="form-control" 
@@ -57,7 +58,7 @@
         (keydown.enter)="sendMessage()"
       ></textarea>
       <div class="input-group-append">
-        <button class="btn btn-primary" (click)="sendMessage()">
+        <button class="btn send-btn" (click)="sendMessage()">
           <i class="fas fa-paper-plane"></i>
         </button>
       </div>

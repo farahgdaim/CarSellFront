@@ -1,0 +1,115 @@
+/* body {
+    margin: 0;
+    padding: 0;
+    background-color: #f3f4f6;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+ */
+.main-body {
+    padding: 30px;
+}
+
+  .card-cover {
+    height: 130px;
+    background: linear-gradient(135deg, #3B82F6, #3d5ec9);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+  }
+  
+/* Card style refonte */
+.card {
+    border: 1px solid rgba(102, 95, 95, 0.607);
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+   
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+    height: 130px;
+    object-fit: cover;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    filter: brightness(90%);
+}
+
+/* Profile image */
+.card-body img {
+    width: 90px;
+    height: 90px;
+    margin-top: -50px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Card content */
+.card-body {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.text-secondary {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin-top: 4px;
+}
+
+.text-muted {
+    font-size: 0.85rem;
+    color: #9ca3af;
+}
+
+/* Footer button zone */
+.card-footer {
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    border-radius: 0 0 18px 18px;
+}
+
+.btn-light {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: #fff;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 25px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-light:hover {
+    background: linear-gradient(135deg, #4338ca, #4f46e5);
+    transform: scale(1.05);
+}
+
+/* Grid padding */
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.gutters-sm > .col,
+.gutters-sm > [class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}

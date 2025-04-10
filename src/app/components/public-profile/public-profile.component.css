@@ -1,0 +1,99 @@
+/* Global font for profile pages */
+.public-profile-page {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Card styling */
+.profile-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Header container for profile info */
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Profile picture styling */
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  border: 3px solid #1d2e5f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+
+.profile-picture i {
+  font-size: 4rem;
+  color: #1d2e5f;
+}
+
+/* Profile information styling */
+.profile-info h2 {
+  color: #1d2e5f;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.profile-info p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.profile-info i {
+  margin-right: 8px;
+}
+
+/* Conversation Button Styling */
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.conversation-btn {
+  background-color: #1d2e5f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.conversation-btn:hover {
+  background-color: #151e39;
+}
+
+/* Spinner style (if needed) */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-left-color: #1d2e5f;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,182 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f9fb;
+    color: #2e2e2e;
+  }
+  
+  .container {
+    padding-left: 80px;
+    padding-top: 10px;
+  }
+  
+  .team-single {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.6s ease-in-out;
+  }
+  
+  .team-single-img img {
+    border-radius: 50%;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .bg-light-gray {
+    background: #f0f2f5;
+    border-radius: 15px;
+    margin-top: 20px;
+  }
+  
+  h4.font-weight-600 {
+    color: #333;
+  }
+  
+  .profile-box {
+    padding: 20px;
+  }
+  
+  .profile-name {
+    font-size: 28px;
+    font-weight: bold;
+    color: #212529;
+    margin-bottom: 10px;
+  }
+  
+  .profile-desc {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+  }
+  
+  .info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .info-list li {
+    margin-bottom: 20px;
+  }
+  
+  .text-orange {
+    color: #ff8c00;
+  }
+  
+  .text-yellow {
+    color: #f5b942;
+  }
+  
+  .text-purple {
+    color: #7e57c2;
+  }
+  
+  .text-pink {
+    color: #e91e63;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+  }
+  
+  /* Boutons stylisés 180° avec effet WOW */
+  .actions .btn {
+    position: relative;
+    overflow: hidden;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-size: 16px;
+    color: white;
+    background-size: 200% auto;
+    transition: all 0.4s ease-in-out;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transform: perspective(1px) translateZ(0);
+  }
+  
+  .actions .btn-success {
+    background-image: linear-gradient(to right, #00c9ff 0%, #92fe9d 100%);
+  }
+  
+  .actions .btn-danger {
+    background-image: linear-gradient(to right, #f85032 0%, #e73827 100%);
+  }
+  
+  .actions .btn:hover {
+    background-position: right center;
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  
+    .actions {
+      flex-direction: column;
+    }
+  
+    .team-single-img img {
+      max-width: 180px;
+    }
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .modal {
+    display: none; /* Masqué par défaut */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .modal.show {
+    display: block; /* Affiché lorsque la classe "show" est ajoutée */
+  }
+  
+  .modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .modal h2 {
+    color: #4CAF50;
+    font-size: 24px;
+  }
+  
+  .modal p {
+    font-size: 16px;
+    color: #333;
+  }
+  

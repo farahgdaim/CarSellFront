@@ -1,15 +1,108 @@
-h2 {
+/* Expert Form - Thème EliteAuto */
+.expert-form-page {
+    min-height: 100vh;
+  }
+  
+  .left-panel {
+    padding: 30px;
+    padding-left: 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .text-content {
+    text-align: center;
+  }
+  
+  .logo-img {
+    max-width: 150px;
+    margin-bottom: 20px;
+  }
+  
+  .title {
+    font-size: 1.8rem;
     font-weight: bold;
-}
-
-.form-label {
-font-weight: 500;
-}
-
-ul {
-padding-left: 20px;
-}
-
-.container-fluid {
-background: #f8f9fa;
-}
+    color: #1d2e5f;
+    margin-bottom: 15px;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+  
+  .features-list {
+    list-style-type: none;
+    padding-left: 20px;
+    text-align: left;
+    font-size: 1.1rem;
+  }
+  
+  .features-list li {
+    margin-bottom: 8px;
+  }
+  
+  .right-panel {
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .form-container {
+    width: 100%;
+  }
+  
+  .form-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1d2e5f;
+    margin-bottom: 10px;
+  }
+  
+  .form-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    font-weight: 500;
+    color: #1d2e5f;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .btn.submit-btn {
+    background-color: #1d2e5f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn.submit-btn:hover {
+    background-color: #151e39;
+  }
+  
+  /* Alerts */
+  .alert-success {
+    background-color: #e6f9e9;
+    border: 1px solid #28a745;
+    color: #28a745;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+  
+  .alert-danger {
+    background-color: #ffe5e0;
+    border: 1px solid #B22222;
+    color: #B22222;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+  

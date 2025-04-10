@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-register',
@@ -15,17 +16,19 @@ export class RegisterComponent {
     telephone: ''
   };
 
-  error: string | null = null;
   success: string | null = null;
+  error: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private loadingService: LoadingService) {}
 
   register() {
-    this.error = null; // Reset error before new registration attempt
-    this.success = null; // Reset success before new registration attempt
+    this.error = null; // Reset error
+    this.success = null; // Reset success
+    this.loadingService.show(); // Start loading
 
     this.authService.register(this.user).subscribe({
       next: (res: any) => {
+        this.loadingService.hide(); // Stop loading
         if (res.status === 201) {
           this.success = 'Inscription réussie. Vous pouvez maintenant vous connecter.';
           this.router.navigate(['/login']);
@@ -34,7 +37,7 @@ export class RegisterComponent {
         }
       },
       error: (err: any) => {
-        // Handle backend errors
+        this.loadingService.hide(); // Stop loading
         if (err.status === 400) {
           this.error = 'Les informations fournies ne sont pas valides. Veuillez vérifier les champs.';
         } else if (err.status === 500) {

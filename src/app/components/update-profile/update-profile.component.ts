@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { LoadingService } from '../../services/loading.service';
+
 
 @Component({
   selector: 'app-update-profile',
@@ -23,11 +25,13 @@ export class UpdateProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
-    // Optionnel : charger les informations actuelles de l'utilisateur pour préremplir le formulaire
+    this.loadingService.show();
+    // Charger les informations actuelles de l'utilisateur pour préremplir le formulaire
     this.authService.getUser().subscribe({
       next: (res: any) => {
         const data = res.data;
@@ -35,8 +39,13 @@ export class UpdateProfileComponent implements OnInit {
         this.profile.prenom = data.prenom;
         this.profile.email = data.email;
         this.profile.telephone = data.telephone;
+        this.loadingService.hide();
       },
-      error: (err) => console.error('Erreur lors du chargement du profil', err)
+      error: (err) => {
+        console.error('Erreur lors du chargement du profil', err);
+        this.error = "Erreur lors du chargement du profil.";
+        this.loadingService.hide();
+      }
     });
   }
 
@@ -48,16 +57,19 @@ export class UpdateProfileComponent implements OnInit {
         return;
       }
     }
+    this.loadingService.show();
     this.userService.updateProfile(this.profile).subscribe({
       next: (res: any) => {
         this.success = 'Profil mis à jour avec succès';
         this.error = null;
-        // Navigate back to the profile page after a successful update
+        this.loadingService.hide();
+        // Navigation vers la page profil après une mise à jour réussie
         this.router.navigate(['/profile']);
       },
       error: (err: any) => {
         this.error = err.error.data || 'Erreur lors de la mise à jour du profil';
         this.success = null;
+        this.loadingService.hide();
       }
     });
   }

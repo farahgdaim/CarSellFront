@@ -1,4 +1,4 @@
-<div class="container mt-5" *ngIf="expertRequest; else errorTemplate">
+<!-- <div class="container mt-5" *ngIf="expertRequest; else errorTemplate">
   <h2>Détails de la Demande Expert</h2>
   <div class="card mb-3">
     <div class="card-body">
@@ -6,12 +6,12 @@
       <p><strong>Domaine d'expertise:</strong> {{ expertRequest.domaineExpertise }}</p>
       <p><strong>Années d'expérience:</strong> {{ expertRequest.anneesExperience }}</p>
       <p><strong>Status:</strong> {{ expertRequest.status }}</p>
-      <!-- Display certification PDF link if available -->
+    
       <div *ngIf="expertRequest.certifications && expertRequest.certifications.length > 0">
         <p><strong>Certification PDF:</strong></p>
         <ul>
           <li *ngFor="let cert of expertRequest.certifications">
-            <!-- Assuming cert contains the file path, adjust if necessary -->
+           
             <a [href]="'http://localhost:8000/storage/' + cert" target="_blank">
               Voir la Certification
             </a>
@@ -31,3 +31,120 @@
     {{ error }}
   </div>
 </ng-template>
+ -->
+<app-admin-navbar></app-admin-navbar>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+ <div class="container" style="padding-left: 80px;padding-top: 10px;">
+     <div class="team-single">
+         <div class="row">
+             <div class="col-lg-4 col-md-5 xs-margin-30px-bottom">
+                 <div class="team-single-img">
+                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                 </div>
+                 <div class="bg-light-gray padding-30px-all md-padding-25px-all sm-padding-20px-all text-center">
+                     <h4 class="margin-10px-bottom font-size24 md-font-size22 sm-font-size20 font-weight-600" >{{ expertRequest.domaineExpertise }}</h4>
+        
+                 </div>
+             </div>
+ 
+             <div class="col-lg-8 col-md-7">
+                 <div class="profile-box">
+                     <h4 class="profile-name ">{{ expertRequest.utilisateur_nom }}  {{ expertRequest.utilisateur_prenom}}</h4>
+                     <p class="profile-desc">
+                      {{ expertRequest.utilisateur_nom }} {{ expertRequest.utilisateur_prenom }} postule en tant qu’expert(e) sur notre plateforme, dans le domaine de {{ expertRequest.domaineExpertise }}. Avec {{ expertRequest.anneesExperience }} années d’expérience, il/elle souhaite accompagner et conseiller les membres grâce à son expertise. Cette demande est en cours de traitement par notre équipe administrative.
+                      </p>
+                      <br><br>
+                      <div class="contact-info-section margin-40px-tb">
+                         <ul class=" info-list ">
+                             <li>
+ 
+                                 <div class="row">
+                                     <div class="col-md-5 col-5">
+                                         <i class="fas fa-graduation-cap text-orange"></i>
+                                         <strong class="margin-10px-left text-orange">Domaine d'Expertise:</strong>
+                                     </div>
+                                     <div class="col-md-7 col-7">
+                                         <p>{{ expertRequest.domaineExpertise }}</p>
+                                     </div>
+                                 </div>
+ 
+                             </li>
+                             <li>
+ 
+                                 <div class="row">
+                                     <div class="col-md-5 col-5">
+                                         <i class="far fa-gem text-yellow"></i>
+                                         <strong class="margin-10px-left text-yellow">Annèes d'Experience:</strong>
+                                     </div>
+                                     <div class="col-md-7 col-7">
+                                         <p>{{ expertRequest.anneesExperience }}</p>
+                                     </div>
+                                 </div>
+ 
+                             </li>
+                        
+
+                             <li>
+ 
+                                 <div class="row">
+                                     <div class="col-md-5 col-5">
+                                         <i class="fas fa-mobile-alt text-purple"></i>
+                                         <strong class="margin-10px-left xs-margin-four-left text-purple">Telephone:</strong>
+                                     </div>
+                                     <div class="col-md-7 col-7">
+                                         <p>(+216) {{ expertRequest.utilisateur_tel}}</p>
+                                     </div>
+                                 </div>
+ 
+                             </li>
+                             <li>
+                                 <div class="row">
+                                     <div class="col-md-5 col-5">
+                                         <i class="fas fa-envelope text-pink"></i>
+                                         <strong class="margin-10px-left xs-margin-four-left text-pink">Email:</strong>
+                                     </div>
+                                     <div class="col-md-7 col-7">
+                                         <p><a href="javascript:void(0)">{{ expertRequest.utilisateur_email}}</a></p>
+                                     </div>
+                                 </div>
+                             </li>
+
+
+                             <li>
+                              <div class="row">
+                                  <div class="col-md-5 col-5" *ngIf="expertRequest.certifications && expertRequest.certifications.length > 0">
+                                      <i class="fas fa-award text-pink "> </i>
+                                      <strong class="margin-10px-left xs-margin-four-left text-pink">Cerification:</strong>
+                                  </div>
+                                  <div class="col-md-7 col-7">
+                                    <ul>
+                                      <li *ngFor="let cert of expertRequest.certifications">
+                                       
+                                        <a [href]="'http://localhost:8000/storage/' + cert" target="_blank">
+                                          Voir la Certification
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                              </div>
+                          </li>
+                         </ul>
+                     </div>
+ 
+                 </div>
+             </div>
+             <div class="modal" [ngClass]="{'show': modalVisible}" (click)="closeModal()">
+              <div class="modal-content" (click)="$event.stopPropagation()">
+                <span class="close" (click)="closeModal()">&times;</span>
+                <h2>La demande d'expertise est acceptée avec succès !</h2>
+                <p>Votre acceptation a bien été pris en compte.</p>
+              </div>
+            </div>
+    
+             <div class="actions">
+              <button class="btn btn-danger" (click)="rejectRequest()">Rejeter</button>
+              <button class="btn btn-success" (click)="acceptRequest()">Accepter</button>
+            </div>
+         </div>
+     </div>
+ </div>

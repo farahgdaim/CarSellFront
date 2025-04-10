@@ -18,14 +18,22 @@ export class AdminLoginComponent {
   login() {
     this.error = null; // Reset error before new login attempt
 
+    if (!this.credentials.email ) {
+      this.error = 'Veuillez entrer votre adresse e-mail.';
+      return;
+    }
+    if(!this.credentials.password){
+      this.error = 'Veuillez entrer votre mot de passe .';
+      return;
+    }
     this.adminAuth.login(this.credentials).subscribe({
       next: (res: any) => {
         if (res.data && res.data.access_token) {
           // Store the token and navigate
           localStorage.setItem('authToken', res.data.access_token);
-          this.router.navigate(['/admin/profile']);
+          this.router.navigate(['admin/dashboard']);
         } else {
-          this.error = 'Une erreur inattendue est survenue. Veuillez réessayer.';
+          this.error = 'Identifiants invalides. Veuillez vérifier vos informations.';
         }
       },
       error: (err: any) => {

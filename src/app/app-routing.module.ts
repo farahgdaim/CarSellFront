@@ -32,6 +32,8 @@ import { ExpertsListComponent } from './components/experts-list/experts-list.com
 import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
 import { MesAnnoncesComponent } from './components/mes-annonces/mes-annonces.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { RepportedAnnoncesComponent } from './components/repported-annonces/repported-annonces.component';
+import { RepportedAnnoncesDetailsComponent } from './components/repported-annonces-details/repported-annonces-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'annonces', pathMatch: 'full' },
@@ -58,6 +60,9 @@ const routes: Routes = [
   { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
   { path: 'admin/dashboard', component: AdminDashboardComponent},
+  { path: 'admin/repported-annonces', component: RepportedAnnoncesComponent},
+  { path: 'admin/repported-annonces/:id', component: RepportedAnnoncesDetailsComponent },
+
 
   // { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'experts', component: ExpertsListComponent, canActivate: [AuthGuard] },

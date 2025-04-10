@@ -1,20 +1,116 @@
-/* Compact layout for form rows */
+/* Create Annonce - Thème EliteAuto */
+
+.create-annonce-page {
+  font-family: 'Poppins', sans-serif;
+  color: #1d2e5f;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo img {
+  max-height: 50px;
+}
+.step-indicator h4 {
+  margin: 0;
+  font-weight: bold;
+}
+
+/* Formulaire multi-étapes */
+.step {
+  margin-top: 20px;
+}
 .form-row {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
 }
-
 .form-group {
   flex: 1;
   min-width: 200px;
 }
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+.form-control, .form-select {
+  padding: 8px;
+  border: 1px solid #1d2e5f;
+  border-radius: 6px;
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
 
+/* Messages d'erreur et infos */
+.error {
+  color: #B22222;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+.alert.error {
+  background-color: #ffe5e0;
+  border: 1px solid #B22222;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+.info {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* Navigation entre étapes */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.btn-prev {
+  background-color: #B22222;
+  color: #fff;
+}
+.btn-prev:hover {
+  background-color: #a11d1d;
+}
+.btn-next {
+  background-color: #1d2e5f;
+  color: #fff;
+}
+.btn-next:hover {
+  background-color: #151e39;
+}
+.btn-submit {
+  background-color: #1d2e5f;
+  color: #fff;
+  width: 30%;
+  left: auto;
+}
+.btn-submit:hover {
+  background-color: #151e39;
+}
 
 /* Only style labels that directly contain an input[type="radio"] */
 label:has(> input[type="radio"]) {
   display: inline-block;
+  font-size: 15px;
+  font-weight:600;
   cursor: pointer;
   border: 2px solid #ccc;
   border-radius: 10px;
@@ -23,51 +119,137 @@ label:has(> input[type="radio"]) {
   transition: background-color 0.3s, border-color 0.3s;
 }
 
-label:has(> input[type="radio"]):hover {
-  background-color: #d9f2ff;
-  border-color: #5086c1;
-}
-
-label:has(> input[type="radio"]:checked) {
-  background-color: #d9f2ff;
-  border-color: #5086c1;
-}
-
-
 /* Equipment card: hide checkboxes only inside these cards */
 .equipment-card input[type="checkbox"],  input[type="radio"]{
   display: none;
 }
 
+/* Équipements */
+.equipments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 15px;
+}
+
 .equipment-card {
+  width: 18%;           /* Fixed width for uniformity */
+  padding: 10px;
+  border: 1px solid #1d2e5f;
+  font-size: 15px;
+  font-weight:600;
+  font-size: 15px;
+  border-radius: 8px;
+  text-align: center;
   cursor: pointer;
   transition: transform 0.2s, border 0.2s;
 }
 
-.equipment-card:hover {
+.equipment-card:hover, label:has(> input[type="radio"]):hover {
   transform: scale(1.02);
+  color: #B22222;
+  border: 2px solid #B22222;
 }
 
-.equipment-card.selected {
-  border: 2px solid #007bff;
+.equipment-card.selected, label:has(> input[type="radio"]:checked) {
+  color: #B22222;
+  background-color: #ffe5e0;
+  border: 2px solid #B22222;
 }
 
-/* Sponsoring card selection styling */
+.equipment-card img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.equipment-card p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+
+/* Sponsoring */
+.sponsoring-options {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
 .sponsoring-card {
-  cursor: pointer;
+  flex: 1;
+  min-width: 200px;
+  border: 1px solid #1d2e5f;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
   transition: transform 0.2s, border 0.2s;
-  border: 1px solid #ddd;
+  cursor: pointer;
 }
-
 .sponsoring-card:hover {
   transform: scale(1.02);
 }
-
 .sponsoring-card.selected-pack {
-  border: 2px solid #28a745;
+  background-color: #ffe5e0;
+  border: 2px solid #B22222;
+}
+.sponsoring-card h6 {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.sponsoring-card p {
+  font-size: 0.9rem;
+}
+.sponsoring-card .btn {
+  margin-top: 10px;
+  background-color: transparent;
+  border: 1px solid #1d2e5f;
+  color: #1d2e5f;
+  width: 100%;
+}
+.sponsoring-card .btn.selected-btn {
+  background-color: #1d2e5f;
+  color: #fff;
 }
 
-/* Optional: adjust spacing for buttons */
-.btn {
-  margin-top: 0.5rem;
+
+/* Ensure the buttons are positioned relatively so the arrows can be positioned absolutely */
+.btn-next,
+.btn-prev {
+  position: relative;
+}
+
+/* Arrow for the Next button */
+.btn-next::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -39px;
+  border-style: solid;
+  border-width: 21px;
+  /* Create a right-pointing arrow using the background color of the button */
+  border-color: transparent transparent transparent #1d2e5f;
+}
+
+.btn-next:hover::after {
+  border-left-color: #151e39;
+}
+
+/* Arrow for the Prev button */
+.btn-prev::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -39px;
+  border-style: solid;
+  border-width: 21px;
+  /* Create a left-pointing arrow using the background color of the button */
+  border-color: transparent #B22222 transparent transparent;
+}
+
+.btn-prev:hover::after {
+  border-right-color: #a11d1d;
 }

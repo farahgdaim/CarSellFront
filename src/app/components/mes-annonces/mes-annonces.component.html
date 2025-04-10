@@ -1,21 +1,7 @@
 <div class="container">
     <h2>Mes annonces</h2>
     
-   <!--  <div *ngIf="annonces.length === 0">
-      <p>Aucune annonce trouvée.</p>
-    </div> 
-  
-    <div class="annonce-list" *ngFor="let annonce of annonces">
-      <div class="annonce-card">
-        <img [src]="'/assets/images/' + annonce.images[0]?.chemin" alt="Image annonce">
-        <h3>{{ annonce.titre }}</h3>
-        <p>{{ annonce.description }}</p>
-        <p><strong>Prix :</strong> {{ annonce.prix }} €</p>
-        <p><strong>Marque :</strong> {{ annonce.vehicule.Marque }}</p>
-        <p><strong>Modèle :</strong> {{ annonce.vehicule['Modèle'] }}</p>
-        <p><strong>Kilométrage :</strong> {{ annonce.vehicule['Kilométrage'] }} km</p>
-      </div>
-    </div>-->
+   
     <div class="col-lg-9 col-md-8"id="annonces" >
         <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-12 d-flex" *ngFor="let ann of annonces">
