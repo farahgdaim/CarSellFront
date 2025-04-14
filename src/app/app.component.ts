@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent implements OnInit {
   title = 'Frontend';
   loading: Observable<boolean>;
@@ -44,4 +45,9 @@ export class AppComponent implements OnInit {
     const currentRoute = this.router.url;
     return currentRoute === '/login' || currentRoute === '/register';
   }
+
+
 }
+
+
+

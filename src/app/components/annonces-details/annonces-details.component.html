@@ -1,3 +1,208 @@
-<section >
-    annonce détails
-</section>
+<!--Main Navigation-->
+<header>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="annonces-details.component.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
+
+</header>
+<!--Main Navigation-->
+
+<!--Main layout-->
+<main class="mt-5">
+  <div class="container">
+    <div class="services-title">
+      <h1 style="color:#1d2e5f; margin-top: 140 px;">{{ annonce.titre }}</h1>
+    </div>
+    <!--Section: Content-->
+    <section class="annonce-container">
+      <!-- CARROUSEL -->
+      <div class="carousel-container">
+        <div class="slides-container">
+          <div class="slides" [style.transform]="'translateX(' + (-currentSlide * 100) + '%)'">
+            <div class="slide" *ngFor="let image of annonce.images; let i = index">
+              <img [src]="'http://127.0.0.1:8000' + image.url" alt="Image de la voiture" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Dots dynamiques sous le carrousel -->
+        <div class="dots">
+          <span *ngFor="let image of annonce.images; let i = index" (click)="goToSlide(i)"
+            [class.active]="i === currentSlide">
+          </span>
+        </div>
+      </div>
+
+      <!-- SECTION INFO -->
+      <section class="info-container">
+
+        <h1>{{ formatPrix(annonce.prix) }} DT</h1>
+
+        <ul class="info-list">
+
+          <li>
+            <i class="fas fa-tags"></i>
+            <span>Catégorie</span>
+            <strong class="right">{{ annonce.vehicule['Categorie'] }}</strong>
+          </li>
+          <li>
+            <i class="fas fa-car"></i>
+            <span>Marque</span>
+            <strong class="right">{{ annonce.vehicule['Marque'] }}</strong>
+          </li>
+          <li>
+            <i class="fas fa-car-side"></i>
+            <span>Modèle</span>
+            <strong class="right">{{ annonce.vehicule['Modèle'] }}</strong>
+          </li>
+          <li>
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Kilométrage</span>
+            <strong class="right">{{ annonce.vehicule['Kilométrage'] }} KM</strong>
+          </li>
+          <li>
+            <i class="far fa-calendar-alt"></i>
+            <span>Mise en circulation</span>
+            <strong class="right">{{ annonce.vehicule['DateDeMiseEnCirculation'] }}</strong>
+          </li>
+
+          <li>
+            <i class="fas fa-gas-pump"></i>
+            <span>Énergie</span>
+            <strong class="right">{{ annonce.vehicule.TypeCarburant }}</strong>
+          </li>
+
+          <li>
+            <i class="fas fa-cogs"></i>
+            <span>Boîte vitesse</span>
+            <strong class="right">{{ annonce.vehicule.boiteVitesse }}</strong>
+          </li>
+
+          <li>
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Puissance fiscale</span>
+            <strong class="right">{{ annonce.vehicule.Puissance }}</strong>
+          </li>
+
+          <li>
+            <i class="far fa-calendar-check"></i>
+            <span>Date de l'annonce</span>
+            <strong class="right">{{ annonce.created_at | date: 'yyyy-MM-dd' }}</strong>
+          </li>
+        </ul>
+
+        <div class="contact-buttons">
+
+          <button class="btn start-discussion">
+            <i class="fas fa-comment-alt"></i> Lancer Discussion
+          </button>
+
+          <button class="btn buy">
+            <i class="fas fa-shopping-cart"></i> Acheter Véhicule
+          </button>
+        </div>
+
+      </section>
+
+    </section>
+
+    <section class="Desc-container">
+      <h2 class="section-title">Description</h2>
+      <div class="title-divider"></div>
+
+
+      <p>{{annonce.description}}</p>
+    </section>
+
+    <section class="annonce-container">
+
+
+      <!-- SECTION INFO -->
+      <section class="info-container">
+
+
+        <h2 class="section-title">Détails du Véhicule</h2>
+        <div class="title-divider"></div>
+
+
+        <ul class="info-list">
+
+          <!-- Cylindre -->
+          <li>
+            <i class="fas fa-cogs"></i> <!-- Icône pour la mécanique -->
+            <span>Cylindre</span>
+            <strong class="right">{{ annonce.vehicule['Cylindre'] }} </strong>
+          </li>
+
+          <!-- Nombre de Portes -->
+          <li>
+            <i class="fas fa-door-open"></i> <!-- Icône pour les portes -->
+            <span>Nombre de Portes</span>
+            <strong class="right">{{ annonce.vehicule['nbPortes'] }}</strong>
+          </li>
+
+          <!-- État du Véhicule -->
+          <li>
+            <i class="fas fa-info-circle"></i> <!-- Icône pour l'information ou l'état -->
+            <span>État</span>
+            <strong class="right">{{ annonce.vehicule['etat'] }}</strong>
+          </li>
+
+        </ul>
+        <div class="modal" [ngClass]="{'show': modalVisible}" (click)="closeModal()">
+          <div class="modal-content" (click)="$event.stopPropagation()">
+            <span class="close" (click)="closeModal()">&times;</span>
+            <h2>Annonce Signalée avec Succès!</h2>
+            <p>Votre signalement a bien été pris en compte. Merci !</p>
+          </div>
+        </div>
+
+        <div class="contact-buttons">
+          <button class="btn report" (click)="reportAnnonce('annonce.id')">
+            <i class="fas fa-exclamation-triangle"></i> Signaler
+          </button>
+
+          <button class="btn status">
+            <i class="fas fa-tasks"></i> État Demande d'Évaluation
+          </button>
+
+        </div>
+      </section>
+      <section class="Equip-container">
+        <h2>Équipements</h2>
+        <hr />
+
+        <div class="equipements-container">
+          <div *ngFor="let categorie of categories" class="equipement-card">
+            <h3>{{ categorie.nom }}</h3>
+            <ul>
+              <li *ngFor="let equip of categorie.equipements" [class.gris]="equip.estEnGris">
+                <span *ngIf="equip.estEnGris">✔️</span> {{ equip.nom }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+        <!-- <div class="contact-buttons">
+          <button class="btn phone">
+             <i class="fas fa-phone-alt"></i> {{ annonce.contact.telephone }}
+          </button>
+          <button class="btn sms">
+            <i class="fas fa-sms"></i> SMS
+          </button>
+          <button class="btn whatsapp">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </button>
+        </div> -->
+      </section>
+
+    </section>
+  </div>

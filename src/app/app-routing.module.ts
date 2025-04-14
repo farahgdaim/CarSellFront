@@ -2,7 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { AnnoncesComponent } from './components/annonces/annonces.component';
+import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { FormsModule } from '@angular/forms';
+import { AnnoncesDetailsComponent } from './components/annonces-details/annonces-details.component';
 import { CarCarouselComponent } from './components/car-carousel/car-carousel.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
@@ -22,17 +26,16 @@ import { NotificationListComponent } from './components/notification-list/notifi
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { ConversationListComponent } from './components/conversation-list/conversation-list.component';
 import { ConversationDetailComponent } from './components/conversation-detail/conversation-detail.component';
-import { AnnoncesComponent } from './components/annonces/annonces.component';
-import { AnnoncesDetailsComponent } from './components/annonces-details/annonces-details.component';
 import { ExpertsListComponent } from './components/experts-list/experts-list.component';
 import { ExpertProfileComponent } from './components/expert-profile/expert-profile.component';
-
+import { MesAnnoncesComponent } from './components/mes-annonces/mes-annonces.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component'; // Ensure this exists
 
 const routes: Routes = [
-
-  { path: '', component: AnnoncesComponent },
+  { path: '', redirectTo: 'annonces', pathMatch: 'full' },
+  { path: 'annonces', component: AnnoncesComponent },
   { path: 'annonce/:id', component: AnnoncesDetailsComponent },
-  
+  { path: 'mesAnnonces', component: MesAnnoncesComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'devenir-expert', component: ExpertFormComponent, canActivate: [AuthGuard] },
@@ -48,23 +51,20 @@ const routes: Routes = [
   { path: 'admin/profile', component: AdminProfileComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'experts', component: ExpertsListComponent, canActivate: [AuthGuard] },
   { path: 'expert-profile/:id', component: ExpertProfileComponent, canActivate: [AuthGuard] },
-  
-  
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'annonces' }, // Redirect invalid URLs to 'annonces'
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      scrollPositionRestoration: 'enabled', // restaure la position à 0,0 lors de la navigation
-      anchorScrolling: 'enabled',            // active le scroll vers l'ancre
-      scrollOffset: [0, 64]                  // optionnel : ajuste le décalage en cas de navbar fixe, par exemple
-    })
+      scrollPositionRestoration: 'enabled', // Restore scroll position on navigation
+      anchorScrolling: 'enabled', // Enable anchor scrolling
+      scrollOffset: [0, 64], // Adjust for fixed navbar offset
+    }),
   ],
-  
-  
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

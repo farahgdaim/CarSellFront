@@ -92,12 +92,24 @@
                         </div>
                         <div class="filter-group">
                             <label><i class="fas fa-car"></i> Marque :</label>
-                            <input type="text" [(ngModel)]="searchCriteria.marque" name="marque">
-                        </div>
-                        <div class="filter-group">
+                            <select [(ngModel)]="selectedMarque" (change)="onMarqueChange()" name="marque">
+                                <option *ngFor="let marque of marques" [value]="marque.id">
+                                  {{ marque.id }} ({{ marque.count }})
+                                </option>
+                              
+                              </select>
+                              
+                              
+                          </div>
+                          <div class="filter-group">
                             <label><i class="fas fa-cogs"></i> Modèle :</label>
-                            <input type="text" [(ngModel)]="searchCriteria.modele" name="modele">
-                        </div>
+                            <select [(ngModel)]="searchCriteria.modele" name="modele" [disabled]="!selectedMarque">
+                              <option *ngFor="let modele of modeles" [value]="modele">
+                                {{ modele }}
+                              </option>
+                            </select>
+                          </div>
+                          
                         <div class="filter-group">
                             <label><i class="fas fa-tachometer-alt"></i> Puissance :</label>
                             <input type="number" [(ngModel)]="searchCriteria.puissance" name="puissance">
@@ -137,7 +149,7 @@
                                 <option value="endommagé">Endommagé</option>
                             </select>
                         </div>
-                        <div class="filter-group">
+<!--                         <div class="filter-group">
                             <label><i class="fas fa-tools"></i> Équipements :</label>
                             <div class="equipements-container">
                                 <div class="equipement-item" *ngFor="let equipement of equipementsOptions">
@@ -146,17 +158,17 @@
                                     <span>{{equipement}}</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <button type="submit" class="filter-btn"><i class="fas fa-search"></i> Rechercher</button>
                     </form>
                 </div>
             </div>
 
             <!-- Annonces -->
-            <div class="col-lg-9 col-md-8" id="annonces">
+            <div class="col-lg-9 col-md-8"id="annonces" >
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-12 d-flex" *ngFor="let ann of annonces">
-                        <div class="card annonce-card w-100 my-2 shadow-2-strong" [routerLink]="['/annonce', ann.id]"(click)="logAnnonce(ann)">
+                        <div class="card annonce-card w-100 my-2 shadow-2-strong" [routerLink]="['/annonce', ann.id]"(click)="goToAnnonceDetails(ann.id)">
                             <img [src]="'http://127.0.0.1:8000' + ann.images[0]?.url" alt="Image de l'annonce"class="card-img-top"
                             style="aspect-ratio: 1 / 1"
                             alt="Image de l'annonce" />
@@ -185,6 +197,7 @@
                         </div>
                     </div>
                 </div>
+                
 
             </div>
         </div>
