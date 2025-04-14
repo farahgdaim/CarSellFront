@@ -7,6 +7,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { LoadingService } from './services/loading.service';
 
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,6 +17,7 @@ import { LoadingService } from './services/loading.service';
 export class AppComponent implements OnInit {
   title = 'Frontend';
   loading: Observable<boolean>;
+
 
   isAdmin: boolean = false;
 
@@ -27,6 +29,11 @@ export class AppComponent implements OnInit {
     });
     this.loading = this.loadingService.loading$;
   }
+/* =======
+  constructor(private navbarService: NavbarService, private loadingService: LoadingService, private router: Router) {
+    this.loading = this.loadingService.loading$; // Initialize the loading observable
+>>>>>>> origin/malek
+  } */
   
 
   ngOnInit(): void {
@@ -49,12 +56,17 @@ export class AppComponent implements OnInit {
     let dynamicMargin = viewportHeight < contentHeight + footerHeight
       ? viewportHeight / 2 // Adjust this value as needed
       : 0;
-    dynamicMargin = dynamicMargin + 20; // Add extra spacing
+    dynamicMargin = dynamicMargin + 50; // Add extra spacing
     document.documentElement.style.setProperty('--dynamic-margin', `${dynamicMargin}px`);
   }
 
 
+
+
+
+  isLoginOrRegister(): boolean {
+    const currentRoute = this.router.url;
+    return currentRoute === '/login' || currentRoute === '/register';
+  }
 }
-
-
 

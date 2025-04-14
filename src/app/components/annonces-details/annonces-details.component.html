@@ -100,7 +100,7 @@
 
         <div class="contact-buttons">
 
-          <button class="btn start-discussion">
+          <button class="btn start-discussion" (click)="startConversation(annonce.Ref_id_user)">
             <i class="fas fa-comment-alt"></i> Lancer Discussion
           </button>
 
@@ -171,7 +171,44 @@
             <i class="fas fa-exclamation-triangle"></i> Signaler
           </button>
 
-          <button class="btn status">
+          <div class="modal" [ngClass]="{'show': modalVisible1}" (click)="closeModal1()">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+              <span class="close" (click)="closeModal1()">&times;</span>
+              <h2 [ngClass]="modalSuccess ? 'text-green-600' : 'text-red-600'">
+                {{ modalSuccess1 ? 'Demande déjà envoyée' : 'Lancez une évaluation professionnelle' }}
+              </h2>
+              <p>{{ modalMessage1 }}</p>
+              <div *ngIf="showContinueButton" class="mt-4 flex justify-end">
+                <button (click)="continuerEvaluation()" class="btn report">
+                  Continuer
+                </button>
+              </div>
+
+              <div class="modal" [ngClass]="{'show': modalVisible2}" (click)="closeModal2()">
+                <div class="modal-content" (click)="$event.stopPropagation()">
+                  <span class="close" (click)="closeModal2()">&times;</span>
+                  <h2 [ngClass]="modalSuccess2 ? 'text-green-600' : 'text-red-600'">
+                    {{ modalSuccess2 ? 'rapport submitted' : 'Rapport en cours de préparation' }}
+                  </h2>
+                  <p>{{ modalMessage2 }}</p>
+                </div>
+              </div>
+              <div *ngIf="showReportActions" class="flex justify-between mt-6">
+                <button (click)="consulterRapport(annonce.id)" class=" bn rapport">
+                  Consulter le rapport
+                </button>
+                <button (click)="payerExpert()" class="bn payer">
+                  Payer l’expert
+                </button>
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          <button class="btn status" (click)="Evaluationverif(annonce.id)">
             <i class="fas fa-tasks"></i> État Demande d'Évaluation
           </button>
 

@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule ,Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+
+
 import { AnnoncesComponent } from './components/annonces/annonces.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -12,7 +15,7 @@ import { CarCarouselComponent } from './components/car-carousel/car-carousel.com
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ExpertFormComponent } from './components/expert-form/expert-form.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
@@ -26,7 +29,6 @@ import { AdminExpertRequestDetailComponent } from './components/admin-expert-req
 import { NotificationListComponent } from './components/notification-list/notification-list.component';
 import { ConversationListComponent } from './components/conversation-list/conversation-list.component';
 import { ConversationDetailComponent } from './components/conversation-detail/conversation-detail.component';
-import { UserListComponent } from './components/user-list/user-list.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 
 import { ExpertsListComponent } from './components/experts-list/experts-list.component';
@@ -40,6 +42,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { AdminNavbarComponent } from './components/admin-navbar/admin-navbar.component';
 import { RepportedAnnoncesComponent } from './components/repported-annonces/repported-annonces.component';
 import { RepportedAnnoncesDetailsComponent } from './components/repported-annonces-details/repported-annonces-details.component';
+import { SelectionExpertComponent } from './components/selection-expert/selection-expert.component';
+import { MesAnnoncesDetailsComponent } from './components/mes-annonces-details/mes-annonces-details.component';
+import { RapportComponent } from './components/rapport/rapport.component';
 
 
 
@@ -49,7 +54,6 @@ import { RepportedAnnoncesDetailsComponent } from './components/repported-annonc
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent,
     AnnoncesComponent,
     NavbarComponent,
     AnnoncesDetailsComponent,
@@ -67,7 +71,6 @@ import { RepportedAnnoncesDetailsComponent } from './components/repported-annonc
     NotificationListComponent,
     ConversationListComponent,
     ConversationDetailComponent,
-    UserListComponent,
     PublicProfileComponent,
     ExpertsListComponent,
     ExpertProfileComponent,
@@ -76,6 +79,9 @@ import { RepportedAnnoncesDetailsComponent } from './components/repported-annonc
     AdminNavbarComponent,
     RepportedAnnoncesComponent,
     RepportedAnnoncesDetailsComponent,
+    SelectionExpertComponent,
+    MesAnnoncesDetailsComponent,
+    RapportComponent,
    
     
     

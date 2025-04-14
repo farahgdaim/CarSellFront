@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-register',
-  templateUrl: './admin-register.component.html'
+  templateUrl: './admin-register.component.html',
+  styleUrls: ['./admin-register.component.css']
 })
 export class AdminRegisterComponent {
   adminData = {

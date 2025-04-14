@@ -15,6 +15,7 @@ html, body {
   /* This content area expands to fill available space */
   .content-wrap {
     flex: 1;
+    padding-top: 20px;
   }
   
   /* Optionally, add margin at the top if needed */

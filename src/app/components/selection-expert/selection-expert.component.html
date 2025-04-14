@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+  integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+<h2>choisir un expert </h2>
+<div class="container experts-list-page mt-4">
+
+  <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+
+  <!-- Experts Grid -->
+  <div class="experts-grid" *ngIf="experts && experts.length; else noExpertsTemplate">
+    <div class="expert-card" *ngFor="let expert of experts">
+
+      <!-- Card Header: Photo (or Icon) and Full Name -->
+      <div class="card-header" (click)="viewExpertProfile(expert)">
+        <div class="expert-photo">
+          <!-- If a photo URL is available, display it; otherwise, show a default icon -->
+          <img *ngIf="expert.photo" [src]="expert.photo" alt="Photo de {{ expert.nom }} {{ expert.prenom }}" />
+          <div *ngIf="!expert.photo" class="default-photo">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+        <h5 class="expert-name">
+          {{ expert.nom || 'Nom Inconnu' }} {{ expert.prenom || 'Prénom Inconnu' }}
+        </h5>
+      </div>
+
+      <!-- Card Body: Expertise, Experience, and Button -->
+      <div class="card-body">
+        
+        <p class="expert-domain">
+          <strong>Domaine:</strong> {{ expert.domaineExpertise || 'Non renseigné' }}
+        </p>
+        <p class="experience">
+          <strong>Expérience:</strong> {{ expert.anneesExperience || 0 }} ans
+        </p>
+
+        <!-- Bouton intégré dans chaque carte -->
+        <button class="btn conversation-btn mt-3"
+                (click)="demanderEvaluation(expert); $event.stopPropagation()">
+          Demander l'Évaluation
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Modal d'information -->
+    <div class="modal" [ngClass]="{'show': modalVisible}" (click)="closeModal();">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2 [ngClass]="modalSuccess ? 'text-green-600' : 'text-red-600'">
+          {{ modalSuccess ? 'Demande d\'évaluation envoyée !' : 'Échec de l\'envoi' }}
+        </h2>
+        <p>{{ modalMessage }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Fallback template when no experts are available -->
+<ng-template #noExpertsTemplate>
+  <p class="no-experts">Aucun expert à afficher.</p>
+</ng-template>

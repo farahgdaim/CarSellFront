@@ -1,44 +1,61 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../../services/notification.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-notification-list',
-  templateUrl: './notification-list.component.html'
+  templateUrl: './notification-list.component.html',
+  styleUrls: ['./notification-list.component.css']
 })
 export class NotificationListComponent implements OnInit {
   notifications: any[] = [];
   error: string | null = null;
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private loadingService: LoadingService
+  ) {}
 
   ngOnInit(): void {
     this.loadNotifications();
   }
 
   loadNotifications() {
+    this.loadingService.show();
     this.notificationService.getNotifications().subscribe({
       next: (res: any) => {
-        this.notifications = (res.data || []).sort((a: any, b: any) => {
+        let unsorted = res.data || [];
+        // Conserver l'index original pour chaque notification
+        unsorted = unsorted.map((notification: any, index: number) => ({
+          ...notification,
+          originalIndex: index
+        }));
+        // Trier en plaçant les notifications non lues en premier
+        this.notifications = unsorted.sort((a: any, b: any) => {
           if (a.statut === 'non_lu' && b.statut !== 'non_lu') return -1;
           if (a.statut !== 'non_lu' && b.statut === 'non_lu') return 1;
           return 0;
         });
+        this.loadingService.hide();
       },
       error: (err) => {
         this.error = 'Erreur lors du chargement des notifications.';
         console.error(err);
+        this.loadingService.hide();
       }
     });
   }
-
-  markNotificationAsRead(index: number) {
-    this.notificationService.markAsRead(index).subscribe({
+  
+  markNotificationAsRead(notification: any) {
+    // Utiliser originalIndex pour marquer comme lue
+    this.notificationService.markAsRead(notification.originalIndex).subscribe({
       next: (res: any) => {
-        this.loadNotifications(); // Refresh notifications after marking one as read
+        this.loadNotifications(); // Recharge les notifications après mise à jour
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error(err);
       }
     });
   }
+  
 }

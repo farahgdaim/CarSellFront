@@ -5,7 +5,8 @@ import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   credentials = {
@@ -34,7 +35,7 @@ export class LoginComponent {
           // Store the token and navigate
           localStorage.setItem('authToken', res.data.access_token);
           this.success = 'Connexion réussie !';
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/']);
         } else {
           this.error = 'Une erreur inattendue est survenue. Veuillez réessayer.';
         }

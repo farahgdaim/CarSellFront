@@ -11,11 +11,6 @@
     <router-outlet></router-outlet>
   </div>
    <div *ngIf="!isAdmin" class="content-wrap container">
-
- 
-  
- 
-
   
     <div class="row">
       <div class="col mt-1 mb-1">
@@ -24,9 +19,11 @@
         </div>
       </div>
     </div>
+
   </div> 
 
   <div class="space"></div>
-  <app-footer class="footer"*ngIf="!isAdmin"></app-footer>
+  <app-footer class="footer"*ngIf="!isAdmin && !isLoginOrRegister()"  ></app-footer>
 </div>
+
 

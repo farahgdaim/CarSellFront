@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
+import { ConversationService } from 'src/app/services/conversation.service';
+import { EvaluationService } from 'src/app/service/evaluation.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-annonces-details',
@@ -16,6 +19,7 @@ export class AnnoncesDetailsComponent implements OnInit {
   currentSlide = 0;
   // imagesPerPage = 4;
   categories: any[] = [];
+  loggedInUserId: string = '';
 
   equipementsOptions = [
     'Jantes aluminium',
@@ -52,16 +56,40 @@ export class AnnoncesDetailsComponent implements OnInit {
       'Régulateur de vitesse',
     ],
   };
+  modalVisible1: boolean = false;
+  modalSuccess1: boolean = false; // vrai si "hasRequested" est true
+  modalMessage1: string = '';
+  showContinueButton: boolean = false;
+  showReportActions: boolean = false;
 
   modalVisible: boolean = false;
+  modalMessage: string = '';
+  modalSuccess: boolean = true;
+  hasAlreadyRequested: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
+    private conversationService: ConversationService,
+    private router: Router,
+    private authService: AuthService,
+    private evaluationService: EvaluationService,
     private annonceService: DetailAnnonceService
   ) {}
 
   ngOnInit(): void {
     this.getAnnonceDetail();
+
+    this.authService.getUser().subscribe({
+      next: (res: any) => {
+        this.loggedInUserId = res.data.id || res.data._id;
+      },
+      error: (err) => {
+        console.error(
+          "Erreur lors de la récupération de l'utilisateur connecté",
+          err
+        );
+      },
+    });
   }
   formatPrix(prix: number): string {
     return prix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -133,40 +161,164 @@ export class AnnoncesDetailsComponent implements OnInit {
       }
     );
   }
-  
-modalMessage: string = '';
-modalSuccess: boolean = true;
 
-reportAnnonce(id: string) {
-  console.log("l'id de l'annonce", id);
+  reportAnnonce(id: string) {
+    console.log("l'id de l'annonce", id);
 
-  this.annonceService.reportAnnonces(id).subscribe(
-    (response: any) => {
-      console.log('Annonce signalée avec succès', response);
+    this.annonceService.reportAnnonces(id).subscribe(
+      (response: any) => {
+        console.log('Annonce signalée avec succès', response);
 
-      // 🔹 Si le backend retourne bien un status 200
-      if (response.status === 200) {
-        this.modalMessage = response.data;
-        this.modalSuccess = true;
-      } else {
-        this.modalMessage = response.data || 'Une erreur est survenue.';
+        // 🔹 Si le backend retourne bien un status 200
+        if (response.status === 200) {
+          this.modalMessage = response.data;
+          this.modalSuccess = true;
+        } else {
+          this.modalMessage = response.data || 'Une erreur est survenue.';
+          this.modalSuccess = false;
+        }
+
+        this.modalVisible = true;
+      },
+      (error) => {
+        console.error("Erreur lors du signalement de l'annonce", error);
+
+        // 🔸 On récupère le message d’erreur depuis le backend
+        this.modalMessage =
+          error.error?.data || 'Une erreur est survenue lors du signalement.';
         this.modalSuccess = false;
+        this.modalVisible = true;
       }
-
-      this.modalVisible = true;
-    },
-    (error) => {
-      console.error("Erreur lors du signalement de l'annonce", error);
-
-      // 🔸 On récupère le message d’erreur depuis le backend
-      this.modalMessage = error.error?.data || 'Une erreur est survenue lors du signalement.';
-      this.modalSuccess = false;
-      this.modalVisible = true;
-    }
-  );
-}
+    );
+  }
+  startConversation(targetUserId: string): void {
+    this.conversationService
+      .getConversationBetweenUsers(this.loggedInUserId, targetUserId)
+      .subscribe({
+        next: (res: any) => {
+          if (res && res.status === 200 && res.data) {
+            const conv = res.data;
+            const userId1 = conv.Ref_id_user1;
+            const userId2 = conv.Ref_id_user2;
+            this.router.navigate(['/conversation', userId1, userId2], {
+              state: { conversation: conv },
+            });
+          } else {
+            this.createNewConversation(targetUserId);
+          }
+        },
+        error: (err) => {
+          console.error('Erreur ou conversation introuvée', err);
+          this.createNewConversation(targetUserId);
+        },
+      });
+  }
+  private createNewConversation(targetUserId: string): void {
+    this.conversationService.createConversation(targetUserId).subscribe({
+      next: (createRes: any) => {
+        const newConversation = createRes.data;
+        const userId1 = newConversation.Ref_id_user1;
+        const userId2 = newConversation.Ref_id_user2;
+        this.router.navigate(['/conversation', userId1, userId2], {
+          state: { conversation: newConversation },
+        });
+      },
+      error: (createErr) => {
+        alert('Erreur lors de la création de la conversation.');
+        console.error('Erreur création conversation:', createErr);
+      },
+    });
+  }
 
   closeModal() {
     this.modalVisible = false;
+  }
+  pendingAnnonceId: string | null = null;
+  Evaluationverif(annonceId: string) {
+    console.log('hello');
+
+    this.evaluationService.checkEvaluationRequest(annonceId).subscribe({
+      next: (response: any) => {
+        this.hasAlreadyRequested = response.hasRequested;
+        console.log('Déjà demandé ?', this.hasAlreadyRequested);
+        this.modalSuccess1 = response.hasRequested; // true ou false
+        if (response.hasRequested) {
+          this.modalMessage1 =
+            'Vous avez déjà soumis une demande d’évaluation pour ce véhicule. Vous pouvez consulter le rapport généré par l’expert ou procéder au paiement si ce n’est pas encore fait.';
+          this.showContinueButton = false;
+          this.showReportActions = true;
+        } else {
+          this.modalMessage1 =
+            'En poursuivant, vous demandez à nos experts d’évaluer ce véhicule. Une fois la demande envoyée, vous aurez la possibilité de choisir l’expert que vous jugez le plus apte à réaliser cette évaluation en toute objectivité.';
+          this.showContinueButton = true;
+          this.pendingAnnonceId = annonceId; // utile si tu veux l'utiliser plus tard au clic sur "Continuer"
+        }
+
+        this.modalVisible1 = true;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la vérification de la demande :', error);
+        this.modalSuccess1 = false;
+        this.modalMessage1 =
+          "Une erreur s'est produite lors de la vérification.";
+        this.modalVisible1 = true;
+      },
+    });
+  }
+  closeModal1() {
+    this.modalVisible1 = false;
+  }
+  continuerEvaluation() {
+    if (this.pendingAnnonceId) {
+      // logiquement, ici tu peux rediriger, ou ouvrir une section, etc.
+      console.log(
+        "L'utilisateur veut continuer avec l'annonce :",
+        this.pendingAnnonceId
+      );
+
+      // Exemple : rediriger vers la page de sélection d’expert
+      this.router.navigate(['/selection-expert', this.pendingAnnonceId]);
+
+      this.modalVisible1 = false;
+    }
+  }
+  demandeStatus: boolean = false;
+  modalVisible2: boolean = false;
+  modalSuccess2: boolean = false; // vrai si "hasRequested" est true
+  modalMessage2: string = '';
+  consulterRapport(annonceId: string) {
+    this.evaluationService.checkRapport(annonceId).subscribe({
+      next: (res: any) => {
+        this.demandeStatus = res.data.rapport_genere;
+        console.log('le status de la demande :', this.demandeStatus);
+        // this.closeModal1();
+        this.modalSuccess2=this.demandeStatus; //true ou false
+        if (this.modalSuccess2){
+          console.log("rapport submitted");
+          
+          this.router.navigate(['/rapport',annonceId]);
+        }else{
+          this.modalMessage2 = "L'expert a bien reçu votre demande et travaille actuellement sur l’évaluation. Vous serez notifié dès que le rapport sera disponible. ";
+        }
+        this.modalVisible2 = true;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la vérification de la demande :', error);
+        this.modalSuccess2 = false;
+        this.modalMessage2 =
+          "Une erreur s'est produite lors de la vérification.";
+        this.modalVisible2 = true;
+      },
+    });
+    // this.router.navigate(['/rapport', this.pendingAnnonceId]);
+
+    // }
+  }
+  payerExpert() {
+    // Exemple : ouvrir une page de paiement ou appeler un service
+    this.router.navigate(['/paiement', this.pendingAnnonceId]);
+  }
+  closeModal2() {
+    this.modalVisible2 = false;
   }
 }
