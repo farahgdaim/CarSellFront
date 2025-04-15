@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/service/data.service';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
+
 @Component({
   selector: 'app-annonces',
   templateUrl: './annonces.component.html',
@@ -49,27 +50,23 @@ export class AnnoncesComponent implements OnInit {
     private router: Router,
     private viewportScroller: ViewportScroller
   ) {}
+
   ngOnInit(): void {
     this.getAnnoncesData();
     this.loadMarques();
   }
 
-
   loadMarques(): void {
-    this.dataService.getMarques().subscribe(data => {
+    this.dataService.getMarques().subscribe((data) => {
       this.marques = data;
     });
   }
 
-
-
   onMarqueChange(): void {
-    // Synchroniser la valeur
     this.searchCriteria.marque = this.selectedMarque;
-    
 
     if (this.selectedMarque) {
-      this.dataService.getModeles(this.selectedMarque).subscribe(data => {
+      this.dataService.getModeles(this.selectedMarque).subscribe((data) => {
         console.log(this.selectedMarque);
         console.log(data);
         this.modeles = data;
@@ -78,49 +75,50 @@ export class AnnoncesComponent implements OnInit {
       this.modeles = [];
     }
   }
-  resetFilters() {
+
+  resetFilters(): void {
     this.searchCriteria = {
-        categorie: '',
-        modele: '',
-        puissance: null,
-        kilometrage: null,
-        dateMiseEnCirculation: null,
-        energie: '',
-        boiteVitesse: '',
-        etat: ''
+      categorie: '',
+      marque: '',
+      modele: '',
+      puissance: null,
+      kilometrage: null,
+      energie: '',
+      dateMiseEnCirculation: null,
+      cylindre: '',
+      nbPortes: '',
+      boiteVitesse: '',
+      etat: '',
+      equipements: [],
     };
     this.selectedMarque = '';
-    this.annonces = []; // Ou recharge les annonces par défaut
-}
+    this.annonces = [];
+  }
 
-
-  getAnnoncesData() {
+  getAnnoncesData(): void {
     this.dataService.getData().subscribe((res) => {
-      //this.annonces = res;
       console.log(res);
-
-      // Vérifier si 'res' est un objet et contient 'data'
       if (res && typeof res === 'object' && 'data' in res) {
         this.annonces = res.data;
       } else {
         console.error('Format inattendu :', res);
-        this.annonces = []; // Évite une erreur si la réponse n'est pas correcte
+        this.annonces = [];
       }
     });
   }
-  goToAnnonceDetails(id: string) {
-    this.router.navigate(['/annonce', id]) /* .then(() => {
-      this.viewportScroller.scrollToPosition([0, 0]);
-    }) */; // Redirige vers /annonce/{id}
+
+  goToAnnonceDetails(id: string): void {
+    this.router.navigate(['/annonce', id]);
   }
 
-  onSearch() {
+  onSearch(): void {
     this.dataService
       .searchAnnonces(this.searchCriteria)
       .subscribe((data: any) => {
-        this.annonces = data.data; // Met à jour la liste des annonces affichées
+        this.annonces = data.data;
       });
   }
+
   getEquipementIcon(equipement: string): string {
     const iconsMap: { [key: string]: string } = {
       Climatisation: 'fas fa-snowflake',
@@ -132,14 +130,15 @@ export class AnnoncesComponent implements OnInit {
       'Régulateur de vitesse': 'fas fa-tachometer-alt',
       Airbags: 'fas fa-car-crash',
     };
-    return iconsMap[equipement] || 'fas fa-check'; // Icône par défaut
+    return iconsMap[equipement] || 'fas fa-check';
   }
-  handleImageError(event: Event, url: string) {
+
+  handleImageError(event: Event, url: string): void {
     console.log('Image URL:', url);
     console.error("Erreur de chargement de l'image:", event);
   }
 
-  logAnnonce(ann: any) {
+  logAnnonce(ann: any): void {
     console.log('Annonce cliquée :', ann);
   }
 }

@@ -35,16 +35,15 @@ import { RepportedAnnoncesComponent } from './components/repported-annonces/repp
 import { RepportedAnnoncesDetailsComponent } from './components/repported-annonces-details/repported-annonces-details.component';
 import { SelectionExpertComponent } from './components/selection-expert/selection-expert.component';
 import { RapportComponent } from './components/rapport/rapport.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'annonces', pathMatch: 'full' },
   { path: 'annonces', component: AnnoncesComponent },
   { path: 'annonce/:id', component: AnnoncesDetailsComponent },
-  { path: 'mesAnnonces',component:MesAnnoncesComponent},
-  { path: 'selection-expert/:id',component:SelectionExpertComponent},
-  {path:'rapport/:id',component:RapportComponent},
-  
-  
-  
+  { path: 'mesAnnonces', component: MesAnnoncesComponent },
+  { path: 'selection-expert/:id', component: SelectionExpertComponent },
+  { path: 'rapport/:id', component: RapportComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
@@ -56,45 +55,32 @@ const routes: Routes = [
   { path: 'profile/:id', component: PublicProfileComponent, canActivate: [AuthGuard] },
   { path: 'conversations', component: ConversationListComponent, canActivate: [AuthGuard] },
   { path: 'conversation/:userId1/:userId2', component: ConversationDetailComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
 
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/register', component: AdminRegisterComponent },
   { path: 'admin/profile', component: AdminProfileComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
   { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
-
-  { path: 'admin/dashboard', component: AdminDashboardComponent},
-  { path: 'admin/repported-annonces', component: RepportedAnnoncesComponent, canActivate: [AdminGuard]},
+  { path: 'admin/dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard] },
+  { path: 'admin/repported-annonces', component: RepportedAnnoncesComponent, canActivate: [AdminGuard] },
   { path: 'admin/repported-annonces/:id', component: RepportedAnnoncesDetailsComponent, canActivate: [AdminGuard] },
-
-
 
   { path: 'experts', component: ExpertsListComponent, canActivate: [AuthGuard] },
   { path: 'expert-profile/:id', component: ExpertProfileComponent, canActivate: [AuthGuard] },
 
-  // Redirection finale pour toute URL invalide
+  // Redirect invalid URLs to 'annonces'
   { path: '**', redirectTo: 'annonces' },
 ];
-
-/* 
-@NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'top' // Force le scroll vers le haut
-  })],
-
-  
-]; */
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      scrollPositionRestoration: 'enabled', // restaure la position à 0,0 lors de la navigation
-      anchorScrolling: 'enabled',            // active le scroll vers l'ancre
-      scrollOffset: [0, 64]                  // optionnel : ajuste le décalage en cas de navbar fixe, par exemple
-    })
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+      scrollOffset: [0, 64],
+    }),
   ],
-  
- 
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

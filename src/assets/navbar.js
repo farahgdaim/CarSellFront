@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const annoncesSection = document.querySelector("#annonces");
   const devenirExpertSection = document.querySelector("#devenir-expert");
-  
+
   console.log("Section annonces : ", annoncesSection);
   console.log("Section devenir-expert : ", devenirExpertSection);
 
   document.querySelectorAll("a[href^='#']").forEach(link => {
     link.addEventListener("click", (e) => {
-      // e.preventDefault();
+      // e.preventDefault(); // Décommenter si nécessaire pour éviter saut brutal
       const targetId = link.getAttribute("href").substring(1);
       const targetElement = document.getElementById(targetId);
       if (targetElement) {
@@ -19,42 +19,39 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-   
-  
-  
+
   if (navbar) {
     navbar.className = "navbar";
     if (isHomePage) {
-        navbar.classList.add("home-page");
-  
+      navbar.classList.add("home-page");
 
-        let lastScroll = 0;
-        window.addEventListener("scroll", () => {
-          const currentScroll = window.scrollY;
-          
-         
-          
-          if (currentScroll > 50) {
-            navbar.classList.add("scrolled");
-          } else {
-            navbar.classList.remove("scrolled");
-          }
-          lastScroll = currentScroll;
-        });
-  
-        // Force une vérification initiale
-        window.dispatchEvent(new Event('scroll'));
-      } else {
-        navbar.classList.add("scrolled");
-      }
+      let lastScroll = 0;
+      window.addEventListener("scroll", () => {
+        const currentScroll = window.scrollY;
+
+        if (currentScroll > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+        lastScroll = currentScroll;
+      });
+
+      // Force une vérification initiale
+      window.dispatchEvent(new Event('scroll'));
+    } else {
+      navbar.classList.add("scrolled");
+    }
   } else {
     console.error("Navbar non trouvée.");
   }
 
- /*  const searchButton = document.getElementById("searchButton");
+  // Recherche (optionnel)
+  /*
+  const searchButton = document.getElementById("searchButton");
   const searchInput = document.getElementById("searchInput");
 
-  /*if (searchButton && searchInput) {
+  if (searchButton && searchInput) {
     searchButton.addEventListener("click", function () {
       let searchQuery = searchInput.value.trim().toLowerCase();
       if (searchQuery === "") return;
@@ -63,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let regex = new RegExp(searchQuery, "gi");
       let hasMatch = false;
 
-/*       function highlightMatches(node) {
+      function highlightMatches(node) {
         if (node.nodeType === 3) {
           let match = node.nodeValue.match(regex);
           if (match) {
@@ -92,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   } else {
     console.error("Éléments de recherche non trouvés.");
-  }*/
-
-}); 
-
+  }
+  */
+});

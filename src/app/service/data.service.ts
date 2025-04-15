@@ -35,5 +35,4 @@ export class DataService {
   getExpertById(id :string){
     return this.httpClient.get(`http://127.0.0.1:8000/api/expert/experts/${id}`);
   }
-  
 }
