@@ -35,7 +35,6 @@ import { RepportedAnnoncesComponent } from './components/repported-annonces/repp
 import { RepportedAnnoncesDetailsComponent } from './components/repported-annonces-details/repported-annonces-details.component';
 import { SelectionExpertComponent } from './components/selection-expert/selection-expert.component';
 import { RapportComponent } from './components/rapport/rapport.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'annonces', pathMatch: 'full' },
@@ -55,7 +54,6 @@ const routes: Routes = [
   { path: 'profile/:id', component: PublicProfileComponent, canActivate: [AuthGuard] },
   { path: 'conversations', component: ConversationListComponent, canActivate: [AuthGuard] },
   { path: 'conversation/:userId1/:userId2', component: ConversationDetailComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
 
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/register', component: AdminRegisterComponent },

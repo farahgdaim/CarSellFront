@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { jwtDecode } from "jwt-decode";
+
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,18 @@ export class TokenService {
 
   // Retrieve the standard token
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    const token = localStorage.getItem(this.tokenKey);
+    if (token) {
+      const payload = jwtDecode(token);
+      console.log(payload);
+      const isExpired = payload.exp && payload.exp * 1000 < Date.now();
+      if (isExpired) {
+        console.warn('TokenService: Token is expired');
+        this.removeTokens(); // Remove expired token
+        return null;
+      }
+    }
+    return token;
   }
 
   // Retrieve the admin-specific token

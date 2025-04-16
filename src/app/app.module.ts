@@ -12,7 +12,6 @@ import { CarCarouselComponent } from './components/car-carousel/car-carousel.com
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ExpertFormComponent } from './components/expert-form/expert-form.component';
 import { UpdateProfileComponent } from './components/update-profile/update-profile.component';
@@ -73,7 +72,6 @@ import { RapportComponent } from './components/rapport/rapport.component';
     SelectionExpertComponent,
     MesAnnoncesDetailsComponent,
     RapportComponent,
-    DashboardComponent
   ],
   imports: [
     BrowserModule,

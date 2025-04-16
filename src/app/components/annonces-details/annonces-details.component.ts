@@ -266,4 +266,16 @@ export class AnnoncesDetailsComponent implements OnInit, OnDestroy {
       },
     });
   }
+
+  closeModal2() {
+    this.modalVisible2 = false;
+  }
+
+
+  // In annonces-details.component.ts
+  payerExpert(): void {
+    // Implement the logic to handle expert payment here.
+    console.log("Payer expert action triggered");
+    // Possibly open another modal, redirect, etc.
+  }
 }
