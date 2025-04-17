@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { NavbarService } from './service/navbar.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { LoadingService } from './services/loading.service';
-
+import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,11 +13,13 @@ export class AppComponent implements OnInit {
   title = 'Frontend';
   loading: Observable<boolean>;
   isAdmin: boolean = false;
+  isExpert: boolean = false;
 
   constructor(
     private navbarService: NavbarService,
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private authService: AuthService
   ) {
     this.loading = this.loadingService.loading$;
     this.router.events.subscribe((event) => {
@@ -30,6 +32,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.navbarService.updateNavbar();
     this.adjustMargin(); // Adjust margin when the app starts
+    this.isExpert = this.authService.currentUserIsExpert();
+
   }
 
   @HostListener('window:resize', [])

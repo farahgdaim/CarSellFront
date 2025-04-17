@@ -41,7 +41,10 @@
                   <li><a routerLink="/profile" class="nav-link">Voir Profil</a></li>
                   <li><a routerLink="/update-profile" class="nav-link">Modifier Profil</a></li>
                   <li><a routerLink="/mesAnnonces" class="nav-link">Consulter mes annonces</a></li>
-                  <li><a routerLink="/devenir-expert" class="nav-link">Devenir Expert</a></li>
+
+                  <li *ngIf="!isExpert"><a routerLink="/devenir-expert" class="nav-link">Devenir Expert</a></li>
+                  <li *ngIf="isExpert"><a routerLink="/expert" class="nav-link">Mes demandes d'évaluation</a></li>
+                  
                   <li><a routerLink="/parametres" class="nav-link">Paramètres</a></li>
                   <li><a routerLink="/login" class="nav-link">Déconnexion</a></li>
                 </ul>

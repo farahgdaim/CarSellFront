@@ -1,0 +1,22 @@
+<div class="container mt-5 expert-dashboard-page">
+  <h2 class="mb-4" style="color:#1d2e5f;">Mes demandes d’évaluation</h2>
+
+  <div *ngIf="!evaluations?.length" class="alert alert-info">
+    Aucune demande en attente pour le moment.
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4" *ngFor="let eval of evaluations">
+      <div class="card p-4 shadow-sm evaluation-card">
+        <h5 style="color:#1d2e5f;">Demande #{{ eval.id }}</h5>
+        <p><strong>Annonce ID :</strong> {{ eval.ref_id_annonce }}</p>
+        <p><strong>Statut :</strong> <span class="text-capitalize">{{ eval.status }}</span></p>
+        <div class="mt-3 text-end">
+          <button class="btn btn-outline-primary me-2" (click)="goToEvaluationDetails(eval.id)">
+            Voir détails
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

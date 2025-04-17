@@ -1,5 +1,7 @@
 import { Component ,OnInit } from '@angular/core';
 import { DataService } from 'src/app/service/data.service';
+import { AuthService } from '../../services/auth.service';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -10,11 +12,14 @@ export class NavbarComponent {
   notification:any;
   searchTerm: string = '';
   searchResults: any[] = [];
-  constructor(private dataService: DataService) { }
   menuOpen = false;
+  isExpert: boolean = false;
+
+  constructor(private dataService: DataService, private authService: AuthService) { }
 
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
+    this.isExpert = this.authService.currentUserIsExpert();
   }
   
 

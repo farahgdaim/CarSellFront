@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/service/data.service';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-annonces',
@@ -10,6 +11,7 @@ import { ViewportScroller } from '@angular/common';
 })
 export class AnnoncesComponent implements OnInit {
   annonces: any;
+  isExpert: boolean = false;
   searchCriteria: any = {
     categorie: '',
     marque: '',
@@ -48,10 +50,13 @@ export class AnnoncesComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private router: Router,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private authService: AuthService,
+
   ) {}
 
   ngOnInit(): void {
+    this.isExpert = this.authService.currentUserIsExpert();
     this.getAnnoncesData();
     this.loadMarques();
   }

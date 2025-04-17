@@ -67,6 +67,8 @@ const routes: Routes = [
   { path: 'experts', component: ExpertsListComponent, canActivate: [AuthGuard] },
   { path: 'expert-profile/:id', component: ExpertProfileComponent, canActivate: [AuthGuard] },
 
+  { path: 'expert', loadChildren: () => import('./expert/expert.module').then(m => m.ExpertModule) },
+
   // Redirect invalid URLs to 'annonces'
   { path: '**', redirectTo: 'annonces' },
 ];

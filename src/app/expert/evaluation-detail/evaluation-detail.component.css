@@ -1,0 +1,33 @@
+.evaluation-detail-page {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .annonce-card {
+    background-color: #fff;
+    border-radius: 12px;
+  }
+  
+  .btn-primary {
+    background-color: #1d2e5f;
+    border: none;
+  }
+  
+  .btn-danger {
+    background-color: #B22222;
+    border: none;
+  }
+  
+  /* Spinner from your profile.css */
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border-left-color: #1d2e5f;
+    animation: spin 1s ease infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  

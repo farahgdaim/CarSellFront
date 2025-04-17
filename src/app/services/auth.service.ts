@@ -2,22 +2,29 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
 import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = environment.apiUrl + '/auth'; // Base API URL
+  private apiUrl = environment.apiUrl + '/auth'; // Base API URL for auth endpoints
   public currentUser = new BehaviorSubject<any>(null); // Current user state
+  private isExpertUser: boolean = false;
 
   constructor(private http: HttpClient, private tokenService: TokenService) {
-    const token = this.tokenService.getToken(); // Fetch the token from TokenService
+    const token = this.tokenService.getToken();
     if (token && this.isTokenValid(token)) {
       this.getUser().subscribe(
-        (user) => this.currentUser.next(user), // Update user state
-        () => this.currentUser.next(null) // Handle user fetch error
+        (user) => {
+          this.currentUser.next(user);
+          // ✅ Check expert status after getting user
+          this.checkExpertStatus().subscribe((isExpert) => {
+            this.setUserRole(isExpert);
+          });
+        },
+        () => this.currentUser.next(null)
       );
     }
   }
@@ -37,8 +44,13 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((res: any) => {
         if (res.data && res.data.access_token) {
-          this.tokenService.setToken(res.data.access_token); // Save token
-          this.currentUser.next(res.data); // Update current user
+          this.tokenService.setToken(res.data.access_token);
+          this.currentUser.next(res.data);
+  
+          // ✅ Call the checkExpertStatus method here
+          this.checkExpertStatus().subscribe((isExpert) => {
+            this.setUserRole(isExpert);
+          });
         }
       }),
       catchError((error) => {
@@ -47,6 +59,7 @@ export class AuthService {
       })
     );
   }
+  
 
   // Log out the user
   logout(): Observable<any> {
@@ -54,7 +67,6 @@ export class AuthService {
       tap(() => {
         this.tokenService.removeTokens(); // Clear tokens
         this.currentUser.next(null); // Clear user state
-        console.log('Logged out successfully');
       }),
       catchError((error) => {
         console.error('Logout failed:', error);
@@ -79,14 +91,38 @@ export class AuthService {
     return !!token && this.isTokenValid(token);
   }
 
-  // Validate the token's expiration
+  // Validate token expiration
   isTokenValid(token: string): boolean {
     try {
       const payload = JSON.parse(atob(token.split('.')[1])); // Decode token payload
-      return payload.exp * 1000 > Date.now(); // Check if token is expired
+      return payload.exp * 1000 > Date.now(); // Compare expiration with current time
     } catch (e) {
       console.error('Token validation error:', e);
       return false;
     }
+  }
+
+  // Set the expert role flag after login or via a dedicated check.
+  setUserRole(isExpert: boolean): void {
+    this.isExpertUser = isExpert;
+  }
+
+  // Returns true if the current user is marked as an expert.
+  currentUserIsExpert(): boolean {
+    return this.isExpertUser;
+  }
+
+  // Call this method to get the expert status from the backend.
+  // The backend is expected to respond with an object like: { isExpert: true }.
+  checkExpertStatus(): Observable<boolean> {
+    // Adjust the URL below if your API endpoint differs
+    return this.http.get<{ isExpert: boolean }>(`${environment.apiUrl}/auth/expert/check`)
+      .pipe(
+        map(response => response.isExpert),
+        catchError((error) => {
+          console.error('Error checking expert status:', error);
+          throw error;
+        })
+      );
   }
 }
