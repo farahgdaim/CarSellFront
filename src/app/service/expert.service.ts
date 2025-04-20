@@ -33,4 +33,10 @@ export class ExpertService {
   submitRapport(id: string, contenu: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/evaluation/${id}/rapport`, { contenu });
   }
+
+  /** Liste des demandes acceptées en attente de rapport */
+  getAcceptedEvaluations(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/evaluations/accepted`);
+  }
+
 }

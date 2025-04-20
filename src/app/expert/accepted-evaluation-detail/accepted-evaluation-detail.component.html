@@ -1,0 +1,55 @@
+<div class="container mt-5 eval-accepted-detail-page" *ngIf="!loading; else spinner">
+    <h2 class="mb-4" style="color:#1d2e5f;">
+      Rapport pour Demande #{{ demande.id }}
+    </h2>
+  
+    <!-- Annonce summary card -->
+    <div class="card p-4 shadow-sm mb-4">
+      <h5 style="color:#1d2e5f;">Annonce #{{ annonce.id }}</h5>
+      <p><strong>Titre :</strong> {{ annonce.titre }}</p>
+      <p><strong>Description :</strong> {{ annonce.description }}</p>
+    </div>
+  
+    <!-- Contact owner -->
+    <div class="alert alert-info">
+      Avant de remplir ce rapport, confirmez votre rendez‑vous avec le propriétaire.
+    </div>
+    <button class="btn btn-outline-primary mb-4" (click)="contactOwner()">
+      💬 Contacter le propriétaire
+    </button>
+  
+    <!-- Comparison Table -->
+    <div class="table-responsive mb-4">
+      <table class="table table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Caractéristique</th>
+            <th>Valeur Annonce</th>
+            <th>Valeur Réelle</th>
+            <th>Correspondance ✔️/❌</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of rows">
+            <td>{{ row.name }}</td>
+            <td>{{ row.annonceValue }}</td>
+            <td><input class="form-control" [(ngModel)]="row.realValue"></td>
+            <td class="text-center">
+              <input type="checkbox" [(ngModel)]="row.match">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <button class="btn btn-primary" (click)="submitReport()">
+      📤 Soumettre le rapport
+    </button>
+  </div>
+  
+  <ng-template #spinner>
+    <div class="text-center my-5">
+      <div class="spinner"></div>
+    </div>
+  </ng-template>
+  

@@ -1,0 +1,18 @@
+.accepted-evals-page {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .card {
+    background: #fff;
+    border-radius: 12px;
+  }
+  
+  .btn-primary {
+    background-color: #1d2e5f;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #163048;
+  }
+  

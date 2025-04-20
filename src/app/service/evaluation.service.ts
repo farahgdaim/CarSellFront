@@ -1,38 +1,80 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EvaluationService {
+  private apiBase = environment.apiUrl + '/utilisateur';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  checkEvaluationRequest(annonceId:string){
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem('token')}` // ou sessionStorage selon où tu stockes le token
+  /** Include Authorization header */
+  private getAuthOptions() {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    return {
+      headers: new HttpHeaders({ Authorization: `Bearer ${token}` })
     };
-    return this.httpClient.post(
-      `http://127.0.0.1:8000/api/utilisateur/demande-evaluation/has-requested/?id_annonce=${annonceId}`,
+  }
+
+  /** Check if user has already requested an evaluation for an annonce */
+  checkEvaluationRequest(annonceId: string): Observable<any> {
+    return this.http.post(
+      `${this.apiBase}/demande-evaluation/has-requested?id_annonce=${annonceId}`,
       {},
-      { headers }
+      this.getAuthOptions()
     );
   }
-  requestEvaluation(ref_id_annonce: string, ref_id_expert: string) {
-  return this.httpClient.post('http://127.0.0.1:8000/api/utilisateur/evaluation-request', {
-    ref_id_annonce,
-    ref_id_expert
-  });
-}
-checkRapport(annonceId:string){
-  return this.httpClient.get(`http://127.0.0.1:8000/api/utilisateur/rapport-status/${annonceId}`);
-}
 
-rapportInfo(annonceId:string){
-  return this.httpClient.get(`http://127.0.0.1:8000/api/utilisateur/rapport_info/${annonceId}`);
-}
-getExpertsById(expertId:string){
-  return this.httpClient.get(`http://127.0.0.1:8000/api/utilisateur/experts/${expertId}`);
-}
+  /** Send a new evaluation request */
+  requestEvaluation(ref_id_annonce: string, ref_id_expert: string): Observable<any> {
+    return this.http.post(
+      `${this.apiBase}/evaluation-request`,
+      { ref_id_annonce, ref_id_expert },
+      this.getAuthOptions()
+    );
+  }
 
+  /** Check report status for an annonce */
+  checkRapport(annonceId: string): Observable<any> {
+    return this.http.get(
+      `${this.apiBase}/rapport-status/${annonceId}`,
+      this.getAuthOptions()
+    );
+  }
+
+  /** Get detailed report info if submitted */
+  rapportInfo(annonceId: string): Observable<any> {
+    return this.http.get(
+      `${this.apiBase}/rapport_info/${annonceId}`,
+      this.getAuthOptions()
+    );
+  }
+
+  /** Get expert details by ID */
+  getExpertsById(expertId: string): Observable<any> {
+    return this.http.get(
+      `${this.apiBase}/experts/${expertId}`,
+      this.getAuthOptions()
+    );
+  }
+
+  /** List all my evaluation requests */
+  getMyRequests(): Observable<any> {
+    return this.http.get(
+      `${this.apiBase}/mes-demandes`,
+      this.getAuthOptions()
+    );
+  }
+
+  /** Cancel a pending evaluation request */
+  cancelRequest(demandeId: string): Observable<any> {
+    return this.http.post(
+      `${this.apiBase}/demande/${demandeId}/cancel`,
+      {},
+      this.getAuthOptions()
+    );
+  }
 }

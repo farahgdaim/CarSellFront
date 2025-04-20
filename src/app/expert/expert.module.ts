@@ -4,11 +4,15 @@ import { ExpertRoutingModule } from './expert-routing.module';
 import { ExpertDashboardComponent } from './expert-dashboard/expert-dashboard.component';
 import { EvaluationDetailComponent } from './evaluation-detail/evaluation-detail.component';
 import { FormsModule } from '@angular/forms';
+import { AcceptedEvaluationsComponent } from './accepted-evaluations/accepted-evaluations.component';
+import { AcceptedEvaluationDetailComponent } from './accepted-evaluation-detail/accepted-evaluation-detail.component';
 
 @NgModule({
   declarations: [
     ExpertDashboardComponent,
-    EvaluationDetailComponent
+    EvaluationDetailComponent,
+    AcceptedEvaluationsComponent,
+    AcceptedEvaluationDetailComponent
     // Declare additional expert components here if needed.
   ],
   imports: [

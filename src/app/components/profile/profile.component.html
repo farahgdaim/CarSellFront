@@ -15,12 +15,43 @@
       <!-- Supposons que l'API renvoie aussi une date d'inscription -->
       <p *ngIf="user.createdAt"><strong>Date d'inscription :</strong> {{ user.createdAt | date:'longDate' }}</p>
     </div>
-
     <!-- Section supplémentaire (ex: Activité récente) -->
     <div class="card mt-4 p-4 shadow-sm">
-      <h3 class="mb-3" style="color:#1d2e5f;">Activité récente</h3>
-      <p>Pas d'activité récente pour le moment.</p>
-      <!-- Vous pouvez intégrer ici un composant ou une liste d'activités si votre backend le supporte -->
+      <h3 class="mb-3" style="color:#1d2e5f;">Mes demandes d’évaluation</h3>
+
+      <!-- Error loading requests -->
+      <div *ngIf="requestError" class="alert alert-danger">
+        {{ requestError }}
+      </div>
+
+      <!-- No requests -->
+      <ng-container *ngIf="!myRequests.length && !requestError; else listRequests">
+        <p>Pas d'activité récente pour le moment.</p>
+      </ng-container>
+
+      <!-- Requests list -->
+      <ng-template #listRequests>
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center"
+              *ngFor="let item of myRequests; let i = index">
+            <div>
+              <strong>Annonces ID {{ item.annonce.id }}</strong><br>
+              Statut : <span class="text-capitalize">{{ item.demande.status }}</span>
+            </div>
+            <div>
+              <button class="btn btn-primary me-2"
+                      (click)="viewRequestDetail(item.demande.id)">
+                Détails
+              </button>
+              <button *ngIf="item.demande.status === 'pending'"
+                      class="btn btn-danger btn-sm"
+                      (click)="cancel(item.demande.id, i)">
+                Annuler
+              </button>
+            </div>
+          </li>
+        </ul>
+      </ng-template>
     </div>
 
     <!-- Boutons d'action -->

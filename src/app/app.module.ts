@@ -38,6 +38,8 @@ import { RepportedAnnoncesDetailsComponent } from './components/repported-annonc
 import { SelectionExpertComponent } from './components/selection-expert/selection-expert.component';
 import { MesAnnoncesDetailsComponent } from './components/mes-annonces-details/mes-annonces-details.component';
 import { RapportComponent } from './components/rapport/rapport.component';
+import { MyRequestsComponent } from './components/my-requests/my-requests.component';
+import { MyRequestDetailComponent } from './components/my-request-detail/my-request-detail.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { RapportComponent } from './components/rapport/rapport.component';
     SelectionExpertComponent,
     MesAnnoncesDetailsComponent,
     RapportComponent,
+    MyRequestsComponent,
+    MyRequestDetailComponent,
   ],
   imports: [
     BrowserModule,
