@@ -32,8 +32,8 @@ body {
   box-shadow: none !important;
 }
 .navbar.scrolled {
-  /*background-color: #1d2e5f !important;  Couleur après le scroll */
-  background: linear-gradient(90deg, #1a1a2e, #16213e, #0f3460);
+   background-color: #1d2e5f !important;  /*Couleur après le scroll  */
+  /*background: linear-gradient(90deg, #1a1a2e, #16213e, #0f3460);*/
 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Ajout d'une ombre pour plus de visibilité */
 }
@@ -178,7 +178,7 @@ body {
   border: 1px solid #1d2e5f;
   border-radius: 5px;
   padding: 10px 0;
-  width: 270px;
+  width: 290px;
   height: 390px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   z-index: 1;

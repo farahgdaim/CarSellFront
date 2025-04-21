@@ -1,0 +1,23 @@
+.expert-dashboard-page {
+  font-family: 'Poppins', sans-serif;
+}
+
+.evaluation-card {
+  background-color: #fff;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.evaluation-card:hover {
+  transform: translateY(-4px);
+}
+
+.btn-outline-primary {
+  color: #1d2e5f;
+  border: 2px solid #1d2e5f;
+}
+
+.btn-outline-primary:hover {
+  background-color: #1d2e5f;
+  color: white;
+}

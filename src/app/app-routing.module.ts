@@ -35,11 +35,14 @@ import { RepportedAnnoncesComponent } from './components/repported-annonces/repp
 import { RepportedAnnoncesDetailsComponent } from './components/repported-annonces-details/repported-annonces-details.component';
 import { SelectionExpertComponent } from './components/selection-expert/selection-expert.component';
 import { RapportComponent } from './components/rapport/rapport.component';
+
 import { MesAnnoncesDetailsComponent } from './components/mes-annonces-details/mes-annonces-details.component';
 import { UpdateAnnonceComponent } from './components/update-annonce/update-annonce.component';
 
 import { RepportedRapportComponent } from './components/repported-rapport/repported-rapport.component';
 import { RepportedRapportDetailsComponent } from './components/repported-rapport-details/repported-rapport-details.component';
+import { MyRequestsComponent } from './components/my-requests/my-requests.component';
+import { MyRequestDetailComponent } from './components/my-request-detail/my-request-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'annonces', pathMatch: 'full' },
@@ -135,26 +138,22 @@ const routes: Routes = [
     component: ExpertProfileComponent,
     canActivate: [AuthGuard],
   },
+  {path: 'expert', loadChildren: () => import('./expert/expert.module').then(m => m.ExpertModule) },
 
-  // Redirection finale pour toute URL invalide
-  { path: '**', redirectTo: 'annonces' },
+
+
+
+
+ 
 ];
-
-/* 
-@NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'top' // Force le scroll vers le haut
-  })],
-
-  
-]; */
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      scrollPositionRestoration: 'enabled', // restaure la position à 0,0 lors de la navigation
-      anchorScrolling: 'enabled', // active le scroll vers l'ancre
-      scrollOffset: [0, 64], // optionnel : ajuste le décalage en cas de navbar fixe, par exemple
+
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+      scrollOffset: [0, 64],
     }),
   ],
 

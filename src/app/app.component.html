@@ -1,17 +1,20 @@
-
+<!-- src/app/app.component.html -->
 <div id="page-container">
-
+  <!-- Show navbar if not admin -->
   <app-navbar *ngIf="!isAdmin"></app-navbar>
-   <!-- Spinner global -->
+  
+  <!-- Global Spinner -->
   <div *ngIf="loading | async" class="global-spinner">
     <div class="spinner"></div>
   </div>
 
+  <!-- For Admin: Use a different outlet if needed -->
   <div *ngIf="isAdmin">
     <router-outlet></router-outlet>
   </div>
-   <div *ngIf="!isAdmin" class="content-wrap container">
-  
+
+  <!-- For Normal and Expert Users: -->
+  <div *ngIf="!isAdmin" class="content-wrap container">
     <div class="row">
       <div class="col mt-1 mb-1">
         <div class="col-md-11 mx-auto">
@@ -19,11 +22,9 @@
         </div>
       </div>
     </div>
-
-  </div> 
+  </div>
 
   <div class="space"></div>
-  <app-footer class="footer"*ngIf="!isAdmin && !isLoginOrRegister()"  ></app-footer>
+  <!-- Show footer only when not admin and not on login/register pages -->
+  <app-footer *ngIf="!isAdmin && !isLoginOrRegister()" class="footer"></app-footer>
 </div>
-
-

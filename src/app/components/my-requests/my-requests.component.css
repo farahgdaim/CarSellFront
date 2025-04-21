@@ -1,0 +1,24 @@
+.my-requests-page {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .card {
+    background: #fff;
+    border-radius: 12px;
+  }
+  
+  .btn-outline-primary {
+    color: #1d2e5f;
+    border: 2px solid #1d2e5f;
+  }
+  
+  .btn-outline-primary:hover {
+    background: #1d2e5f;
+    color: #fff;
+  }
+  
+  .btn-danger {
+    background: #B22222;
+    border: none;
+  }
+  

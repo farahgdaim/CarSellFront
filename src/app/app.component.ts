@@ -1,45 +1,39 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NavbarService } from './service/navbar.service';
-
 import { Router, NavigationEnd } from '@angular/router';
-
 import { LoadingService } from './services/loading.service';
-
-
-
+import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-
 export class AppComponent implements OnInit {
   title = 'Frontend';
   loading: Observable<boolean>;
-
-
   isAdmin: boolean = false;
+  isExpert: boolean = false;
 
-  constructor(private navbarService: NavbarService ,private router: Router, private loadingService: LoadingService) {
+  constructor(
+    private navbarService: NavbarService,
+    private router: Router,
+    private loadingService: LoadingService,
+    private authService: AuthService
+  ) {
+    this.loading = this.loadingService.loading$;
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isAdmin = this.router.url.startsWith('/admin');
       }
     });
-    this.loading = this.loadingService.loading$;
   }
-/* =======
-  constructor(private navbarService: NavbarService, private loadingService: LoadingService, private router: Router) {
-    this.loading = this.loadingService.loading$; // Initialize the loading observable
->>>>>>> origin/malek
-  } */
-  
 
   ngOnInit(): void {
-
     this.navbarService.updateNavbar();
     this.adjustMargin(); // Adjust margin when the app starts
+    this.isExpert = this.authService.currentUserIsExpert();
+
   }
 
   @HostListener('window:resize', [])
@@ -60,13 +54,8 @@ export class AppComponent implements OnInit {
     document.documentElement.style.setProperty('--dynamic-margin', `${dynamicMargin}px`);
   }
 
-
-
-
-
   isLoginOrRegister(): boolean {
     const currentRoute = this.router.url;
     return currentRoute === '/login' || currentRoute === '/register';
   }
 }
-

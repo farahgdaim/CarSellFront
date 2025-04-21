@@ -3,7 +3,10 @@ import { DataService } from 'src/app/service/data.service';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
+
 import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
+
+
 @Component({
   selector: 'app-annonces',
   templateUrl: './annonces.component.html',
@@ -11,7 +14,11 @@ import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
 })
 export class AnnoncesComponent implements OnInit {
   annonces: any;
+
   user: any ;
+
+  isExpert: boolean = false;
+
   searchCriteria: any = {
     categorie: '',
     marque: '',
@@ -52,14 +59,18 @@ export class AnnoncesComponent implements OnInit {
     private dataService: DataService,
     private authService: AuthService,
     private router: Router,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+   
+
   ) {}
+
   ngOnInit(): void {
+    this.isExpert = this.authService.currentUserIsExpert();
     this.getAnnoncesData();
     this.loadMarques();
   }
 
-  
+
   loadMarques(): void {
     this.dataService.getMarques().subscribe((data) => {
       this.marques = data;
@@ -67,7 +78,6 @@ export class AnnoncesComponent implements OnInit {
   }
 
   onMarqueChange(): void {
-    // Synchroniser la valeur
     this.searchCriteria.marque = this.selectedMarque;
 
     if (this.selectedMarque) {
@@ -80,16 +90,20 @@ export class AnnoncesComponent implements OnInit {
       this.modeles = [];
     }
   }
-  resetFilters() {
+
+  resetFilters(): void {
     this.searchCriteria = {
-      categorie: '',
+      marque: '',
       modele: '',
       puissance: null,
       kilometrage: null,
-      dateMiseEnCirculation: null,
       energie: '',
+      dateMiseEnCirculation: null,
+      cylindre: '',
+      nbPortes: '',
       boiteVitesse: '',
       etat: '',
+      equipements: [],
     };
     this.selectedMarque = '';
     this.annonces = []; // Ou recharge les annonces par défaut
@@ -108,20 +122,21 @@ export class AnnoncesComponent implements OnInit {
       }
     });
   }
-  getAnnoncesData() {
-    this.dataService.getData().subscribe((res) => {
-      //this.annonces = res;
-      console.log(res);
 
-      // Vérifier si 'res' est un objet et contient 'data'
+
+  getAnnoncesData(): void {
+
+    this.dataService.getData().subscribe((res) => {
+      console.log(res);
       if (res && typeof res === 'object' && 'data' in res) {
         this.annonces = res.data;
       } else {
         console.error('Format inattendu :', res);
-        this.annonces = []; // Évite une erreur si la réponse n'est pas correcte
+        this.annonces = [];
       }
     });
   }
+
   goToAnnonceDetails(annonceId: string) {
     this.annonceService.getAnnonceById(annonceId).subscribe((res: any) => {
       if (res && typeof res === 'object' && 'data' in res) {
@@ -150,16 +165,19 @@ export class AnnoncesComponent implements OnInit {
         console.error('Format inattendu :', res);
       }
     });
+
+
   }
   
 
-  onSearch() {
+  onSearch(): void {
     this.dataService
       .searchAnnonces(this.searchCriteria)
       .subscribe((data: any) => {
-        this.annonces = data.data; // Met à jour la liste des annonces affichées
+        this.annonces = data.data;
       });
   }
+
   getEquipementIcon(equipement: string): string {
     const iconsMap: { [key: string]: string } = {
       Climatisation: 'fas fa-snowflake',
@@ -171,14 +189,15 @@ export class AnnoncesComponent implements OnInit {
       'Régulateur de vitesse': 'fas fa-tachometer-alt',
       Airbags: 'fas fa-car-crash',
     };
-    return iconsMap[equipement] || 'fas fa-check'; // Icône par défaut
+    return iconsMap[equipement] || 'fas fa-check';
   }
-  handleImageError(event: Event, url: string) {
+
+  handleImageError(event: Event, url: string): void {
     console.log('Image URL:', url);
     console.error("Erreur de chargement de l'image:", event);
   }
 
-  logAnnonce(ann: any) {
+  logAnnonce(ann: any): void {
     console.log('Annonce cliquée :', ann);
   }
 }

@@ -1,0 +1,22 @@
+<div class="container mt-5 accepted-evals-page">
+    <h2 class="mb-4" style="color:#1d2e5f;">Demandes acceptées<br><small class="text-muted">en attente de rapport</small></h2>
+  
+    <div *ngIf="!demandes.length" class="alert alert-info">
+      Aucune demande acceptée pour le moment.
+    </div>
+  
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4" *ngFor="let d of demandes">
+        <div class="card p-4 shadow-sm">
+          <h5 style="color:#1d2e5f;">Demande #{{ d.id }}</h5>
+          <p><strong>Annonce ID :</strong> {{ d.ref_id_annonce }}</p>
+          <div class="text-end">
+            <button class="btn btn-primary" (click)="viewReportForm(d.id)">
+              📝 Remplir rapport
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
