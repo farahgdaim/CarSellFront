@@ -12,6 +12,7 @@ import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
 })
 export class RepportedAnnoncesComponent implements OnInit {
  annonces:any ;
+ error: string | null = null;
    constructor(private dataService: RepportedAnnoncesService,private router: Router) { }
    ngOnInit(): void {
      this.getMesAnnoncesData()
@@ -25,7 +26,8 @@ export class RepportedAnnoncesComponent implements OnInit {
          this.annonces = res.data;
        } else {
          console.error('Format inattendu :', res);
-         this.annonces = []; // Évite une erreur si la réponse n'est pas correcte
+         this.annonces = [];
+        // this.router.navigate(['/admin/login']);  Évite une erreur si la réponse n'est pas correcte
        }
      });
    }

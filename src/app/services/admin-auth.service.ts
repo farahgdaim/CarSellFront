@@ -29,7 +29,10 @@ export class AdminAuthService {
       })
     );
   }
-
+// Dans AdminAuthService
+isAdminLoggedIn(): boolean {
+  return !!localStorage.getItem(this.tokenKey); // Utilisez la même clé
+}
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((res: any) => {
@@ -61,7 +64,18 @@ export class AdminAuthService {
     return this.http.get(`${this.apiUrl}/me`);
   }
   
-  
+  isValidAdminSession(): boolean {
+    const token = this.getToken();
+    if (!token) return false;
+    
+    // Vérifiez l'expiration du token (exemple pour JWT)
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
+  }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);

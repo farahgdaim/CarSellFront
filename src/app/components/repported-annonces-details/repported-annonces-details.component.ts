@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
 import { RepportedAnnoncesService } from 'src/app/service/repported-annonces.service';
 
@@ -57,6 +57,7 @@ annonce: any = { images: [] };
   modalVisible: boolean = false;
   constructor(
     private route: ActivatedRoute,
+    private router :Router,
     private http: HttpClient,
     private annonceService: DetailAnnonceService, private repportedAnnonce:RepportedAnnoncesService
   ) {}
@@ -145,6 +146,28 @@ deleteReportedAnnonce(id: string) {
       if (response.status === 200) {
         this.modalMessage = response.data;
         this.modalSuccess = true;
+          this.router.navigate(['/admin/repported-annonces']);
+        
+      } else {
+        this.modalMessage = response.data || 'Erreur inconnue.';
+        this.modalSuccess = false;
+      }
+      this.modalVisible = true;
+    },
+    (error) => {
+      this.modalMessage = error.error?.data || 'Erreur lors de la suppression.';
+      this.modalSuccess = false;
+      this.modalVisible = true;
+    }
+  );
+}
+validateReportedAnnonce(id: string) {
+  this.repportedAnnonce.validateRepportedAnnonce(id).subscribe(
+    (response: any) => {
+      if (response.status === 200) {
+        this.modalMessage = response.data;
+        this.modalSuccess = true;
+          this.router.navigate(['/admin/repported-annonces']);
         
       } else {
         this.modalMessage = response.data || 'Erreur inconnue.';

@@ -466,16 +466,16 @@ if (this.chart && this.chart.chart) {
   }
   generateColors(count: number): string[] {
     const colors = [
-      '#3d5ec9', // Bleu (Primary)
-      '#ffc107', // Jaune (Warning)
-      '#28a745', // Vert (Success)
-      '#dc3545', // Rouge (Danger)
-      '#6610f2', // Violet
-      '#17a2b8', // Cyan
-      '#fd7e14', // Orange
-      '#6c757d', // Gris neutre
-      '#20c997', // Vert clair (Teal)
-      '#6f42c1', // Violet foncé
+      '#375A7F', // Dark Blue (for primary elements, similar to a navy but slightly softer)
+      '#ADD8E6', // Light Blue (for accents or secondary elements)
+      '#8FBC8F', // Soft Green (for success or positive indicators, less harsh than pure green)
+      '#F08080', // Light Coral (for warnings or errors, softer than bright red)
+      '#8A2BE2', // Blue Violet (a sophisticated accent color)
+      '#B0E0E6', // Powder Blue (a very light and clean accent)
+      '#FFA07A', // Light Salmon (another softer accent color)
+      '#D3D3D3', // Light Gray (for neutral elements and backgrounds)
+      '#98FB98', // Pale Green (a very light success indicator)
+      '#BA55D3'
     ];
     return Array.from({ length: count }, (_, i) => colors[i % colors.length]);
   }

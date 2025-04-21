@@ -35,42 +35,106 @@ import { RepportedAnnoncesComponent } from './components/repported-annonces/repp
 import { RepportedAnnoncesDetailsComponent } from './components/repported-annonces-details/repported-annonces-details.component';
 import { SelectionExpertComponent } from './components/selection-expert/selection-expert.component';
 import { RapportComponent } from './components/rapport/rapport.component';
+import { MesAnnoncesDetailsComponent } from './components/mes-annonces-details/mes-annonces-details.component';
+import { UpdateAnnonceComponent } from './components/update-annonce/update-annonce.component';
+
+import { RepportedRapportComponent } from './components/repported-rapport/repported-rapport.component';
+import { RepportedRapportDetailsComponent } from './components/repported-rapport-details/repported-rapport-details.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'annonces', pathMatch: 'full' },
-  { path: 'annonces', component: AnnoncesComponent },
-  { path: 'annonce/:id', component: AnnoncesDetailsComponent },
-  { path: 'mesAnnonces',component:MesAnnoncesComponent},
-  { path: 'selection-expert/:id',component:SelectionExpertComponent},
-  {path:'rapport/:id',component:RapportComponent},
-  
-  
-  
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-
-  { path: 'devenir-expert', component: ExpertFormComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'update-profile', component: UpdateProfileComponent, canActivate: [AuthGuard] },
-  { path: 'creerAnnonce', component: CreateAnnonceComponent, canActivate: [AuthGuard] },
-  { path: 'notifications', component: NotificationListComponent, canActivate: [AuthGuard] },
-  { path: 'profile/:id', component: PublicProfileComponent, canActivate: [AuthGuard] },
-  { path: 'conversations', component: ConversationListComponent, canActivate: [AuthGuard] },
-  { path: 'conversation/:userId1/:userId2', component: ConversationDetailComponent, canActivate: [AuthGuard] },
-
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/register', component: AdminRegisterComponent },
-  { path: 'admin/profile', component: AdminProfileComponent, canActivate: [AdminGuard] },
-  { path: 'admin/expert-requests', component: AdminExpertRequestsComponent, canActivate: [AdminGuard] },
-  { path: 'admin/expert-request/:id', component: AdminExpertRequestDetailComponent, canActivate: [AdminGuard] },
+  {
+    path: 'admin/profile',
+    component: AdminProfileComponent,
+    canActivate: [AdminGuard],
+  },
+  { path: 'admin/expert-requests', component: AdminExpertRequestsComponent },
+  {
+    path: 'admin/expert-request/:id',
+    component: AdminExpertRequestDetailComponent,
+    canActivate: [AdminGuard],
+  },
+  { path: 'admin/dashboard', component: AdminDashboardComponent },
+  {
+    path: 'admin/repported-annonces',
+    component: RepportedAnnoncesComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: 'admin/repported-annonces/:id',
+    component: RepportedAnnoncesDetailsComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: 'admin/repported-rapport',
+    component: RepportedRapportComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: 'admin/repported-rapport/:id',
+    component: RepportedRapportDetailsComponent,
+    canActivate: [AdminGuard],
+  },
+  
 
-  { path: 'admin/dashboard', component: AdminDashboardComponent},
-  { path: 'admin/repported-annonces', component: RepportedAnnoncesComponent, canActivate: [AdminGuard]},
-  { path: 'admin/repported-annonces/:id', component: RepportedAnnoncesDetailsComponent, canActivate: [AdminGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'mesAnnonces', component: MesAnnoncesComponent },
+  { path: 'selection-expert/:id', component: SelectionExpertComponent },
+  { path: 'rapport/:id', component: RapportComponent },
+  { path: 'update-annonce/:id', component: UpdateAnnonceComponent },
+  { path: 'annonces', component: AnnoncesComponent },
+  { path: 'annonce/:id', component: AnnoncesDetailsComponent },
+  { path: 'mon-annonce/:id', component: MesAnnoncesDetailsComponent },
+  {
+    path: 'devenir-expert',
+    component: ExpertFormComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  {
+    path: 'update-profile',
+    component: UpdateProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'creerAnnonce',
+    component: CreateAnnonceComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'notifications',
+    component: NotificationListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'profile/:id',
+    component: PublicProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'conversations',
+    component: ConversationListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'conversation/:userId1/:userId2',
+    component: ConversationDetailComponent,
+    canActivate: [AuthGuard],
+  },
 
-
-
-  { path: 'experts', component: ExpertsListComponent, canActivate: [AuthGuard] },
-  { path: 'expert-profile/:id', component: ExpertProfileComponent, canActivate: [AuthGuard] },
+  {
+    path: 'experts',
+    component: ExpertsListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'expert-profile/:id',
+    component: ExpertProfileComponent,
+    canActivate: [AuthGuard],
+  },
 
   // Redirection finale pour toute URL invalide
   { path: '**', redirectTo: 'annonces' },
@@ -89,12 +153,11 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       scrollPositionRestoration: 'enabled', // restaure la position à 0,0 lors de la navigation
-      anchorScrolling: 'enabled',            // active le scroll vers l'ancre
-      scrollOffset: [0, 64]                  // optionnel : ajuste le décalage en cas de navbar fixe, par exemple
-    })
+      anchorScrolling: 'enabled', // active le scroll vers l'ancre
+      scrollOffset: [0, 64], // optionnel : ajuste le décalage en cas de navbar fixe, par exemple
+    }),
   ],
-  
- 
+
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

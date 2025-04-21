@@ -1,0 +1,300 @@
+<div class="container mt-4 create-annonce-page" style="padding-top: 40px;">
+    <!-- Header -->
+    <div class="row align-items-center mb-3 header">
+      
+      <div class="col-md-9 text-md-right step-indicator" style="text-align: center;">
+        <h4>Créer une annonce (Step {{ currentStep }} / 4)</h4>
+      </div>
+    </div>
+    <hr>
+  
+    <!-- Affichage du spinner global via LoadingService s'il y a un chargement -->
+    <!-- Le spinner global est géré dans app.component.html -->
+  
+    <!-- Step 1: Caractéristiques -->
+  <div *ngIf="currentStep === 1" class="step step-1">
+    <h5>Caractéristiques</h5>
+    <form #step1Form="ngForm">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Catégorie</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule.Categorie" name="categorie" >
+            <option value="">Sélectionnez</option>
+            <option value="Voiture">Voiture</option>
+            <option value="Camion">Camion</option>
+          </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['categorie']?.valid" class="error">
+            Requis.
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Marque</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule.Marque" name="marque" >
+            <option value="">Sélectionnez</option>
+            <!-- Use dynamic getter based on selected category -->
+            <option *ngFor="let marque of getMarques()" [value]="marque">{{ marque }}</option>
+          </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['marque']?.valid" class="error">
+            Requis.
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Modèle</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule['Modèle']" name="modele" >
+            <option value="">Sélectionnez</option>
+            <!-- Dynamically load models based on selected marque and category -->
+            <option *ngFor="let model of getModelOptions()" [value]="model">{{ model }}</option>
+          </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['modele']?.valid" class="error">
+            Requis.
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Puissance fiscale</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule.Puissance" name="puissance" >
+            <option value="">Sélectionnez</option>
+            <!-- Dynamically load fiscal power options based on category and marque -->
+            <option *ngFor="let puissance of getPuissanceOptions()" [value]="puissance">{{ puissance }}</option>
+          </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['puissance']?.valid" class="error">
+            Requis.
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Type de carburant</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule.TypeCarburant" name="typeCarburant" >
+            <option value="">Sélectionnez</option>
+            <!-- Dynamically load fuel options based on category and marque -->
+            <option *ngFor="let fuel of getFuelOptions()" [value]="fuel">{{ fuel }}</option>
+          </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['typeCarburant']?.valid" class="error">
+            Requis.
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Cylindre</label>
+          <select class="form-select" [(ngModel)]="annonce.vehicule.Cylindre" name="cylindre" >
+            <option value="">Sélectionnez</option>
+            <!-- Dynamically load cylinder options based on category and marque -->
+            <option *ngFor="let cyl of getCylinderOptions()" [value]="cyl">{{ cyl }}</option>
+          </select>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['cylindre']?.valid" class="error">
+            Requis.
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Mise en circulation</label>
+          <input type="date" class="form-control" [(ngModel)]="annonce.vehicule.DateDeMiseEnCirculation" name="dateCirculation" >
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['dateCirculation']?.valid" class="error">
+            Requis.
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Kilométrage</label>
+          <input type="number" class="form-control" [(ngModel)]="annonce.vehicule['Kilométrage']" name="kilometrage" placeholder="Entrer le kilométrage" >
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['kilometrage']?.valid" class="error">
+            Requis.
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Nombre de portes</label>
+          <input type="number" class="form-control" [(ngModel)]="annonce.vehicule.nbPortes" name="nbPortes" placeholder="Entrer le nombre de portes" >
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !step1Form.controls['nbPortes']?.valid" class="error">
+            Requis.
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>État du véhicule</label>
+          <div>
+            <label class="mr-2">
+              <input type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="neuf" >
+              Neuf
+            </label>
+            <label class="mr-2">
+              <input type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="excellent">
+              Excellent
+            </label>
+            <label class="mr-2">
+              <input type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="correct">
+              Correct
+            </label>
+            <label>
+              <input type="radio" name="etat" [(ngModel)]="annonce.vehicule.etat" value="endommagé">
+              Endommagé
+            </label>
+          </div>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !annonce.vehicule.etat" class="error">
+            Requis.
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label>Boîte de vitesses</label>
+          <div>
+            <label class="mr-2">
+              <input type="radio" name="boiteVitesse" [(ngModel)]="annonce.vehicule.boiteVitesse" value="manuelle" >
+              Manuelle
+            </label>
+            <label>
+              <input type="radio" name="boiteVitesse" [(ngModel)]="annonce.vehicule.boiteVitesse" value="automatique">
+              Automatique
+            </label>
+          </div>
+          <div *ngIf="(step1Form.submitted || submittedStep1) && !annonce.vehicule.boiteVitesse" class="error">
+            Requis.
+          </div>
+        </div>
+      </div>
+  
+      <div class="d-flex justify-content-end navigation">
+        <button type="button" class="btn btn-next" (click)="nextStep(step1Form)">Suivant</button>
+      </div>
+    </form>
+  </div>
+  
+  
+    <!-- Step 2: Équipements -->
+     <div *ngIf="currentStep === 2" class="step step-2">
+      <h5>Équipements</h5>
+      <p class="info">Vous pouvez sélectionner plusieurs équipements.</p>
+      <div class="equipments">
+        <div class="equipment-card" *ngFor="let equip of equipmentOptions"
+             (click)="toggleEquipment(equip.name)"
+             [ngClass]="{'selected': annonce.vehicule.equipements.includes(equip.name)}">
+            <div class="card-body">
+              <img [src]="equip.icon" [alt]="equip.name" width="32" height="32">
+              <p class="mt-2">{{ equip.name }}</p>
+            </div>
+        </div>
+      </div>
+      
+      <div *ngIf="step2Error" class="error mb-2">{{ step2Error }}</div>
+      <div class="navigation">
+        <button type="button" class="btn btn-prev" (click)="prevStep()">Précédent</button>
+        <button type="button" class="btn btn-next" (click)="nextStep()">Suivant</button>
+      </div>
+    </div>
+  
+    <!-- Step 3: Informations générales -->
+    <div *ngIf="currentStep === 3" class="step step-3">
+      <h5>Informations générales</h5>
+      <form #step3Form="ngForm">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Titre de votre annonce</label>
+            <input type="text" class="form-control" [(ngModel)]="annonce.titre" name="titre" placeholder="Entrez un titre attractif" >
+            <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['titre']?.valid" class="error">
+              Requis.
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Prix (en DT)</label>
+            <input type="number" class="form-control" [(ngModel)]="annonce.prix" name="prix" placeholder="Entrez le prix" >
+            <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['prix']?.valid" class="error">
+              Requis.
+            </div>
+            <div class="form-check mt-2">
+              <input type="checkbox" class="form-check-input" id="prixNegociable" [(ngModel)]="annonce.prixNegociable" name="prixNegociable">
+              <label for="prixNegociable" class="form-check-label">Prix négociable</label>
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-control" [(ngModel)]="annonce.description" name="description" placeholder="Ajoutez une description détaillée" rows="4" ></textarea>
+          <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['description']?.valid" class="error">
+            Requis.
+          </div>
+        </div>
+  
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Photos du véhicule</label>
+            <input type="file" class="form-control" (change)="onPhotosSelected($event)" multiple >
+            <small class="info">Minimum 3 photos requises</small>
+            <div *ngIf="photoError" class="error">{{ photoError }}</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Région</label>
+            <input type="text" class="form-control" [(ngModel)]="annonce.region" name="region" placeholder="Spécifiez la région" >
+            <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['region']?.valid" class="error">
+              Requis.
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Délégation</label>
+            <input type="text" class="form-control" [(ngModel)]="annonce.delegation" name="delegation" placeholder="Entrez la délégation" >
+            <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['delegation']?.valid" class="error">
+              Requis.
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Téléphone</label>
+            <input type="text" class="form-control" [(ngModel)]="annonce.telephone" name="telephone" placeholder="Entrez votre numéro" >
+            <div *ngIf="(step3Form.submitted || submittedStep3) && !step3Form.controls['telephone']?.valid" class="error">
+              Requis.
+            </div>
+            <div class="form-check mt-2">
+              <input type="checkbox" class="form-check-input" id="afficherTelephone" [(ngModel)]="annonce.afficherTelephone" name="afficherTelephone">
+              <label for="afficherTelephone" class="form-check-label">Afficher mon numéro</label>
+            </div>
+          </div>
+        </div>
+  
+        <div class="navigation">
+          <button type="button" class="btn btn-prev" (click)="prevStep()">Précédent</button>
+          <button type="button" class="btn btn-next" (click)="nextStep(step3Form)">Suivant</button>
+        </div>
+      </form>
+    </div>
+  
+    <!-- Step 4: Sponsoring -->
+    <div *ngIf="currentStep === 4" class="step step-4">
+      <h5>Boostez la Visibilité de Votre Annonce</h5>
+      <div *ngIf="submissionError" class="alert error mb-2">{{ submissionError }}</div>
+      <div class="row sponsoring-options">
+        <div class="col-12 col-md-6 col-lg-3 mb-3" *ngFor="let pack of sponsoringPackages">
+          <div class="card sponsoring-card" 
+               (click)="selectSponsoring(pack)" 
+               [ngClass]="{'selected-pack': selectedSponsoring?.id === pack.id}"
+               style="cursor: pointer;">
+            <div class="card-body text-center">
+              <h6 class="card-title">{{ pack.name }}</h6>
+              <p class="card-text">{{ pack.description }}</p>
+              <p class="card-text">
+                <strong *ngIf="pack.price > 0">{{ pack.price }} DT</strong>
+                <span *ngIf="pack.price === 0">Gratuit</span>
+              </p>
+              <button type="button" class="btn" 
+                      [ngClass]="{'selected-btn': selectedSponsoring?.id === pack.id}">
+                {{ selectedSponsoring?.id === pack.id ? 'Sélectionné' : 'Sélectionner' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navigation">
+        <button type="button" class="btn btn-prev" (click)="prevStep()">Précédent</button>
+        <button type="button" class="btn btn-submit" (click)="submitAnnonce()">Publier</button>
+      </div>
+    </div>
+  </div>
+  

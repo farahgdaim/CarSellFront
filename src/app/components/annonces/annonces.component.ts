@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/service/data.service';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
+import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
 @Component({
   selector: 'app-annonces',
   templateUrl: './annonces.component.html',
@@ -9,6 +11,7 @@ import { ViewportScroller } from '@angular/common';
 })
 export class AnnoncesComponent implements OnInit {
   annonces: any;
+  user: any ;
   searchCriteria: any = {
     categorie: '',
     marque: '',
@@ -43,9 +46,11 @@ export class AnnoncesComponent implements OnInit {
   marques: any;
   modeles: any;
   selectedMarque: string = '';
-
+  annonce:any;
   constructor(
+     private annonceService: DetailAnnonceService,
     private dataService: DataService,
+    private authService: AuthService,
     private router: Router,
     private viewportScroller: ViewportScroller
   ) {}
@@ -54,22 +59,19 @@ export class AnnoncesComponent implements OnInit {
     this.loadMarques();
   }
 
-
+  
   loadMarques(): void {
-    this.dataService.getMarques().subscribe(data => {
+    this.dataService.getMarques().subscribe((data) => {
       this.marques = data;
     });
   }
 
-
-
   onMarqueChange(): void {
     // Synchroniser la valeur
     this.searchCriteria.marque = this.selectedMarque;
-    
 
     if (this.selectedMarque) {
-      this.dataService.getModeles(this.selectedMarque).subscribe(data => {
+      this.dataService.getModeles(this.selectedMarque).subscribe((data) => {
         console.log(this.selectedMarque);
         console.log(data);
         this.modeles = data;
@@ -80,20 +82,32 @@ export class AnnoncesComponent implements OnInit {
   }
   resetFilters() {
     this.searchCriteria = {
-        categorie: '',
-        modele: '',
-        puissance: null,
-        kilometrage: null,
-        dateMiseEnCirculation: null,
-        energie: '',
-        boiteVitesse: '',
-        etat: ''
+      categorie: '',
+      modele: '',
+      puissance: null,
+      kilometrage: null,
+      dateMiseEnCirculation: null,
+      energie: '',
+      boiteVitesse: '',
+      etat: '',
     };
     this.selectedMarque = '';
     this.annonces = []; // Ou recharge les annonces par défaut
-}
+  }
 
 
+  getAnnonceDetails(id:string){
+    this.annonceService.getAnnonceById(id).subscribe((res) => {
+      console.log("l'annonce el ma7nouna ", res);
+      if (res && typeof res === 'object' && 'data' in res) {
+        this.annonce = res.data;
+       
+      } else {
+        console.error('Format inattendu :', res);
+        this.annonce = []; // Évite une erreur si la réponse n'est pas correcte
+      }
+    });
+  }
   getAnnoncesData() {
     this.dataService.getData().subscribe((res) => {
       //this.annonces = res;
@@ -108,11 +122,36 @@ export class AnnoncesComponent implements OnInit {
       }
     });
   }
-  goToAnnonceDetails(id: string) {
-    this.router.navigate(['/annonce', id]) /* .then(() => {
-      this.viewportScroller.scrollToPosition([0, 0]);
-    }) */; // Redirige vers /annonce/{id}
+  goToAnnonceDetails(annonceId: string) {
+    this.annonceService.getAnnonceById(annonceId).subscribe((res: any) => {
+      if (res && typeof res === 'object' && 'data' in res) {
+        const annonce = res.data;
+  
+        this.authService.getUser().subscribe((userRes: any) => {
+          this.user = userRes.data;
+  
+          console.log("User connecté :", this.user);
+          console.log("Annonce cliquée :", annonce);
+          console.log("l'id de l'annonce ref",annonce.Ref_id_user);
+          
+  
+          if (this.user.id === annonce.Ref_id_user) {
+            this.router.navigate(['/mon-annonce', annonceId]);
+            console.log("C'est mon annonce");
+          } else {
+            this.router.navigate(['/annonce', annonceId]);
+            console.log("C'est une autre annonce");
+          }
+  
+        
+        });
+  
+      } else {
+        console.error('Format inattendu :', res);
+      }
+    });
   }
+  
 
   onSearch() {
     this.dataService

@@ -1,24 +1,41 @@
 <section id="resume" class="resume" style="padding-top: 30px; ">
-    <div class="container aos-init aos-animate" data-aos="fade-up">
-      <div class="section-title">
-        <h2 > Rapport de {{ annonce.titre }}</h2>
-       
+  <div class="container aos-init aos-animate" data-aos="fade-up">
+    <div class="section-title">
+      <h2> Rapport de {{ annonce.titre }}</h2>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6" style="padding-top: 60px;">
+
+        <div class="resume-item pb-0">
+          <h4>Contenu</h4>
+          <p><em>{{ rapport.contenu }}</em></p>
+        </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="col-lg-6"style="padding-top: 60px;">
-         
-          <div class="resume-item pb-0" >
-            <h4>Contenu</h4>
-            <p><em>{{ rapport.contenu }}</em></p>
-         
-          </div>
-          </div>
-          </div>
-          </div>
-          </section>
 
-         <!--  <h3 class="resume-title">Education</h3>
+    <div class="modal" [ngClass]="{'show': modalVisible}" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2 [ngClass]="modalSuccess ? 'text-green-600' : 'text-red-600'">
+          {{ modalSuccess ? 'Rapport Signalé avec Succès!' : 'Signalement Échoué' }}
+        </h2>
+        <p>{{ modalMessage }}</p>
+      </div>
+    </div>
+
+    <div class="contact-buttons">
+      <button class="btn report" (click)="reportRapport( rapport.id_rapport)">
+        <i class="fas fa-exclamation-triangle"></i> Signaler
+      </button>
+    </div>
+    
+  </div>
+</section>
+
+<!--  <h3 class="resume-title">Education</h3>
           <div class="resume-item">
             <h4>Master of Fine Arts &amp; Graphic Design</h4>
             <h5>2015 - 2016</h5>

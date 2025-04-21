@@ -77,7 +77,14 @@ export class AnnoncesDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
     this.getAnnonceDetail();
+    if(id){
+      this.verifierRapport(id);
+    }else{
+      console.error("l'id de l'annonce est non trouvé ");
+    }
+    
 
     this.authService.getUser().subscribe({
       next: (res: any) => {
@@ -90,6 +97,23 @@ export class AnnoncesDetailsComponent implements OnInit {
         );
       },
     });
+  }
+  verifierRapport(annonceId: string) {
+    this.rapportChecking = true;
+    this.evaluationService.checkRapport(annonceId).subscribe({
+      next: (res: any) => {
+        this.rapportDisponible = res.data.rapport_genere === true;
+        this.rapportChecking = false;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la vérification :', error);
+        this.rapportChecking = false;
+        this.rapportDisponible = false;
+      },
+    });
+  }
+  consulterRapport(annonceId: string) {
+    this.router.navigate(['/rapport', annonceId]);
   }
   formatPrix(prix: number): string {
     return prix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -108,6 +132,7 @@ export class AnnoncesDetailsComponent implements OnInit {
         this.annonce = []; // Évite une erreur si la réponse n'est pas correcte
       }
     });
+    
   }
   ngOnDestroy(): void {
     clearInterval(this.autoScrollInterval);
@@ -286,22 +311,45 @@ export class AnnoncesDetailsComponent implements OnInit {
   modalVisible2: boolean = false;
   modalSuccess2: boolean = false; // vrai si "hasRequested" est true
   modalMessage2: string = '';
-  consulterRapport(annonceId: string) {
+  rapportDisponible: boolean = false;
+  rapportChecking: boolean = false;
+   /*consulterRapport(annonceId: string) {
+    console.log("debut de méthode de consulter rapport  ");
+    
+    this.rapportChecking = true;
     this.evaluationService.checkRapport(annonceId).subscribe({
       next: (res: any) => {
         this.demandeStatus = res.data.rapport_genere;
-        console.log('le status de la demande :', this.demandeStatus);
-        // this.closeModal1();
-        this.modalSuccess2=this.demandeStatus; //true ou false
-        if (this.modalSuccess2){
-          console.log("rapport submitted");
+        this.rapportDisponible = res.data.rapport_genere === true;
+        console.log("var rapport disponible",this.rapportDisponible);
+        
+        this.rapportChecking = false;
+        /* console.log('le status de la demande :', this.demandeStatus);
+        
+        this.modalSuccess2 = this.demandeStatus;  //true ou false
+        
+        if (this.rapportDisponible) {
+          console.log("le rapport submitted");
           
-          this.router.navigate(['/rapport',annonceId]);
-        }else{
-          this.modalMessage2 = "L'expert a bien reçu votre demande et travaille actuellement sur l’évaluation. Vous serez notifié dès que le rapport sera disponible. ";
+          this.router.navigate(['/rapport', annonceId]);
+        } else {
+          console.log("rapport en cours");
+          
+          this.modalMessage2 = "L'expert travaille actuellement sur l’évaluation.";
+          this.modalVisible2 = true;
+        }
+      },
+
+        if (this.modalSuccess2) {
+          console.log('rapport submitted');
+
+          this.router.navigate(['/rapport', annonceId]);
+        } else {
+          this.modalMessage2 =
+            "L'expert a bien reçu votre demande et travaille actuellement sur l’évaluation. Vous serez notifié dès que le rapport sera disponible. ";
         }
         this.modalVisible2 = true;
-      },
+      }, 
       error: (error) => {
         console.error('Erreur lors de la vérification de la demande :', error);
         this.modalSuccess2 = false;
@@ -313,7 +361,7 @@ export class AnnoncesDetailsComponent implements OnInit {
     // this.router.navigate(['/rapport', this.pendingAnnonceId]);
 
     // }
-  }
+  }*/
   payerExpert() {
     // Exemple : ouvrir une page de paiement ou appeler un service
     this.router.navigate(['/paiement', this.pendingAnnonceId]);

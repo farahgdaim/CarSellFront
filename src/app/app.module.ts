@@ -46,6 +46,10 @@ import { SelectionExpertComponent } from './components/selection-expert/selectio
 import { MesAnnoncesDetailsComponent } from './components/mes-annonces-details/mes-annonces-details.component';
 import { RapportComponent } from './components/rapport/rapport.component';
 
+import { RepportedRapportComponent } from './components/repported-rapport/repported-rapport.component';
+import { RepportedRapportDetailsComponent } from './components/repported-rapport-details/repported-rapport-details.component';
+import { UpdateAnnonceComponent } from './components/update-annonce/update-annonce.component';
+
 
 
 
@@ -82,6 +86,9 @@ import { RapportComponent } from './components/rapport/rapport.component';
     SelectionExpertComponent,
     MesAnnoncesDetailsComponent,
     RapportComponent,
+    RepportedRapportComponent,
+    RepportedRapportDetailsComponent,
+    UpdateAnnonceComponent,
    
     
     

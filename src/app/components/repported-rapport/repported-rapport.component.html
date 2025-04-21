@@ -1,26 +1,24 @@
 <app-admin-navbar></app-admin-navbar>
-<div *ngIf="annonces.length === 0 && !error" class="text-center text-muted py-5">
-    <i class="fas fa-bullhorn fa-3x mb-3"></i>
-    <p class="fs-5">Aucune annonce est signalée pour le moment.</p>
+<div *ngIf="rapports.length === 0 && !error" class="text-center text-muted py-5">
+    <i class="fas fa-file-alt fa-3x mb-3"></i>
+    <p class="fs-5">Aucun rapport est signalé pour le moment.</p>
   </div>
 <div class="container" style="padding-left: 150px;padding-top: 20px;">
     <div class="col-lg-9 col-md-8"id="annonces" >
         <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-12 d-flex" *ngFor="let ann of annonces">
-                <div class="card annonce-card w-100 my-2 shadow-2-strong" [routerLink]="['/repported-annonces', ann.id]"(click)="goToAnnonceDetails(ann.id)">
-                    <img [src]="'http://127.0.0.1:8000' + ann.images[0]?.url" alt="Image de l'annonce"class="card-img-top"
-                    style="aspect-ratio: 1 / 1"
-                    alt="Image de l'annonce" />
-
+            <div class="col-lg-4 col-md-6 col-sm-12 d-flex" *ngFor="let rapport of rapports; let i = index">
+                <div class="card annonce-card w-100 my-2 shadow-2-strong" [routerLink]="['/admin/repported-rapport', rapport.id]"(click)="goToRapportDetails(rapport.id)">
+                   
+                   
                      
 
 
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title" style="color: #1d2e5f;font-weight: 700;">{{ann.titre}}</h5>
-                        <p>{{ann.description}}</p>
-                        <p class="card-text fw-bold">{{ann.prix}} TND</p>
+                        <h5 class="card-title" style="color: #1d2e5f;font-weight: 700;margin-top: 250px;">Rapport signalé {{ i + 1 }}</h5>
+                        <p>{{ rapport.created_at | date:'medium' }}</p>
+                        <p class="card-text contenu-tronque">{{ rapport.contenu }}</p>
 
-                        <!-- Infos supplémentaires avec icônes -->
+                        <!-- Infos supplémentaires avec icônes 
                         <div class="row text-muted small">
                             <div class="col-6"><i class="fas fa-car"></i> {{ann.vehicule['Marque']}} /
                                 {{ann.vehicule['Modèle']}}</div>
@@ -36,7 +34,7 @@
                 </div>
             </div>
         </div>
-        
+        -->
 
     </div>
   </div>

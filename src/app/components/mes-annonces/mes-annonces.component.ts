@@ -27,7 +27,7 @@ export class MesAnnoncesComponent implements OnInit {
     });
   }
   goToAnnonceDetails(id: string) {
-    this.router.navigate(['/annonce', id]) /* .then(() => {
+    this.router.navigate(['/mon-annonce', id]) /* .then(() => {
       this.viewportScroller.scrollToPosition([0, 0]);
     }) */; // Redirige vers /annonce/{id}
   }

@@ -13,7 +13,9 @@ export class RepportedAnnoncesService {
   deleteRepportedAnnonce(id:string){
     
       return this.httpClient.delete(`http://127.0.0.1:8000/api/admin/deleteReportedAnnonce/${id}`);
-    
-    
+  }
+
+  validateRepportedAnnonce(id:string){
+    return this.httpClient.post(`http://127.0.0.1:8000/api/admin/validateAnnonce/${id}`,{});
   }
 }

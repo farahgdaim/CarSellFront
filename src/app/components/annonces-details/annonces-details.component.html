@@ -183,24 +183,26 @@
                   Continuer
                 </button>
               </div>
-
-              <div class="modal" [ngClass]="{'show': modalVisible2}" (click)="closeModal2()">
-                <div class="modal-content" (click)="$event.stopPropagation()">
-                  <span class="close" (click)="closeModal2()">&times;</span>
-                  <h2 [ngClass]="modalSuccess2 ? 'text-green-600' : 'text-red-600'">
-                    {{ modalSuccess2 ? 'rapport submitted' : 'Rapport en cours de préparation' }}
-                  </h2>
-                  <p>{{ modalMessage2 }}</p>
-                </div>
-              </div>
-              <div *ngIf="showReportActions" class="flex justify-between mt-6">
-                <button (click)="consulterRapport(annonce.id)" class=" bn rapport">
-                  Consulter le rapport
+              <!-- [disabled]="!rapportDisponible || rapportChecking" -->
+              <div class="flex justify-between mt-6">
+                <button
+                  [disabled]="!rapportDisponible"
+                  (click)="rapportDisponible ? consulterRapport(annonce.id) : null"
+                  class="rapport-btn"
+                >
+                  <ng-container *ngIf="!rapportDisponible">
+                    <span class="spinner"></span>
+                    Le rapport n'est pas encore généré
+                  </ng-container>
+              
+                  <ng-container *ngIf="rapportDisponible">
+                    Consulter le rapport
+                  </ng-container>
                 </button>
-                <button (click)="payerExpert()" class="bn payer">
-                  Payer l’expert
-                </button>
               </div>
+              
+              
+              
 
             </div>
 

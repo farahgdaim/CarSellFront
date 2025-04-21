@@ -51,8 +51,8 @@ export class AdminExpertRequestDetailComponent implements OnInit {
     this.adminExpertService.acceptExpertRequest(this.requestId).subscribe({
       next: () => {
         this.modalVisible = true;
-        /* alert('Demande acceptée.');
-        this.router.navigate(['/admin/expert-requests']); */
+        /* alert('Demande acceptée.');*/
+        this.router.navigate(['/admin/expert-requests']); 
       },
       error: (err) => {
         alert('Erreur lors de l\'acceptation de la demande.');
@@ -64,8 +64,8 @@ export class AdminExpertRequestDetailComponent implements OnInit {
   rejectRequest() {
     this.adminExpertService.rejectExpertRequest(this.requestId).subscribe({
       next: () => {
-       /*  alert('Demande rejetée.');
-        this.router.navigate(['/admin/expert-requests']); */
+       /*  alert('Demande rejetée.');*/
+        this.router.navigate(['/admin/expert-requests']); 
         this.modalVisible = true;
       },
       error: (err) => {

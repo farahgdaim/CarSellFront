@@ -4,7 +4,7 @@
     bottom: 0;
     left: 0;
     width: 220px; /* Légèrement plus large pour un aspect plus robuste */
-    background: #3d5ec9;
+    background: #1d2e5f;
     display: flex;
     flex-direction: column;
     padding-top: 30px; /* Un peu plus d'espace en haut */

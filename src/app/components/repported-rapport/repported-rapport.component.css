@@ -1,0 +1,100 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.annonce-card {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.annonce-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  color: #1d2e5f;
+  font-weight: 700;
+}
+
+.text-muted {
+  font-size: small;
+}
+
+.fade-slide {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filters-container {
+  width: 100%;
+  max-width: 320px;
+  background: #f4f4f4;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.filters-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.filter-btn {
+  background: #a3a3a3;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.filter-btn:hover {
+  background: #8c8c8c;
+  transform: scale(1.05);
+}
+.container h2 {
+  margin-top: 90px;
+  color: #1d2e5f;
+  text-align: center;
+  font-size: 50px; /* Augmente la taille */
+  font-weight: bold;
+  text-transform: uppercase; /* Met en majuscules pour un effet plus prestigieux */
+  letter-spacing: 2px; /* Espacement pour plus d'élégance */
+
+  background: linear-gradient(90deg, #1d2e5f, #1d2e5f, #1d2e5f);
+  background-size: 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientAnimation 5s infinite linear alternate;
+  position: relative;
+  cursor: pointer;
+}
+.contenu-tronque {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limite à 3 lignes */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5em;
+    max-height: 4.5em; /* 3 lignes x 1.5em */
+  }
+  

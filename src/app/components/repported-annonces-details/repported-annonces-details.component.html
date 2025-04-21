@@ -162,8 +162,16 @@
             <button class="btn report" (click)="deleteReportedAnnonce(annonce.id)" >
               <i class="fas fa-exclamation-triangle"></i> Supprimer l'annonce
             </button>
-  
-            <button class="btn status">
+            <div class="modal" [ngClass]="{'show': modalVisible}" (click)="closeModal()">
+              <div class="modal-content" (click)="$event.stopPropagation()">
+                <span class="close" (click)="closeModal()">&times;</span>
+                <h2 [ngClass]="modalSuccess ? 'text-green-600' : 'text-red-600'">
+                  {{ modalSuccess ? "L'annonce est validée avec succès!" : 'la validation a Échouée' }}
+                </h2>
+                <p>{{ modalMessage }}</p>
+              </div>
+            </div>
+            <button class="btn status"(click)="validateReportedAnnonce(annonce.id)">
               <i class="fas fa-tasks"></i> Valider l'annonce
             </button>
   

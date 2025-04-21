@@ -28,6 +28,7 @@ export class AdminExpertRequestsComponent implements OnInit {
       error: (err) => {
         this.error = "Erreur lors du chargement des demandes d'expert.";
         console.error(err);
+        this.router.navigate(['/admin/login']);
       }
     });
   }
