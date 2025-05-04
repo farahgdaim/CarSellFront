@@ -47,45 +47,45 @@
                     <li>
                         <i class="fas fa-tags"></i>
                         <span>Catégorie</span>
-                        <strong class="right">{{ annonce.vehicule['Categorie'] }}</strong>
+                        <strong class="right">{{ annonce?.vehicule?.Categorie }}</strong>
                     </li>
                     <li>
                         <i class="fas fa-car"></i>
                         <span>Marque</span>
-                        <strong class="right">{{ annonce.vehicule['Marque'] }}</strong>
+                        <strong class="right">{{ annonce?.vehicule?.Marque }}</strong>
                     </li>
                     <li>
                         <i class="fas fa-car-side"></i>
                         <span>Modèle</span>
-                        <strong class="right">{{ annonce.vehicule['Modèle'] }}</strong>
+                        <strong class="right">{{ annonce?.vehicule?.['Modèle'] }}</strong>
                     </li>
                     <li>
                         <i class="fas fa-tachometer-alt"></i>
                         <span>Kilométrage</span>
-                        <strong class="right">{{ annonce.vehicule['Kilométrage'] }} KM</strong>
+                        <strong class="right">{{ annonce.vehicule?.['Kilométrage'] }} KM</strong>
                     </li>
                     <li>
                         <i class="far fa-calendar-alt"></i>
                         <span>Mise en circulation</span>
-                        <strong class="right">{{ annonce.vehicule['DateDeMiseEnCirculation'] }}</strong>
+                        <strong class="right">{{ annonce.vehicule?.['DateDeMiseEnCirculation'] }}</strong>
                     </li>
 
                     <li>
                         <i class="fas fa-gas-pump"></i>
                         <span>Énergie</span>
-                        <strong class="right">{{ annonce.vehicule.TypeCarburant }}</strong>
+                        <strong class="right">{{ annonce.vehicule?.TypeCarburant }}</strong>
                     </li>
 
                     <li>
                         <i class="fas fa-cogs"></i>
                         <span>Boîte vitesse</span>
-                        <strong class="right">{{ annonce.vehicule.boiteVitesse }}</strong>
+                        <strong class="right">{{ annonce.vehicule?.boiteVitesse }}</strong>
                     </li>
 
                     <li>
                         <i class="fas fa-tachometer-alt"></i>
                         <span>Puissance fiscale</span>
-                        <strong class="right">{{ annonce.vehicule.Puissance }}</strong>
+                        <strong class="right">{{ annonce.vehicule?.Puissance }}</strong>
                     </li>
 
                     <li>
@@ -126,21 +126,21 @@
                     <li>
                         <i class="fas fa-cogs"></i> <!-- Icône pour la mécanique -->
                         <span>Cylindre</span>
-                        <strong class="right">{{ annonce.vehicule['Cylindre'] }} </strong>
+                        <strong class="right">{{ annonce.vehicule?.['Cylindre'] }} </strong>
                     </li>
 
                     <!-- Nombre de Portes -->
                     <li>
                         <i class="fas fa-door-open"></i> <!-- Icône pour les portes -->
                         <span>Nombre de Portes</span>
-                        <strong class="right">{{ annonce.vehicule['nbPortes'] }}</strong>
+                        <strong class="right">{{ annonce.vehicule?.['nbPortes'] }}</strong>
                     </li>
 
                     <!-- État du Véhicule -->
                     <li>
                         <i class="fas fa-info-circle"></i> <!-- Icône pour l'information ou l'état -->
                         <span>État</span>
-                        <strong class="right">{{ annonce.vehicule['etat'] }}</strong>
+                        <strong class="right">{{ annonce.vehicule?.['etat'] }}</strong>
                     </li>
 
                 </ul>

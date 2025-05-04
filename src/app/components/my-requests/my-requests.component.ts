@@ -40,6 +40,6 @@ export class MyRequestsComponent implements OnInit {
 
   viewDetail(item: any) {
     // use the _id field, not id
-    this.router.navigate(['/mes-demandes', item.demande._id]);
+    this.router.navigate(['/mes-demandes', item.demande.id]);
   }
 }

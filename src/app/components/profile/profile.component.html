@@ -35,7 +35,7 @@
           <li class="list-group-item d-flex justify-content-between align-items-center"
               *ngFor="let item of myRequests; let i = index">
             <div>
-              <strong>Annonces ID {{ item.annonce.id }}</strong><br>
+              <strong>Annonce {{ item.annonce?.titre }}</strong><br>
               Statut : <span class="text-capitalize">{{ item.demande.status }}</span>
             </div>
             <div>

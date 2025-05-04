@@ -15,6 +15,7 @@ export class AnnoncesDetailsComponent implements OnInit {
   annonce: any = { images: [] };
   isLoading: boolean = true;
   error: string | null = null;
+  demandeId:string| null =null;
   autoScrollInterval: any;
   currentSlide = 0;
   // imagesPerPage = 4;
@@ -85,7 +86,7 @@ export class AnnoncesDetailsComponent implements OnInit {
       console.error("l'id de l'annonce est non trouvé ");
     }
     
-
+    // this.demandeDetails();
     this.authService.getUser().subscribe({
       next: (res: any) => {
         this.loggedInUserId = res.data.id || res.data._id;
@@ -97,6 +98,8 @@ export class AnnoncesDetailsComponent implements OnInit {
         );
       },
     });
+  /*   console.log("hello",this.demande);
+    this.CancelDemande(); */
   }
   verifierRapport(annonceId: string) {
     this.rapportChecking = true;
@@ -115,12 +118,13 @@ export class AnnoncesDetailsComponent implements OnInit {
   consulterRapport(annonceId: string) {
     this.router.navigate(['/rapport', annonceId]);
   }
-  formatPrix(prix: number): string {
+  formatPrix(prix ?: number): string {
+    if(!prix) return '0';
     return prix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
   getAnnonceDetail() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id')!;
     console.log(id);
     this.annonceService.getAnnonceById(id).subscribe((res) => {
       console.log("l'annonce el ma7nouna ", res);
@@ -272,6 +276,7 @@ export class AnnoncesDetailsComponent implements OnInit {
             'Vous avez déjà soumis une demande d’évaluation pour ce véhicule. Vous pouvez consulter le rapport généré par l’expert ou procéder au paiement si ce n’est pas encore fait.';
           this.showContinueButton = false;
           this.showReportActions = true;
+          this.verifierRapport(annonceId);
         } else {
           this.modalMessage1 =
             'En poursuivant, vous demandez à nos experts d’évaluer ce véhicule. Une fois la demande envoyée, vous aurez la possibilité de choisir l’expert que vous jugez le plus apte à réaliser cette évaluation en toute objectivité.';
@@ -369,4 +374,21 @@ export class AnnoncesDetailsComponent implements OnInit {
   closeModal2() {
     this.modalVisible2 = false;
   }
+
+  CancelDemande(){
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.evaluationService.getDemandeInfo(id).subscribe({
+      next: (response:any)=>{
+        // console.log("les détails de la demande",response.data);
+        this.demandeId=response.data.id;
+        this.evaluationService.cancelRequest(this.demandeId).subscribe({
+          next: (response:any)=>{
+            console.log(response.data);
+            
+          }
+        });
+      }
+    });
+  }
+  
 }

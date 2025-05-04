@@ -70,10 +70,18 @@ export class EvaluationService {
   }
 
   /** Cancel a pending evaluation request */
-  cancelRequest(demandeId: string): Observable<any> {
+  cancelRequest(demandeId: string |null): Observable<any> {
     return this.http.post(
       `${this.apiBase}/demande/${demandeId}/cancel`,
       {},
+      this.getAuthOptions()
+    );
+  }
+  
+  getDemandeInfo(annonceId:string):Observable<any>{
+    return this.http.get(
+      `${this.apiBase}/demande/${annonceId}`,
+     
       this.getAuthOptions()
     );
   }

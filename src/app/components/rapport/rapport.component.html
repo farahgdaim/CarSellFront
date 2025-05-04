@@ -10,7 +10,7 @@
 
         <div class="resume-item pb-0">
           <h4>Contenu</h4>
-          <p><em>{{ rapport.contenu }}</em></p>
+          <p><em>{{ rapport?.contenu }}</em></p>
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
     <div class="modal" [ngClass]="{'show': modalVisible}" (click)="closeModal()">
       <div class="modal-content" (click)="$event.stopPropagation()">
         <span class="close" (click)="closeModal()">&times;</span>
-        <h2 [ngClass]="modalSuccess ? 'text-green-600' : 'text-red-600'">
+        <h2 [ngClass]="modalSuccess ? 'text-success' : 'text-error'">
           {{ modalSuccess ? 'Rapport Signalé avec Succès!' : 'Signalement Échoué' }}
         </h2>
         <p>{{ modalMessage }}</p>

@@ -42,14 +42,14 @@
         <h1>{{ formatPrix(annonce.prix) }} DT</h1>
 
         <ul class="info-list">
-          <li><i class="fas fa-tags"></i><span>Catégorie</span><strong class="right">{{ annonce.vehicule['Categorie'] }}</strong></li>
-          <li><i class="fas fa-car"></i><span>Marque</span><strong class="right">{{ annonce.vehicule['Marque'] }}</strong></li>
-          <li><i class="fas fa-car-side"></i><span>Modèle</span><strong class="right">{{ annonce.vehicule['Modèle'] }}</strong></li>
-          <li><i class="fas fa-tachometer-alt"></i><span>Kilométrage</span><strong class="right">{{ annonce.vehicule['Kilométrage'] }} KM</strong></li>
-          <li><i class="far fa-calendar-alt"></i><span>Mise en circulation</span><strong class="right">{{ annonce.vehicule['DateDeMiseEnCirculation'] }}</strong></li>
-          <li><i class="fas fa-gas-pump"></i><span>Énergie</span><strong class="right">{{ annonce.vehicule.TypeCarburant }}</strong></li>
-          <li><i class="fas fa-cogs"></i><span>Boîte vitesse</span><strong class="right">{{ annonce.vehicule.boiteVitesse }}</strong></li>
-          <li><i class="fas fa-tachometer-alt"></i><span>Puissance fiscale</span><strong class="right">{{ annonce.vehicule.Puissance }}</strong></li>
+          <li><i class="fas fa-tags"></i><span>Catégorie</span><strong class="right">{{ annonce.vehicule?.['Categorie'] }}</strong></li>
+          <li><i class="fas fa-car"></i><span>Marque</span><strong class="right">{{ annonce.vehicule?.['Marque'] }}</strong></li>
+          <li><i class="fas fa-car-side"></i><span>Modèle</span><strong class="right">{{ annonce.vehicule?.['Modèle'] }}</strong></li>
+          <li><i class="fas fa-tachometer-alt"></i><span>Kilométrage</span><strong class="right">{{ annonce.vehicule?.['Kilométrage'] }} KM</strong></li>
+          <li><i class="far fa-calendar-alt"></i><span>Mise en circulation</span><strong class="right">{{ annonce.vehicule?.['DateDeMiseEnCirculation'] }}</strong></li>
+          <li><i class="fas fa-gas-pump"></i><span>Énergie</span><strong class="right">{{ annonce.vehicule?.TypeCarburant }}</strong></li>
+          <li><i class="fas fa-cogs"></i><span>Boîte vitesse</span><strong class="right">{{ annonce.vehicule?.boiteVitesse }}</strong></li>
+          <li><i class="fas fa-tachometer-alt"></i><span>Puissance fiscale</span><strong class="right">{{ annonce.vehicule?.Puissance }}</strong></li>
           <li><i class="far fa-calendar-check"></i><span>Date de l'annonce</span><strong class="right">{{ annonce.created_at | date: 'yyyy-MM-dd' }}</strong></li>
         </ul>
 
@@ -77,9 +77,9 @@
         <h2 class="section-title">Détails du Véhicule</h2>
         <div class="title-divider"></div>
         <ul class="info-list">
-          <li><i class="fas fa-cogs"></i><span>Cylindre</span><strong class="right">{{ annonce.vehicule['Cylindre'] }}</strong></li>
-          <li><i class="fas fa-door-open"></i><span>Nombre de Portes</span><strong class="right">{{ annonce.vehicule['nbPortes'] }}</strong></li>
-          <li><i class="fas fa-info-circle"></i><span>État</span><strong class="right">{{ annonce.vehicule['etat'] }}</strong></li>
+          <li><i class="fas fa-cogs"></i><span>Cylindre</span><strong class="right">{{ annonce.vehicule?.['Cylindre'] }}</strong></li>
+          <li><i class="fas fa-door-open"></i><span>Nombre de Portes</span><strong class="right">{{ annonce.vehicule?.['nbPortes'] }}</strong></li>
+          <li><i class="fas fa-info-circle"></i><span>État</span><strong class="right">{{ annonce.vehicule?.['etat'] }}</strong></li>
         </ul>
 
         <!-- Modale principale -->
@@ -112,13 +112,13 @@
               </div>
 
               <!-- [disabled]="!rapportDisponible || rapportChecking" -->
-              <div class="flex justify-between mt-6">
+              <div  *ngIf="modalSuccess1 "class="flex justify-between mt-6">
                 <button
                   [disabled]="!rapportDisponible"
                   (click)="rapportDisponible ? consulterRapport(annonce.id) : null"
                   class="rapport-btn"
                 >
-                  <ng-container *ngIf="!rapportDisponible">
+                  <ng-container *ngIf="modalSuccess1 && !rapportDisponible">
                     <span class="spinner"></span>
                     Le rapport n'est pas encore généré
                   </ng-container>
@@ -127,6 +127,7 @@
                     Consulter le rapport
                   </ng-container>
                 </button>
+                
               </div>
               
               

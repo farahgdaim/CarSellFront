@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 export class DetailAnnonceService {
 
   constructor(private httpClient: HttpClient) { }
-  getAnnonceById(id: string|null) {
-    return this.httpClient.get(`http://127.0.0.1:8000/api/annonces/${id}`);
+  getAnnonceById(id: string) {
+    return this.httpClient.get(`http://127.0.0.1:8000/api/utilisateur/annonces/${id}`);
 }
 reportAnnonces(id: string) {
   const headers = {

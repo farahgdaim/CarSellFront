@@ -102,6 +102,8 @@ const routes: Routes = [
     component: UpdateProfileComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'mes-demandes', component: MyRequestsComponent, canActivate: [AuthGuard] },
+  { path: 'mes-demandes/:id', component: MyRequestDetailComponent, canActivate: [AuthGuard] },
   {
     path: 'creerAnnonce',
     component: CreateAnnonceComponent,

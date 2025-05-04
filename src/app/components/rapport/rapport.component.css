@@ -92,22 +92,58 @@
 }
 
 /* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.show {
+  display: flex;
+}
+
 .modal-content {
-  border-radius: 16px;
+  background-color: #fff;
   padding: 30px;
-  background: #fff;
+  border-radius: 10px;
+  width: 500px;
+  max-width: 80%;
   text-align: center;
-  animation: zoomIn 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .modal h2 {
-  font-size: 26px;
-  font-weight: bold;
+  /* color: #4CAF50; */
+  font-size: 24px;
 }
 
 .modal p {
   font-size: 16px;
-  margin-top: 10px;
+  color: #333;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #aaa;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
 }
 
 @keyframes zoomIn {
@@ -131,4 +167,11 @@
 
 .close:hover {
   color: #000;
+}
+.text-success {
+  color: #4CAF50; /* vert déjà utilisé dans ton .modal h2 */
+}
+
+.text-error {
+  color: #f44336; /* rouge bien visible */
 }

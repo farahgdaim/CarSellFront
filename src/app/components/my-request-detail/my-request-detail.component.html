@@ -2,8 +2,8 @@
     <h2 class="mb-4" style="color:#1d2e5f;">Détails de ma demande #{{ item.demande.id }}</h2>
   
     <div class="card p-4 shadow-sm mb-4">
-      <h5 style="color:#1d2e5f;">Annonce #{{ item.annonce.id }}</h5>
-      <p><strong>Titre :</strong> {{ item.annonce.titre }}</p>
+      <strong><h5 style="color:#1d2e5f;">Annonce {{ item.annonce.titre}}</h5></strong>
+      <!-- <p><strong>Titre :</strong> {{ item.annonce.titre }}</p> -->
       <p><strong>Description :</strong> {{ item.annonce.description }}</p>
       <p><strong>Prix :</strong> {{ item.annonce.prix }} TND</p>
     </div>

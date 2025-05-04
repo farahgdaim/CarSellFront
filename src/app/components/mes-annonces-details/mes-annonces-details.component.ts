@@ -20,6 +20,7 @@ export class MesAnnoncesDetailsComponent implements OnInit{
   currentSlide = 0;
   // imagesPerPage = 4;
   categories: any[] = [];
+  vehicule:any={};
   loggedInUserId: string = '';
   
 
@@ -80,7 +81,10 @@ export class MesAnnoncesDetailsComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
+
     this.getAnnonceDetail();
+    console.log('Structure complète:', this.annonce);
+    console.log('Véhicule:', this.annonce?.vehicule);
 
     this.authService.getUser().subscribe({
       next: (res: any) => {
@@ -94,12 +98,14 @@ export class MesAnnoncesDetailsComponent implements OnInit{
       },
     });
   }
-  formatPrix(prix: number): string {
+  formatPrix(prix ?: number): string {
+    if(!prix) return '0';
     return prix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
   getAnnonceDetail() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.isLoading = true;
     console.log(id);
     this.annonceService.getAnnonceById(id).subscribe((res) => {
       console.log("l'annonce el ma7nouna ", res);

@@ -70,7 +70,7 @@ annonce: any = { images: [] };
   }
 
   getAnnonceDetail() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id')!;
     console.log(id);
     this.annonceService.getAnnonceById(id).subscribe((res) => {
       console.log("l'annonce el ma7nouna ", res);
