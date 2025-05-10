@@ -78,7 +78,7 @@ export class AdminDashboardComponent implements OnInit {
         data: [],
         label: "Nombre total d'annonces",
         backgroundColor: '#3d5ec9',
-        borderColor: '#3d5ec9', 
+        borderColor: '#3d5ec9',
         borderWidth: 0.02,
       },
     ],
@@ -107,7 +107,7 @@ export class AdminDashboardComponent implements OnInit {
         data: [],
         label: "Nombre total d'annonces",
         backgroundColor: '#3d5ec9',
-        borderColor: '#3d5ec9', 
+        borderColor: '#3d5ec9',
         borderWidth: 0.02,
       },
     ],
@@ -356,7 +356,7 @@ export class AdminDashboardComponent implements OnInit {
             data: stats.annoncesVenduesParMarque.map((item: any) => item.total),
             label: "Nombre total d'annonces",
             backgroundColor: '#3d5ec9',
-            borderColor: '#3d5ec9', 
+            borderColor: '#3d5ec9',
             borderWidth: 0.02,
           },
         ],
@@ -372,7 +372,7 @@ export class AdminDashboardComponent implements OnInit {
           {
             data: stats.annoncesParMarque.map((item: any) => item.total),
             label: "Nombre total d'annonces",
-          backgroundColor: '#3d5ec9',
+            backgroundColor: '#3d5ec9',
             borderColor: '#3d5ec9',
             borderWidth: 0.02,
           },
@@ -389,7 +389,7 @@ export class AdminDashboardComponent implements OnInit {
       setTimeout(() => {
         this.showPieChart = true;
       }, 0);
-      console.log('Pie Chart Data:', this.pieChartData);
+      
 
       this.pieChartLabels1 = stats.annoncesParMarque.map(
         (item: any) => item.marque
@@ -453,29 +453,36 @@ if (this.chart && this.chart.chart) {
   this.chart.update(); // Pour forcer la mise à jour du graphe
 } */
 
-      console.log(
-        'Données annonces vendues par mois:',
-        stats.annoncesVenduesParMois
-      );
-      console.log('Labels générés :', this.lineChartLabels);
-      console.log('Données du graphe :', this.lineChartData);
-      console.log('Référence du graphe :', this.chart);
-      console.log('hello', this.prixtotalVente);
-      console.log('kilométrage moyen', this.kilometrageMoyenParMarque);
+      
     });
   }
   generateColors(count: number): string[] {
     const colors = [
       '#375A7F', // Dark Blue (for primary elements, similar to a navy but slightly softer)
-      '#ADD8E6', // Light Blue (for accents or secondary elements)
+      //'#ADD8E6',  Light Blue (for accents or secondary elements)
       '#8FBC8F', // Soft Green (for success or positive indicators, less harsh than pure green)
       '#F08080', // Light Coral (for warnings or errors, softer than bright red)
-      '#8A2BE2', // Blue Violet (a sophisticated accent color)
+
       '#B0E0E6', // Powder Blue (a very light and clean accent)
-      '#FFA07A', // Light Salmon (another softer accent color)
+     // '#FFA07A',  Light Salmon (another softer accent color)
       '#D3D3D3', // Light Gray (for neutral elements and backgrounds)
       '#98FB98', // Pale Green (a very light success indicator)
-      '#BA55D3'
+      '#BA55D3',
+      '#2C3E50', // Rich Navy (texte foncé ou titres)
+      '#B0C4DE', // Light Steel Blue (fond ou hover subtil)
+      '#E0FFFF', // Light Cyan (fond très clair et doux)
+
+      '#A9DFBF', // Light Mint Green (encore plus doux que Pale Green)
+      '#66CDAA', // Medium Aquamarine (vert frais pour éléments positifs)
+
+      '#FFB6C1', // Light Pink (alerte douce ou badge)
+      '#CD5C5C', // Indian Red (alerte plus mature)
+
+      '#F5F5F5', // White Smoke (background très subtil)
+      '#E6E6FA', // Lavender (fond élégant légèrement bleuté)
+
+      '#9370DB', // Medium Purple (complémentaire au violet existant)
+      '#E0BBE4', // Light Lavender Pink (accent pastel et raffiné)
     ];
     return Array.from({ length: count }, (_, i) => colors[i % colors.length]);
   }

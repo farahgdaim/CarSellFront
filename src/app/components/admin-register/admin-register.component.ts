@@ -1,32 +1,64 @@
 import { Component } from '@angular/core';
 import { AdminAuthService } from '../../services/admin-auth.service';
 import { Router } from '@angular/router';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-admin-register',
   templateUrl: './admin-register.component.html',
-  styleUrls: ['./admin-register.component.css']
+  styleUrls: ['./admin-register.component.css'],
 })
 export class AdminRegisterComponent {
   adminData = {
     nom: '',
-    prenom:'',
+    prenom: '',
     email: '',
-    password: ''
+    password: '',
+    code: '',
   };
   error: string | null = null;
-
-  constructor(private adminAuth: AdminAuthService, private router: Router) {}
+  success: string | null = null;
+  constructor(
+    private adminAuth: AdminAuthService,
+    private router: Router,
+    private loadingService: LoadingService
+  ) {}
 
   register() {
+    this.error = null; // Reset error
+    this.success = null; // Reset success
+    this.loadingService.show();
+    if (this.adminData.code !== '060703') {
+      this.error = "Code d'accès invalide.";
+      this.loadingService.hide();
+      return;
+    }
+
     this.adminAuth.register(this.adminData).subscribe({
-      next: res => {
+      next: (res) => {
+        this.loadingService.hide(); // Stop loading
+        if (res.status === 201) {
+          this.success =
+            'Inscription réussie. Vous pouvez maintenant vous connecter.';
+          this.router.navigate(['/admin/login']);
+        } else {
+          this.error =
+            'Une erreur inattendue est survenue. Veuillez réessayer.';
+        }
         // On successful registration, navigate to login page.
-        this.router.navigate(['/admin/login']);
       },
-      error: err => {
-        this.error = err.error.data || 'Erreur lors de l’inscription';
-      }
+      error: (err: any) => {
+        this.loadingService.hide(); // Stop loading
+        if (err.status === 400) {
+          this.error =
+            'Les informations fournies ne sont pas valides. Veuillez vérifier les champs.';
+        } else if (err.status === 500) {
+          this.error =
+            'Erreur interne du serveur. Veuillez réessayer plus tard.';
+        } else {
+          this.error = err.error.data || "Erreur lors de l'inscription.";
+        }
+      },
     });
   }
 }

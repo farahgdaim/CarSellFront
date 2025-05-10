@@ -313,7 +313,9 @@ export class UpdateAnnonceComponent implements OnInit {
   ];
 
   selectedSponsoring: any = null;
-
+  modalVisible: boolean = false;
+  modalMessage: string = '';
+  modalSuccess: boolean = true;
   constructor(
     private annonceService: GererMesAnnoncesService,
     private dataService: DataService,
@@ -323,86 +325,99 @@ export class UpdateAnnonceComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
+    this.loadAnnonce(id);
+   
+  }
+  loadAnnonce(id: string) {
     this.dataService.getAnnonceById(id).subscribe({
       next: (res: any) => {
         const data = res.data;
-        console.log(data);
-
-        this.annonce.titre = data.titre;
-        this.annonce.description = data.description;
-        this.annonce.prix = data.prix;
-        this.annonce.vehicule.Categorie = data.vehicule.Categorie;
-        this.annonce.vehicule.Marque = data.vehicule.Marque;
-        this.annonce.vehicule['Modèle'] = data.vehicule['Modèle'];
-        this.annonce.vehicule.TypeCarburant = data.vehicule.TypeCarburant;
-        this.annonce.vehicule.Puissance = data.vehicule.Puissance;
-        this.annonce.vehicule.DateDeMiseEnCirculation =
-          data.vehicule.DateDeMiseEnCirculation;
-        this.annonce.vehicule.Cylindre = data.vehicule.Cylindre;
-        this.annonce.vehicule['Kilométrage'] = data.vehicule['Kilométrage'];
-        this.annonce.vehicule.nbPortes = data.vehicule.nbPortes;
-        this.annonce.vehicule.boiteVitesse = data.vehicule.boiteVitesse;
-        this.annonce.vehicule.etat = data.vehicule.etat;
-        this.annonce.vehicule.equipements = data.vehicule.equipement
-          ? data.vehicule.equipement.split(', ')
-          : [];
-        for (let i = 0; i < data.photos.length; i++) {
-          this.annonce.photos[i] = data.photos[i];
-        }
+        this.patchAnnonceValues(data);
       },
+      error: (err) => console.error('Erreur de chargement:', err),
     });
   }
-  submitAnnonce() {
+  
+
+  patchAnnonceValues(data: any) {
+    this.annonce = {
+      ...this.annonce,
+      titre: data.titre,
+      description: data.description,
+      prix: data.prix,
+      photos: data.photos || [], // Photos existantes (URLs)
+    };
+
+    // Mise à jour de l'objet véhicule avec conversion des données
+    this.annonce.vehicule = {
+      Categorie: data.vehicule?.Categorie || '',
+      Marque: data.vehicule?.Marque || '',
+      Modèle: data.vehicule?.['Modèle'] || '', // Accès aux propriétés avec espace
+      TypeCarburant: data.vehicule?.TypeCarburant || '',
+      Puissance: data.vehicule?.Puissance || '',
+      DateDeMiseEnCirculation: data.vehicule?.DateDeMiseEnCirculation
+        ? new Date(data.vehicule.DateDeMiseEnCirculation)
+            .toISOString()
+            .split('T')[0]
+        : '',
+      Cylindre: data.vehicule?.Cylindre || '',
+      Kilométrage: data.vehicule?.['Kilométrage'] || '', // Propriété accentuée
+      nbPortes: data.vehicule?.nbPortes?.toString() || '',
+      boiteVitesse: data.vehicule?.boiteVitesse || '',
+      etat: data.vehicule?.etat || '',
+      equipements: data.vehicule?.equipement
+        ? data.vehicule.equipement.split(', ').filter((e: string) => e)
+        : [],
+    };
+  }
+ 
+submitAnnonce() {
     const id = this.route.snapshot.paramMap.get('id')!;
-/*     const formData = new FormData();
-
-    // Ajouter les champs de base
-    if (this.annonce.titre) formData.append('Titre', this.annonce.titre);
-    if (this.annonce.description) formData.append('Description', this.annonce.description);
-    if (this.annonce.prix) formData.append('Prix', this.annonce.prix);
-    if (this.annonce.region) formData.append('Region', this.annonce.region);
-    if (this.annonce.delegation) formData.append('Delegation', this.annonce.delegation);
-    if (this.annonce.telephone) formData.append('Telephone', this.annonce.telephone);
-
-    // Ajouter les champs du véhicule
-    const vehicule = this.annonce.vehicule;
-    if (vehicule.Categorie) formData.append('vehicule[Categorie]', vehicule.Categorie);
-    if (vehicule.Marque) formData.append('vehicule[Marque]', vehicule.Marque);
-    if (vehicule['Modèle']) formData.append('vehicule[Modèle]', vehicule['Modèle']);
-    if (vehicule.TypeCarburant) formData.append('vehicule[TypeCarburant]', vehicule.TypeCarburant);
-    if (vehicule.Puissance) formData.append('vehicule[Puissance]', vehicule.Puissance);
-    if (vehicule.DateDeMiseEnCirculation) {
-      formData.append('vehicule[DateDeMiseEnCirculation]', new Date(vehicule.DateDeMiseEnCirculation).toISOString());
+    
+      const annonceToSend = {
+    ...this.annonce,
+    vehicule: {
+      ...this.annonce.vehicule,
+      equipement: this.annonce.vehicule.equipements.join(', ') // Conversion ici
     }
-    if (vehicule.Cylindre) formData.append('vehicule[Cylindre]', vehicule.Cylindre);
-    if (vehicule['Kilométrage']) formData.append('vehicule[Kilométrage]', vehicule['Kilométrage']);
-    if (vehicule.nbPortes) formData.append('vehicule[nbPortes]', vehicule.nbPortes);
-    if (vehicule.boiteVitesse) formData.append('vehicule[boiteVitesse]', vehicule.boiteVitesse);
-    if (vehicule.etat) formData.append('vehicule[etat]', vehicule.etat);
-    if (vehicule.equipements) {
-      formData.append('vehicule[equipement]', vehicule.equipements.join(', '));
-    }
-
-    // Gestion des photos
-    if (this.annonce.photos instanceof FileList) {
-      for (let i = 0; i < this.annonce.photos.length; i++) {
-        formData.append('images[]', this.annonce.photos[i]);
-      }
-    } */
-
-    this.loadingService.show();
-    this.annonceService.updateAnnonce(id, this.annonce).subscribe({
+  };
+    // this.loadingService.show();
+    this.annonceService.updateAnnonce(id, annonceToSend ).subscribe({
       next: (res: any) => {
-        this.loadingService.hide();
-        alert('Annonce mise à jour avec succès !');
-        this.router.navigate(['/consulter-mes-annonces']);
+          if (res.status === 201){ 
+          this.modalMessage = "Votre annonce a été mise à jour avec succès.";
+          this.modalSuccess = true;
+          
+          
+        }else{
+          this.modalMessage="erreur";
+          this.modalSuccess=false;
+        }
+         
+          this.modalVisible = true;
+        
+       
+        
+        // this.loadingService.hide();
+       
+        
+       
+        // this.router.navigate(['/mon-annonce',id]);
       },
       error: (err: any) => {
         this.loadingService.hide();
         console.error("Erreur de mise à jour :", err);
         this.submissionError = err.error?.message || "Erreur lors de la mise à jour";
+         this.modalMessage ='Une erreur est survenue lors du signalement.';
+        this.modalSuccess = false;
+        this.modalVisible = true;
       }
     });
+  }   
+    closeModal() {
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.modalVisible = false;
+    this.router.navigate(['/mon-annonce',id]);
   }
   // Getter for marques based on selected category
   getMarques(): string[] {
@@ -497,55 +512,17 @@ export class UpdateAnnonceComponent implements OnInit {
   // Photo selection handler
   onPhotosSelected(event: any) {
     const files = event.target.files;
-   
-  if (files) {
-    this.annonce.photos = files; // Conserver les nouvelles photos
-  }
+
+    if (files) {
+      this.annonce.photos = files; // Conserver les nouvelles photos
+    }
   }
 
   selectSponsoring(pack: any) {
     this.selectedSponsoring = pack;
   }
 
-  // Final submission of the announcement
-  /* submitAnnonce() {
-    if (!this.annonce.titre || !this.annonce.description || !this.annonce.prix || !this.annonce.photos || this.annonce.photos.length < 3) {
-      this.submissionError = "Veuillez remplir tous les champs requis et télécharger au moins 3 photos.";
-      this.currentStep = 3;
-      return;
-    }
-    const equipementString = this.annonce.vehicule.equipements.join(', ');
-    const formData = new FormData();
-    formData.append('titre', this.annonce.titre);
-    formData.append('description', this.annonce.description);
-    formData.append('prix', this.annonce.prix);
-    formData.append('vehicule[Categorie]', this.annonce.vehicule.Categorie);
-    formData.append('vehicule[Marque]', this.annonce.vehicule.Marque);
-    formData.append('vehicule[Modèle]', this.annonce.vehicule["Modèle"]);
-    formData.append('vehicule[TypeCarburant]', this.annonce.vehicule.TypeCarburant);
-    formData.append('vehicule[Puissance]', this.annonce.vehicule.Puissance);
-    formData.append('vehicule[DateDeMiseEnCirculation]', this.annonce.vehicule.DateDeMiseEnCirculation);
-    formData.append('vehicule[Cylindre]', this.annonce.vehicule.Cylindre);
-    formData.append('vehicule[Kilométrage]', String(this.annonce.vehicule['Kilométrage']));
-    formData.append('vehicule[nbPortes]', String(this.annonce.vehicule.nbPortes));
-    formData.append('vehicule[boiteVitesse]', this.annonce.vehicule.boiteVitesse);
-    formData.append('vehicule[etat]', this.annonce.vehicule.etat);
-    formData.append('vehicule[equipement]', equipementString);
-    for (let i = 0; i < this.annonce.photos.length; i++) {
-      formData.append('images[]', this.annonce.photos[i]);
-    }
-    this.loadingService.show();
-    this.annonceService.createAnnonce(formData).subscribe({
-      next: (res: any) => {
-        this.loadingService.hide();
-        alert('Votre annonce a été créée avec succès!');
-        this.router.navigate(['/consulter-mes-annonces']);
-      },
-      error: (err: any) => {
-        this.loadingService.hide();
-        console.error("Erreur lors de la création de l'annonce :", err);
-        this.submissionError = err.error && err.error.message ? err.error.message : "Une erreur est survenue lors de la création de l'annonce. Veuillez réessayer.";
-      }
-    });
-  } */
+ 
+
+
 }

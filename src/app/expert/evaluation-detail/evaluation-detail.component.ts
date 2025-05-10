@@ -56,7 +56,7 @@ export class EvaluationDetailComponent implements OnInit {
         this.demande   = res.data.demande;
         this.annonce   = res.data.annonce;
         this.demandeur = res.data.demandeur;
-        console.log('Demandeur:', this.demandeur);
+        
       },
       error: (err) => {
         this.loading = false;

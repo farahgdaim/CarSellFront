@@ -23,7 +23,7 @@ export class AdminExpertRequestsComponent implements OnInit {
       next: (res: any) => {
         // Ensure we have an array of requests
         this.expertRequests = res.data || [];
-        console.log('Expert requests loaded:', this.expertRequests);
+        
       },
       error: (err) => {
         this.error = "Erreur lors du chargement des demandes d'expert.";

@@ -65,12 +65,12 @@ export class ConversationDetailComponent implements OnInit, OnDestroy, AfterView
 
   private setupSocketListeners(): void {
     this.socket.on('connect', () => {
-      console.log('Connected to WebSocket server');
+      
     });
 
     this.socket.on('newMessage', (message: any) => {
       this.zone.run(() => {
-        console.log('New message received via WebSocket:', message);
+       
         this.conversation.messages.push(message);
         setTimeout(() => this.scrollToBottom(), 100);
       });
@@ -136,7 +136,7 @@ export class ConversationDetailComponent implements OnInit, OnDestroy, AfterView
   ngOnDestroy(): void {
     if (this.socket) {
       this.socket.disconnect();
-      console.log('Disconnected from WebSocket server');
+      
     }
   }
 

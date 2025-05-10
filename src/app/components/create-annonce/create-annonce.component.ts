@@ -386,15 +386,18 @@ export class CreateAnnonceComponent {
     formData.append('vehicule[boiteVitesse]', this.annonce.vehicule.boiteVitesse);
     formData.append('vehicule[etat]', this.annonce.vehicule.etat);
     formData.append('vehicule[equipement]', equipementString);
+    
+    
     for (let i = 0; i < this.annonce.photos.length; i++) {
       formData.append('images[]', this.annonce.photos[i]);
     }
     this.loadingService.show();
     this.annonceService.createAnnonce(formData).subscribe({
       next: (res: any) => {
+        
         this.loadingService.hide();
-        alert('Votre annonce a été créée avec succès!');
-        this.router.navigate(['/consulter-mes-annonces']);
+        // alert('Votre annonce a été créée avec succès!');
+        this.router.navigate(['/']);
       },
       error: (err: any) => {
         this.loadingService.hide();

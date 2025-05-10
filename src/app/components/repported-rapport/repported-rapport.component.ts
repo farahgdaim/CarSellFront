@@ -19,7 +19,7 @@ export class RepportedRapportComponent implements OnInit {
   getRapportData(){
     this.repportedRapport.getRepportedRapport().subscribe((res : any)=>{
   
-      console.log(res);
+      
       if (res && typeof res === 'object' && 'data' in res) {
         this.rapports = res.data;
       } else {

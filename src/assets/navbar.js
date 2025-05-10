@@ -6,8 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const annoncesSection = document.querySelector("#annonces");
   const devenirExpertSection = document.querySelector("#devenir-expert");
 
-  console.log("Section annonces : ", annoncesSection);
-  console.log("Section devenir-expert : ", devenirExpertSection);
+ 
 
   document.querySelectorAll("a[href^='#']").forEach(link => {
     link.addEventListener("click", (e) => {

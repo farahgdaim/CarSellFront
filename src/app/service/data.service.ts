@@ -21,7 +21,7 @@ export class DataService {
   }
 
   getAnnonceById(id: string) {
-    return this.httpClient.get(`http://127.0.0.1:8000/api/annonces/${id}`);
+    return this.httpClient.get(`http://127.0.0.1:8000/api/utilisateur/annonces/${id}`);
   }
   getMarques() {
     return this.httpClient.get('http://127.0.0.1:8000/api/marques');

@@ -14,7 +14,7 @@ export class TokenService {
     const token = localStorage.getItem(this.tokenKey);
     if (token) {
       const payload = jwtDecode(token);
-      console.log(payload);
+      
       const isExpired = payload.exp && payload.exp * 1000 < Date.now();
       if (isExpired) {
         console.warn('TokenService: Token is expired');

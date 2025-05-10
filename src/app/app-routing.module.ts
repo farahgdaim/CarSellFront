@@ -59,7 +59,7 @@ const routes: Routes = [
     component: AdminExpertRequestDetailComponent,
     canActivate: [AdminGuard],
   },
-  { path: 'admin/dashboard', component: AdminDashboardComponent },
+  { path: 'admin/dashboard', component: AdminDashboardComponent,canActivate: [AdminGuard], },
   {
     path: 'admin/repported-annonces',
     component: RepportedAnnoncesComponent,

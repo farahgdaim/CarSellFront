@@ -82,8 +82,7 @@ export class AnnoncesComponent implements OnInit {
 
     if (this.selectedMarque) {
       this.dataService.getModeles(this.selectedMarque).subscribe((data) => {
-        console.log(this.selectedMarque);
-        console.log(data);
+        
         this.modeles = data;
       });
     } else {
@@ -112,7 +111,7 @@ export class AnnoncesComponent implements OnInit {
 
   getAnnonceDetails(id:string){
     this.annonceService.getAnnonceById(id).subscribe((res) => {
-      console.log("l'annonce el ma7nouna ", res);
+      
       if (res && typeof res === 'object' && 'data' in res) {
         this.annonce = res.data;
        
@@ -127,7 +126,7 @@ export class AnnoncesComponent implements OnInit {
   getAnnoncesData(): void {
 
     this.dataService.getData().subscribe((res) => {
-      console.log(res);
+     
       if (res && typeof res === 'object' && 'data' in res) {
         this.annonces = res.data;
       } else {
@@ -137,37 +136,36 @@ export class AnnoncesComponent implements OnInit {
     });
   }
 
-  goToAnnonceDetails(annonceId: string) {
+goToAnnonceDetails(annonceId: string) {
+  // On récupère l'utilisateur connecté d'abord
+  this.authService.getUser().subscribe((userRes: any) => {
+    const user = userRes?.data;
+
+    if (!user) {
+      console.error("Utilisateur non connecté.");
+      return;
+    }
+
     this.annonceService.getAnnonceById(annonceId).subscribe((res: any) => {
       if (res && typeof res === 'object' && 'data' in res) {
         const annonce = res.data;
-  
-        this.authService.getUser().subscribe((userRes: any) => {
-          this.user = userRes.data;
-  
-          console.log("User connecté :", this.user);
-          console.log("Annonce cliquée :", annonce);
-          console.log("l'id de l'annonce ref",annonce.Ref_id_user);
+
+        if (user.id === annonce.Ref_id_user) {
+          this.router.navigate(['/mon-annonce', annonceId]);
+         
+        } else {
+          this.router.navigate(['/annonce', annonceId]);
           
-  
-          if (this.user.id === annonce.Ref_id_user) {
-            this.router.navigate(['/mon-annonce', annonceId]);
-            console.log("C'est mon annonce");
-          } else {
-            this.router.navigate(['/annonce', annonceId]);
-            console.log("C'est une autre annonce");
-          }
-  
-        
-        });
-  
+        }
+
       } else {
         console.error('Format inattendu :', res);
       }
     });
 
+  });
+}
 
-  }
   
 
   onSearch(): void {
@@ -193,7 +191,7 @@ export class AnnoncesComponent implements OnInit {
   }
 
   handleImageError(event: Event, url: string): void {
-    console.log('Image URL:', url);
+   
     console.error("Erreur de chargement de l'image:", event);
   }
 

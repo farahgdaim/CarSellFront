@@ -83,8 +83,7 @@ export class SelectionExpertComponent implements OnInit {
       .requestEvaluation(this.ref_id_annonce, expert.ref_id_utilisateur)
       .subscribe({
         next: (res: any) => {
-          console.log("lid de l'annonce ", this.ref_id_annonce);
-          console.log("l'id de l'expert ", expert.ref_id_utilisateur);
+          
 
           if (res.status === 200) {
             this.modalMessage = 'Demande d\'évaluation envoyée avec succès.';

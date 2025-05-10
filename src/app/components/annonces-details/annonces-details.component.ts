@@ -125,9 +125,9 @@ export class AnnoncesDetailsComponent implements OnInit {
 
   getAnnonceDetail() {
     const id = this.route.snapshot.paramMap.get('id')!;
-    console.log(id);
+   
     this.annonceService.getAnnonceById(id).subscribe((res) => {
-      console.log("l'annonce el ma7nouna ", res);
+      
       if (res && typeof res === 'object' && 'data' in res) {
         this.annonce = res.data;
         this.genererCategories();
@@ -192,11 +192,11 @@ export class AnnoncesDetailsComponent implements OnInit {
   }
 
   reportAnnonce(id: string) {
-    console.log("l'id de l'annonce", id);
+   
 
     this.annonceService.reportAnnonces(id).subscribe(
       (response: any) => {
-        console.log('Annonce signalée avec succès', response);
+        
 
         // 🔹 Si le backend retourne bien un status 200
         if (response.status === 200) {
@@ -264,12 +264,12 @@ export class AnnoncesDetailsComponent implements OnInit {
   }
   pendingAnnonceId: string | null = null;
   Evaluationverif(annonceId: string) {
-    console.log('hello');
+    
 
     this.evaluationService.checkEvaluationRequest(annonceId).subscribe({
       next: (response: any) => {
         this.hasAlreadyRequested = response.hasRequested;
-        console.log('Déjà demandé ?', this.hasAlreadyRequested);
+       
         this.modalSuccess1 = response.hasRequested; // true ou false
         if (response.hasRequested) {
           this.modalMessage1 =
@@ -301,10 +301,7 @@ export class AnnoncesDetailsComponent implements OnInit {
   continuerEvaluation() {
     if (this.pendingAnnonceId) {
       // logiquement, ici tu peux rediriger, ou ouvrir une section, etc.
-      console.log(
-        "L'utilisateur veut continuer avec l'annonce :",
-        this.pendingAnnonceId
-      );
+     
 
       // Exemple : rediriger vers la page de sélection d’expert
       this.router.navigate(['/selection-expert', this.pendingAnnonceId]);
@@ -383,7 +380,7 @@ export class AnnoncesDetailsComponent implements OnInit {
         this.demandeId=response.data.id;
         this.evaluationService.cancelRequest(this.demandeId).subscribe({
           next: (response:any)=>{
-            console.log(response.data);
+            
             
           }
         });

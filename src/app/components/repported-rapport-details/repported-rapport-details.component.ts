@@ -27,13 +27,13 @@ export class RepportedRapportDetailsComponent implements OnInit {
   getRapportDetail(){
     const id = this.route.snapshot.paramMap.get('id');
     this.repportedRapport.getRepportedRapportById(id).subscribe((res:any)=>{
-      console.log(id);
+      
       if (res && typeof res === 'object' && 'data' in res) {
-        console.log(res.data);
+        
         this.rapport=res.data;
         this.getExpertByid(this.rapport.ref_id_expert)
       }else{
-        console.log("erreur");
+        
         this.router.navigate(['/admin/login']); 
 
         

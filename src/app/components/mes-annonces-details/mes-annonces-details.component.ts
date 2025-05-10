@@ -83,8 +83,7 @@ export class MesAnnoncesDetailsComponent implements OnInit{
   ngOnInit(): void {
 
     this.getAnnonceDetail();
-    console.log('Structure complète:', this.annonce);
-    console.log('Véhicule:', this.annonce?.vehicule);
+   
 
     this.authService.getUser().subscribe({
       next: (res: any) => {
@@ -106,9 +105,9 @@ export class MesAnnoncesDetailsComponent implements OnInit{
   getAnnonceDetail() {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.isLoading = true;
-    console.log(id);
+    
     this.annonceService.getAnnonceById(id).subscribe((res) => {
-      console.log("l'annonce el ma7nouna ", res);
+      
       if (res && typeof res === 'object' && 'data' in res) {
         this.annonce = res.data;
         this.genererCategories();
@@ -172,31 +171,41 @@ export class MesAnnoncesDetailsComponent implements OnInit{
   }
   deleteAnnonce(id:string){
     this.gererAnnonce.deleteAnnonce(id).subscribe((res: any)=>{
-      console.log(res.data);
-      if(res.status === 200){
-        this.modalMessage = res.data;
-        this.modalSuccess = true;
-        this.router.navigate(['/mesAnnonces']);
-      }else{
-        this.modalMessage = res.data || 'Erreur inconnue.';
-        this.modalSuccess = false;
-      }
-      this.modalVisible = true;
       
+      
+       if (res.status === 204) {
+          this.modalMessage = "l'annonce est supprimé avec succès" ;
+          this.modalSuccess = true;
+          
+        } else {
+          this.modalMessage = res.data || 'Une erreur est survenue.';
+          this.modalSuccess = false;
+        }
 
-    },
-    (error) => {
-      this.modalMessage = error.error?.data || 'Erreur lors de la suppression.';
-      this.modalSuccess = false;
-      this.modalVisible = true;
-    });
+        this.modalVisible = true;
+      },
+      (error) => {
+        console.error("Erreur lors du signalement de l'annonce", error);
 
+        // 🔸 On récupère le message d’erreur depuis le backend
+        this.modalMessage =
+          error.error?.data || 'Une erreur est survenue lors du signalement.';
+        this.modalSuccess = false;
+        this.modalVisible = true;
+      }
+    );
+      
   }
   closeModal() {
     this.modalVisible = false;
+    this.router.navigate(['/mesAnnonces']);
   }
   updateAnnonce(id:string){
+    
+   /*  console.log("lid de l'annonce",id);
+    console.log(this.annonce); */
     this.router.navigate(['/update-annonce',id]);
+    
     
   }
   
