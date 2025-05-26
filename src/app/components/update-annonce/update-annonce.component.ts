@@ -256,7 +256,7 @@ export class UpdateAnnonceComponent implements OnInit {
     titre: '',
     description: '',
     prix: '',
-    photos: [], // Photo files
+    images: [], // Photo files
   };
 
   // Equipment options (step 2)
@@ -326,7 +326,6 @@ export class UpdateAnnonceComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.loadAnnonce(id);
-   
   }
   loadAnnonce(id: string) {
     this.dataService.getAnnonceById(id).subscribe({
@@ -337,7 +336,6 @@ export class UpdateAnnonceComponent implements OnInit {
       error: (err) => console.error('Erreur de chargement:', err),
     });
   }
-  
 
   patchAnnonceValues(data: any) {
     this.annonce = {
@@ -345,7 +343,7 @@ export class UpdateAnnonceComponent implements OnInit {
       titre: data.titre,
       description: data.description,
       prix: data.prix,
-      photos: data.photos || [], // Photos existantes (URLs)
+      images: data.images || [], // Photos existantes (URLs)
     };
 
     // Mise à jour de l'objet véhicule avec conversion des données
@@ -370,54 +368,86 @@ export class UpdateAnnonceComponent implements OnInit {
         : [],
     };
   }
- 
-submitAnnonce() {
+
+  submitAnnonce() {
     const id = this.route.snapshot.paramMap.get('id')!;
-    
-      const annonceToSend = {
-    ...this.annonce,
-    vehicule: {
-      ...this.annonce.vehicule,
-      equipement: this.annonce.vehicule.equipements.join(', ') // Conversion ici
-    }
-  };
+
+    const annonceToSend = {
+      ...this.annonce,
+      vehicule: {
+        ...this.annonce.vehicule,
+        equipement: this.annonce.vehicule.equipements.join(', '), // Conversion ici
+      },
+      images: undefined, // on enlève les fichiers ici
+      // Ajoutez les fichiers convertis en Base64
+      //images: this.convertFilesToBase64()
+    };
+
     // this.loadingService.show();
-    this.annonceService.updateAnnonce(id, annonceToSend ).subscribe({
+    this.annonceService.updateAnnonce(id, annonceToSend).subscribe({
       next: (res: any) => {
-          if (res.status === 201){ 
-          this.modalMessage = "Votre annonce a été mise à jour avec succès.";
+        if (res.status === 201) {
+          console.log(res.data);
+          
+          //console.log(res.data.images);
+          if (this.annonce.images && this.annonce.images.length > 0) {
+            const imageFormData = new FormData();
+
+            for (let file of this.annonce.images) {
+              if (file instanceof File) {
+                imageFormData.append('images[]', file);
+              } // nom du champ important !
+            }
+            this.annonceService.updateImages(id, imageFormData).subscribe({
+              next: (imgRes) => {
+                //console.log('Images mises à jour', imgRes);
+                // redirection ou message ici
+              },
+              error: (err) => {
+                console.error('Erreur upload images', err);
+              },
+            });
+          } else {
+            console.log('Aucune image à envoyer');
+            // redirection ou message ici
+          }
+
+          this.modalMessage = 'Votre annonce a été mise à jour avec succès.';
           this.modalSuccess = true;
-          
-          
-        }else{
-          this.modalMessage="erreur";
-          this.modalSuccess=false;
+        } else {
+          this.modalMessage = res.data;
+          console.log(
+            'la reponse ili jaya men back',
+            res.status,
+            '  ',
+            res.data
+          );
+
+          this.modalSuccess = false;
         }
-         
-          this.modalVisible = true;
-        
-       
-        
+
+        this.modalVisible = true;
+
         // this.loadingService.hide();
-       
-        
-       
+
         // this.router.navigate(['/mon-annonce',id]);
       },
       error: (err: any) => {
         this.loadingService.hide();
-        console.error("Erreur de mise à jour :", err);
-        this.submissionError = err.error?.message || "Erreur lors de la mise à jour";
-         this.modalMessage ='Une erreur est survenue lors du signalement.';
+        console.error('Erreur de mise à jour :', err);
+        this.submissionError =
+          err.error?.message || 'Erreur lors de la mise à jour';
+        this.modalMessage = 'Une erreur est survenue lors du signalement.';
         this.modalSuccess = false;
         this.modalVisible = true;
-      }
+      },
     });
-  }   
-    closeModal() {
+  }
+
+  closeModal() {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.modalVisible = false;
-    this.router.navigate(['/mon-annonce',id]);
+    this.router.navigate(['/mon-annonce', id]);
   }
   // Getter for marques based on selected category
   getMarques(): string[] {
@@ -510,19 +540,17 @@ submitAnnonce() {
   }
 
   // Photo selection handler
+  // Déclarez une variable supplémentaire
+
   onPhotosSelected(event: any) {
     const files = event.target.files;
-
     if (files) {
-      this.annonce.photos = files; // Conserver les nouvelles photos
+      this.annonce.images = Array.from(files);
+      // Ajoutez cette méthode pour prévisualiser
     }
   }
 
   selectSponsoring(pack: any) {
     this.selectedSponsoring = pack;
   }
-
- 
-
-
 }
