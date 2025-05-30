@@ -387,5 +387,9 @@ export class AnnoncesDetailsComponent implements OnInit {
       }
     });
   }
-  
+  goToAchatVehicule(annonceId:string){
+
+     this.router.navigate(['/AchatVehicule', annonceId]);
+
+  }
 }

@@ -31,7 +31,8 @@ export class AdminLoginComponent {
       next: (res: any) => {
         if (res.data && res.data.access_token) {
           // Store the token and navigate
-          localStorage.setItem('authToken', res.data.access_token);
+          // localStorage.setItem('authToken', res.data.access_token);
+         
           this.router.navigate(['admin/dashboard']);
         } else {
           this.error = 'Identifiants invalides. Veuillez vérifier vos informations.';

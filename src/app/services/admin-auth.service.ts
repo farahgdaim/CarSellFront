@@ -33,9 +33,15 @@ export class AdminAuthService {
 isAdminLoggedIn(): boolean {
   return !!localStorage.getItem(this.tokenKey); // Utilisez la même clé
 }
+
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((res: any) => {
+        /* if(res.data.user.role !== 'admin'){
+          throw new Error('Accès non autorisé');
+        } */
+
+
         localStorage.setItem(this.tokenKey, res.data.access_token); // Store the token
         this.currentAdmin.next(res.data);
       }),

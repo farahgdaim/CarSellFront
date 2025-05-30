@@ -43,7 +43,8 @@ import { RepportedRapportComponent } from './components/repported-rapport/reppor
 import { RepportedRapportDetailsComponent } from './components/repported-rapport-details/repported-rapport-details.component';
 import { MyRequestsComponent } from './components/my-requests/my-requests.component';
 import { MyRequestDetailComponent } from './components/my-request-detail/my-request-detail.component';
-
+import { AchatVehiculeComponent } from './components/achat-vehicule/achat-vehicule.component';
+import { VideoconferenceComponent } from './components/videoconference/videoconference.component';
 const routes: Routes = [
   { path: '', redirectTo: 'annonces', pathMatch: 'full' },
   { path: 'admin/login', component: AdminLoginComponent },
@@ -81,16 +82,18 @@ const routes: Routes = [
     canActivate: [AdminGuard],
   },
   
+  { path: 'visioconference', component: VideoconferenceComponent ,canActivate: [AuthGuard] },
 
+  { path: 'AchatVehicule/:id', component: AchatVehiculeComponent, canActivate: [AuthGuard]  },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'mesAnnonces', component: MesAnnoncesComponent },
-  { path: 'selection-expert/:id', component: SelectionExpertComponent },
-  { path: 'rapport/:id', component: RapportComponent },
-  { path: 'update-annonce/:id', component: UpdateAnnonceComponent },
+  { path: 'mesAnnonces', component: MesAnnoncesComponent, canActivate: [AuthGuard] },
+  { path: 'selection-expert/:id', component: SelectionExpertComponent, canActivate: [AuthGuard] },
+  { path: 'rapport/:id', component: RapportComponent , canActivate: [AuthGuard]},
+  { path: 'update-annonce/:id', component: UpdateAnnonceComponent, canActivate: [AuthGuard] },
   { path: 'annonces', component: AnnoncesComponent },
-  { path: 'annonce/:id', component: AnnoncesDetailsComponent },
-  { path: 'mon-annonce/:id', component: MesAnnoncesDetailsComponent },
+  { path: 'annonce/:id', component: AnnoncesDetailsComponent , canActivate: [AuthGuard]},
+  { path: 'mon-annonce/:id', component: MesAnnoncesDetailsComponent , canActivate: [AuthGuard]},
   {
     path: 'devenir-expert',
     component: ExpertFormComponent,

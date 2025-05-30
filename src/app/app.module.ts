@@ -49,6 +49,8 @@ import { UpdateAnnonceComponent } from './components/update-annonce/update-annon
 
 import { MyRequestsComponent } from './components/my-requests/my-requests.component';
 import { MyRequestDetailComponent } from './components/my-request-detail/my-request-detail.component';
+import { AchatVehiculeComponent } from './components/achat-vehicule/achat-vehicule.component';
+import { VideoconferenceComponent } from './components/videoconference/videoconference.component';
 
 
 @NgModule({
@@ -94,6 +96,8 @@ import { MyRequestDetailComponent } from './components/my-request-detail/my-requ
 
     MyRequestsComponent,
     MyRequestDetailComponent,
+    AchatVehiculeComponent,
+    VideoconferenceComponent,
 
   ],
   imports: [

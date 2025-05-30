@@ -1,0 +1,179 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #1a1a40, #000022);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.card {
+  max-width: 1100px;
+  background: #f8f9fa;
+  border-radius: 20px;
+  margin: 2vh;
+  overflow: hidden;
+}
+
+.card-top {
+  background: #fff;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#logo {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.8rem;
+  color: #1e1ec1;
+}
+
+.card-body {
+  padding: 3rem;
+  background-image: url("https://i.imgur.com/4bg1e6u.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 0 0 20px 20px;
+}
+
+.upper {
+  display: flex;
+  justify-content: space-around;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+#three {
+  background-color: #1e1ec1;
+  color: white;
+  padding: 0.3rem;
+  border-radius: 50%;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+input {
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem;
+  width: 100%;
+  background: #e9ecef;
+  margin-bottom: 1.2rem;
+  transition: 0.3s;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(30, 30, 193, 0.3);
+}
+
+#cvv {
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 0.575), rgba(255, 255, 255, 0.541)), url("https://img.icons8.com/material-outlined/24/000000/help.png");
+  background-repeat: no-repeat;
+  background-position-x: 95%;
+  background-position-y: center;
+}
+
+.left, .right {
+  background-color: #ffffffc5;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.btn {
+  background: #000080;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: #000080;
+  cursor: pointer;
+}
+
+a {
+  color: #000080;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.text-end {
+  text-align: end;
+}
+.step-indicator h1 {
+  margin: 0;
+  font-weight: bold;
+  
+}
+.create-annonce-page {
+  font-family: 'Poppins', sans-serif;
+  color: #000080;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn-payment {
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* Dégradé élégant */
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(30, 60, 114, 0.4); /* Ombre douce */
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-payment::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
+}
+
+.btn-payment:hover::before {
+  left: 125%;
+}
+
+.btn-payment:hover {
+  background: linear-gradient(135deg, #2a5298, #1e3c72); /* Inverser le dégradé */
+  box-shadow: 0 8px 20px rgba(30, 60, 114, 0.6);
+  transform: translateY(-2px);
+  cursor: pointer;
+}

@@ -17,7 +17,7 @@ export class AdminGuard implements CanActivate {
       return true;
     } else {
       // Redirection vers la page de login admin spécifique
-      this.adminAuthService.logout().subscribe();
+      //this.adminAuthService.logout().subscribe();
       this.router.navigate(['/admin/login']); 
       return false;
     }

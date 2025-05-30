@@ -1,0 +1,73 @@
+<div class="container mt-4 create-annonce-page" style="padding-top: 45px;">
+    <div class="row align-items-center mb-3 header">
+
+        <div class="step-indicator" style="text-align: center; ">
+            <h1>Achat de {{ annonce.vehicule?.['Categorie'] }} {{ annonce.vehicule?.['Marque'] }} {{ annonce.vehicule?.['Modèle'] }} {{
+                annonce.vehicule?.['Modele'] }}</h1>
+        </div>
+    </div>
+</div>
+<div class="card shadow-lg">
+    <div class="card-top text-center border-bottom">
+        <a routerLink="/annonce/{{annonce.id}}">← Retour à l'annonce</a>
+        
+    </div>
+    <div class="card-body">
+        <!--<div class="row upper">
+      <span><i class="fa fa-check-circle-o"></i> Panier</span>
+      <span><i class="fa fa-check-circle-o"></i> Détails</span>
+      <span id="payment"><span id="three">3</span> Paiement</span>
+    </div> -->
+        <div class="row">
+            <div class="col-md-7 mb-4">
+                <div class="left border rounded shadow-sm">
+                    <div class="row align-items-center mb-3">
+                        <span class="header">Informations de paiement</span>
+                        <div class="icons ms-auto">
+                            <img src="https://img.icons8.com/color/48/000000/visa.png" />
+                            <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" />
+                            <img src="https://img.icons8.com/color/48/000000/maestro.png" />
+                        </div>
+                    </div>
+                    <form>
+                        <label>Nom du titulaire</label>
+                        <input placeholder="{{user.nom}} {{user.prenom}}">
+                        <label>Numéro de carte</label>
+                        <input placeholder="0125 6780 4567 9909">
+                        <div class="row">
+                            <div class="col-6">
+                                <label>Date d’expiration</label>
+                                <input placeholder="MM/YY">
+                            </div>
+                            <div class="col-6">
+                                <label>CVV</label>
+                                <input id="cvv">
+                            </div>
+                        </div>
+                       
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="right border rounded shadow-sm">
+                    
+                    <div class="row lower">
+                        <div class="col">Prix Total </div>
+                        <div class="col text-end">{{annonce.prix}} DT</div>
+                    </div>
+                    
+                    <div class="row lower fw-bold">
+                        <div class="col">Avance à Payer</div>
+                        <div class="col text-end">{{annonce.prix  * 0.2}} DT</div>
+                    </div>
+                    <br>
+                    <br>
+                    
+                    <button class="btn-payment">Valider le paiement</button>
+
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
