@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  height: 100vh;
+}
+/* Styles pour les cartes */
+.left, .right {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.left {
+  flex: 1;
+  margin-right: 10px; /* Space to the right */
+}
+
+.right {
+  flex: 1;
+  margin-left: 10px; /* Space to the left */
+}

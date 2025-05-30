@@ -35,6 +35,16 @@ h4.mb-0 {
   margin-right: 10px;
   font-size: 1.2rem;
 }
+.chat-header {
+  display: flex;
+  justify-content: space-between; /* Pushes items to opposite ends */
+  align-items: center;
+}
+
+.chat-actions {
+  margin-left: auto; /* Pushes it to the right */
+  font-size: 2rem; /* Adjust icon size if needed */
+}
 
 .chat-header .chat-title {
   margin: 0;

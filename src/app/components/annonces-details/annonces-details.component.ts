@@ -116,7 +116,15 @@ export class AnnoncesDetailsComponent implements OnInit {
     });
   }
   consulterRapport(annonceId: string) {
-    this.router.navigate(['/rapport', annonceId]);
+    this.evaluationService.getDemandeInfo(annonceId).subscribe({
+      next: (response:any)=>{
+        this.demandeId=response.data.id;
+      }
+    });
+    this.router.navigate(['/mes-demandes', this.demandeId]);
+    
+    
+    //this.router.navigate(['/rapport', annonceId]);
   }
   formatPrix(prix ?: number): string {
     if(!prix) return '0';

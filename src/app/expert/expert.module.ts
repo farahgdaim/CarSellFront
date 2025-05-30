@@ -6,13 +6,15 @@ import { EvaluationDetailComponent } from './evaluation-detail/evaluation-detail
 import { FormsModule } from '@angular/forms';
 import { AcceptedEvaluationsComponent } from './accepted-evaluations/accepted-evaluations.component';
 import { AcceptedEvaluationDetailComponent } from './accepted-evaluation-detail/accepted-evaluation-detail.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     ExpertDashboardComponent,
     EvaluationDetailComponent,
     AcceptedEvaluationsComponent,
-    AcceptedEvaluationDetailComponent
+    AcceptedEvaluationDetailComponent,
+    HomeComponent
     // Declare additional expert components here if needed.
   ],
   imports: [

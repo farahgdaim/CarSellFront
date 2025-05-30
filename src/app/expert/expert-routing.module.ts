@@ -4,9 +4,10 @@ import { ExpertDashboardComponent } from './expert-dashboard/expert-dashboard.co
 import { EvaluationDetailComponent } from './evaluation-detail/evaluation-detail.component';
 import { AcceptedEvaluationsComponent } from './accepted-evaluations/accepted-evaluations.component';
 import { AcceptedEvaluationDetailComponent } from './accepted-evaluation-detail/accepted-evaluation-detail.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: '', component: ExpertDashboardComponent },
+  { path: '', component: HomeComponent },
   { path: 'evaluation/:id', component: EvaluationDetailComponent },
   { path: 'accepted', component: AcceptedEvaluationsComponent },
   { path: 'accepted/:id', component: AcceptedEvaluationDetailComponent },
