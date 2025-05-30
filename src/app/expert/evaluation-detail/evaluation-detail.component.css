@@ -30,4 +30,182 @@
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
-  
+    .custom-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 10px 20px;
+    border: 1.5px solid #3D5EC9;
+    color: #3D5EC9;
+    border-radius: 12px;
+    background-color: white;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .custom-button i {
+    transition: transform 0.3s ease;
+  }
+
+  .custom-button:hover {
+    background-color: #3D5EC9;
+    color: white;
+    box-shadow: 0 8px 16px rgba(61, 94, 201, 0.2);
+    transform: scale(1.03);
+  }
+
+  .custom-button:hover i {
+    transform: scale(1.2);
+  }
+
+  .button-container {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+ /* Base Modal Styles - mostly good as is */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999; /* Increased z-index to ensure it's on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6); /* Slightly darker overlay for better contrast */
+  transition: all 0.4s ease-in-out; /* Slightly slower and smoother transition */
+  backdrop-filter: blur(4px); /* Subtle background blur for modern effect (might not work on all browsers) */
+}
+
+/* Modal show class for animation */
+.modal.show {
+  display: block;
+  opacity: 1; /* Ensures opacity is set for transition */
+}
+
+/* Initial state for modal content when hidden */
+.modal:not(.show) .modal-content {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9); /* Starts smaller and fades in */
+}
+
+.modal-content {
+  background-color: #ffffff; /* Pure white for a crisp look */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1); /* End state */
+  padding: 32px; /* Increased padding for more breathing room */
+  border-radius: 16px; /* Slightly more rounded corners */
+  max-width: 680px; /* Slightly wider modal */
+  width: 90%; /* Responsive width */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* More pronounced, modern shadow */
+  transition: all 0.4s ease-in-out; /* Transition for content itself */
+  animation: fadeInScale 0.4s ease-out forwards; /* Entry animation */
+}
+
+/* Keyframe animation for modal entry */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+
+.close {
+  position: absolute;
+  top: 18px; /* Adjusted position */
+  right: 20px; /* Adjusted position */
+  font-size: 28px; /* Slightly larger close icon */
+  font-weight: normal; /* Less bold, more elegant */
+  color: #a0a0a0; /* Softer gray for close icon */
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.close:hover {
+  color: #333333; /* Darker on hover */
+  transform: rotate(90deg); /* Little "wow" effect on hover */
+}
+
+.modal h2 {
+  text-align: center;
+  font-size: 28px; /* Larger, more impactful title */
+  color: #10B981; /* A more vibrant green, often seen as modern */
+  margin-bottom: 32px; /* More space below the title */
+  font-weight: 700; /* Bolder title */
+  letter-spacing: -0.5px; /* Slight letter spacing adjustment for aesthetic */
+}
+
+.modal .options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px; /* Increased gap between options */
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .modal .options-container {
+    flex-direction: row;
+    justify-content: space-around; /* Use space-around for slightly more balanced distribution */
+  }
+}
+
+.option-box {
+  flex: 1;
+  text-align: center;
+  padding: 20px; /* Added padding to option box */
+  background-color: #f8f8f8; /* Light background for each option */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Subtle shadow for option boxes */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.option-box:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+}
+
+.option-box p {
+  font-size: 19px; /* Slightly larger text */
+  font-weight: 600; /* A bit bolder */
+  color: #333333; /* Darker text for readability */
+  margin-bottom: 16px; /* More space below paragraph */
+}
+
+.option-box button {
+  padding: 12px 28px; /* Larger button padding */
+  background-color: #3B82F6; /* A more vivid blue (equivalent to bg-blue-500/600 range) */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Slightly more rounded button corners */
+  font-size: 17px; /* Slightly larger font on button */
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.option-box button:hover {
+  background-color: #2563EB; /* Darker blue on hover (equivalent to bg-blue-700) */
+  transform: translateY(-2px); /* Slight lift on button hover */
+}
+
+.option-box img {
+  width: 180px; /* Slightly larger QR code */
+  height: 180px;
+  object-fit: contain;
+  margin: auto;
+  border-radius: 8px; /* Slightly rounded corners for the QR code image */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for QR code */
+}
+

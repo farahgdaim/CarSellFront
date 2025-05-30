@@ -1,69 +1,93 @@
 <div class="container mt-5 evaluation-detail-page" *ngIf="!loading; else spinner">
-    <h2 class="mb-4" style="color:#1d2e5f;">Demande d’évaluation </h2>
-  
-    <!-- Demandeur -->
-    <div class="card p-4 shadow-sm mb-4">
-      <h5 style="color:#1d2e5f;">Le demandeur</h5>
-      <p><strong>Nom :</strong> {{ demandeur.nom }} {{ demandeur.prenom }}</p>
-      <p><strong>Email :</strong> {{ demandeur.email }}</p>
-    </div>
-  
-    <!-- Annonce -->
-    <div class="card p-4 shadow-sm mb-4 annonce-card">
-      <h5 style="color:#1d2e5f;">Détails de l’annonce</h5>
-      <div class="row">
-        <div class="col-md-4">
-          <img 
-            *ngIf="annonce.images?.length"
-            [src]="'http://127.0.0.1:8000' + annonce.images[0].url" 
-            class="img-fluid rounded" 
-            alt="Annonce image"
-          />
+  <h2 class="mb-4" style="color:#1d2e5f;">Demande d’évaluation </h2>
+
+  <!-- Demandeur -->
+  <div class="card p-4 shadow-sm mb-4">
+    <h5 style="color:#1d2e5f;">Le demandeur</h5>
+    <p><strong>Nom :</strong> {{ demandeur.nom }} {{ demandeur.prenom }}</p>
+    <p><strong>Email :</strong> {{ demandeur.email }}</p>
+  </div>
+
+  <!-- Annonce -->
+  <div class="card p-4 shadow-sm mb-4 annonce-card">
+    <h5 style="color:#1d2e5f;">Détails de l’annonce</h5>
+    <div class="row">
+      <div class="col-md-4">
+        <img *ngIf="annonce.images?.length" [src]="'http://127.0.0.1:8000' + annonce.images[0].url"
+          class="img-fluid rounded" alt="Annonce image" />
+      </div>
+      <div class="col-md-8">
+        <p><strong>Titre :</strong> {{ annonce.titre }}</p>
+        <p><strong>Description :</strong> {{ annonce.description }}</p>
+        <p><strong>Prix :</strong> {{ annonce.prix }} TND</p>
+        <div class="row text-muted">
+          <div class="col-6"><i class="fas fa-car"></i> {{ annonce.vehicule.Marque }} / {{ annonce.vehicule['Modèle'] }}
+          </div>
+          <div class="col-6"><i class="fas fa-tachometer-alt"></i> {{ annonce.vehicule['Kilométrage'] }} km</div>
+          <div class="col-6"><i class="fas fa-gas-pump"></i> {{ annonce.vehicule.TypeCarburant }}</div>
+          <div class="col-6"><i class="fas fa-cogs"></i> {{ annonce.vehicule.boiteVitesse }}</div>
         </div>
-        <div class="col-md-8">
-          <p><strong>Titre :</strong> {{ annonce.titre }}</p>
-          <p><strong>Description :</strong> {{ annonce.description }}</p>
-          <p><strong>Prix :</strong> {{ annonce.prix }} TND</p>
-          <div class="row text-muted">
-            <div class="col-6"><i class="fas fa-car"></i> {{ annonce.vehicule.Marque }} / {{ annonce.vehicule['Modèle'] }}</div>
-            <div class="col-6"><i class="fas fa-tachometer-alt"></i> {{ annonce.vehicule['Kilométrage'] }} km</div>
-            <div class="col-6"><i class="fas fa-gas-pump"></i> {{ annonce.vehicule.TypeCarburant }}</div>
-            <div class="col-6"><i class="fas fa-cogs"></i> {{ annonce.vehicule.boiteVitesse }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pré‑accept chat -->
+  <div class="alert alert-info mb-4">
+    Avant d’accepter, prenez contact pour confirmer un rendez‑vous avec le propriétaire.
+  </div>
+  <div class="button-container">
+    <button class="custom-button" (click)="contactOwner()">
+      💬 Contacter le propriétaire
+    </button>
+    <div class="modal" [ngClass]="{'show': modalVisible}" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <span class="close" (click)="closeModal()">&times;</span>
+
+        <h2>Choisissez le mode d'entrée à la réunion</h2>
+
+        <div class="options-container">
+          <!-- Colonne gauche -->
+          <div class="option-box">
+            <p>Sur notre site :</p>
+            <button class="custom-button" (click)="goToVisio()">Cliquez ici pour accéder à la réunion</button>
+          </div>
+
+          <!-- Colonne droite -->
+          <div class="option-box">
+            <p>Application :</p>
+            <img src="assets/QrCode.png" alt="QR Code">
           </div>
         </div>
       </div>
     </div>
-  
-    <!-- Pré‑accept chat -->
-    <div class="alert alert-info mb-4">
-      Avant d’accepter, prenez contact pour confirmer un rendez‑vous avec le propriétaire.
-    </div>
-    <button class="btn btn-outline-primary mb-4" (click)="contactOwner()">
-      💬 Contacter le propriétaire
+
+    <button class="custom-button" (click)="visioConference()">
+      <i class="fa-solid fa-video"></i> Démarrer une visioconférence
     </button>
-  
-    <!-- Actions -->
-    <div class="mb-4">
-      <p><strong>Statut :</strong> <span class="text-capitalize">{{ demande.status }}</span></p>
-      <div *ngIf="demande.status === 'pending'">
-        <button class="btn btn-primary me-2" (click)="accept()">Accepter</button>
-        <button class="btn btn-danger" (click)="reject()">Refuser</button>
-      </div>
-    </div>
-  
-    <!-- Rapport -->
-    <div *ngIf="demande.status === 'accepted'">
-      <div class="card p-4 shadow-sm mb-4">
-        <h5 style="color:#1d2e5f;">Rapport d’expertise</h5>
-        <textarea class="form-control mb-3" rows="6" [(ngModel)]="rapportContent"></textarea>
-        <button class="btn btn-primary" (click)="submitReport()">Soumettre le rapport</button>
-      </div>
+
+  </div>
+  <br>
+  <!-- Actions -->
+  <div class="mb-4">
+    <p><strong>Statut :</strong> <span class="text-capitalize">{{ demande.status }}</span></p>
+    <div *ngIf="demande.status === 'pending'">
+      <button class="btn btn-primary me-2" (click)="accept()">Accepter</button>
+      <button class="btn btn-danger" (click)="reject()">Refuser</button>
     </div>
   </div>
-  
-  <ng-template #spinner>
-    <div class="text-center mt-5">
-      <div class="spinner"></div>
+
+  <!-- Rapport -->
+  <div *ngIf="demande.status === 'accepted'">
+    <div class="card p-4 shadow-sm mb-4">
+      <h5 style="color:#1d2e5f;">Rapport d’expertise</h5>
+      <textarea class="form-control mb-3" rows="6" [(ngModel)]="rapportContent"></textarea>
+      <button class="btn btn-primary" (click)="submitReport()">Soumettre le rapport</button>
     </div>
-  </ng-template>
-  
+  </div>
+</div>
+
+<ng-template #spinner>
+  <div class="text-center mt-5">
+    <div class="spinner"></div>
+  </div>
+</ng-template>

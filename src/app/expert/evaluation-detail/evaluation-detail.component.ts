@@ -8,7 +8,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 @Component({
   selector: 'app-evaluation-detail',
   templateUrl: './evaluation-detail.component.html',
-  styleUrls: ['./evaluation-detail.component.css']
+  styleUrls: ['./evaluation-detail.component.css'],
 })
 export class EvaluationDetailComponent implements OnInit {
   demande: any;
@@ -19,7 +19,9 @@ export class EvaluationDetailComponent implements OnInit {
 
   // Logged‑in expert ID
   currentUserId = '';
-
+  modalVisible: boolean = false;
+  modalMessage: string = '';
+  modalSuccess: boolean = true;
   constructor(
     private expertService: ExpertService,
     private route: ActivatedRoute,
@@ -38,11 +40,11 @@ export class EvaluationDetailComponent implements OnInit {
       },
       error: (err) => {
         console.error('Erreur récupération profil expert', err);
-      }
+      },
     });
 
     // 2️⃣ Load the evaluation request details
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const id = params.get('id')!;
       this.loadDetail(id);
     });
@@ -52,22 +54,21 @@ export class EvaluationDetailComponent implements OnInit {
     this.loading = true;
     this.expertService.getEvaluation(id).subscribe({
       next: (res) => {
-        this.loading   = false;
-        this.demande   = res.data.demande;
-        this.annonce   = res.data.annonce;
+        this.loading = false;
+        this.demande = res.data.demande;
+        this.annonce = res.data.annonce;
         this.demandeur = res.data.demandeur;
-        
       },
       error: (err) => {
         this.loading = false;
         console.error(err);
         alert('Impossible de charger les détails.');
         this.router.navigate(['/expert']);
-      }
+      },
     });
   }
 
-  /** 
+  /**
    * Start or create a conversation with the annonce owner
    */
   contactOwner(): void {
@@ -91,7 +92,7 @@ export class EvaluationDetailComponent implements OnInit {
         },
         error: () => {
           this.createNewConversation();
-        }
+        },
       });
   }
 
@@ -107,7 +108,7 @@ export class EvaluationDetailComponent implements OnInit {
           console.error('Erreur création conversation:', err);
           alert('Impossible de créer la conversation.');
         },
-        complete: () => this.loadingService.hide()
+        complete: () => this.loadingService.hide(),
       });
   }
 
@@ -115,16 +116,19 @@ export class EvaluationDetailComponent implements OnInit {
     this.loadingService.hide();
     const id1 = conv.Ref_id_user1;
     const id2 = conv.Ref_id_user2;
-    this.router.navigate(['/conversation', id1, id2], { state: { conversation: conv } });
+    this.router.navigate(['/conversation', id1, id2], {
+      state: { conversation: conv },
+    });
   }
 
   accept() {
     this.expertService.acceptEvaluation(this.demande.id).subscribe({
-      next: () => alert('Demande acceptée ! Pensez à confirmer le rendez‑vous.'),
+      next: () =>
+        alert('Demande acceptée ! Pensez à confirmer le rendez‑vous.'),
       error: (err) => {
         console.error(err);
         alert('Erreur lors de l’acceptation.');
-      }
+      },
     });
   }
 
@@ -134,7 +138,7 @@ export class EvaluationDetailComponent implements OnInit {
       error: (err) => {
         console.error(err);
         alert('Erreur lors du rejet.');
-      }
+      },
     });
   }
 
@@ -143,15 +147,34 @@ export class EvaluationDetailComponent implements OnInit {
       alert('Veuillez rédiger le rapport.');
       return;
     }
-    this.expertService.submitRapport(this.demande.id, this.rapportContent).subscribe({
-      next: () => {
-        alert('Rapport soumis avec succès.');
-        this.router.navigate(['/expert']);
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Erreur lors de la soumission du rapport.');
-      }
-    });
+    this.expertService
+      .submitRapport(this.demande.id, this.rapportContent)
+      .subscribe({
+        next: () => {
+          alert('Rapport soumis avec succès.');
+          this.router.navigate(['/expert']);
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Erreur lors de la soumission du rapport.');
+        },
+      });
   }
+
+  visioConference() {
+    //this.router.navigate(['/visioconference']);
+    this.modalMessage = "l'annonce est supprimé avec succès";
+    this.modalSuccess = true;
+    this.modalVisible = true;
+  }
+
+
+   closeModal() {
+    this.modalVisible = false;
+    
+  }
+  goToVisio() {
+  this.router.navigate(['/visioconference']);
+}
+
 }
