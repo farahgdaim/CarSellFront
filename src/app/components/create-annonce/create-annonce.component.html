@@ -221,6 +221,19 @@
             <label for="prixNegociable" class="form-check-label">Prix négociable</label>
           </div>
         </div>
+
+        <div class="form-group d-flex align-items-center">
+            <button class="est"
+                    (click)="estimatePrice()"
+                    [disabled]="estimating">
+              <i *ngIf="estimating" class="spinner-border spinner-border-sm"></i>
+              {{ estimating ? 'Estimation en cours…' : 'Estimer le Prix' }}
+            </button>
+          </div>
+          <div *ngIf="errorEstimation" class="text-danger">
+            {{ errorEstimation }}
+          </div>
+
       </div>
 
       <div class="form-group">

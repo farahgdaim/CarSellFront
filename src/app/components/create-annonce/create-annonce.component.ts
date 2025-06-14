@@ -3,6 +3,8 @@ import { AnnonceService } from '../../services/annonce.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { LoadingService } from '../../services/loading.service';
+import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-annonce',
@@ -10,10 +12,14 @@ import { LoadingService } from '../../services/loading.service';
   styleUrls: ['./create-annonce.component.css']
 })
 export class CreateAnnonceComponent {
-  currentStep: number = 1;
+  currentStep: number = 3;
   step2Error: string = '';
   submittedStep1: boolean = false;
   submittedStep3: boolean = false;
+
+  estimating = false;
+  estimatedPrice: number|null = null;
+  errorEstimation = '';
   
   // Error management
   photoError: string = '';
@@ -258,8 +264,51 @@ export class CreateAnnonceComponent {
   constructor(
     private annonceService: AnnonceService, 
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private http: HttpClient
   ) {}
+  
+  private roundUp(value: number, unit: number = 100): number {
+    return Math.ceil(value / unit) * unit;
+  }
+  estimatePrice() {
+    this.errorEstimation = '';
+    this.estimating     = true;
+    
+    const v = this.annonce.vehicule;
+    const puissance = parseInt(v.Puissance.replace(/\D+/g,''), 10);
+    const cylindre = parseInt(v.Cylindre.replace(/\D+/g,''), 10);
+    const km        = parseFloat(String(v.Kilométrage).replace(/\s+/g,''));
+    const payload = {
+      Categorie: v.Categorie,
+      Marque: v.Marque,
+      Modèle: v.Modèle,
+      TypeCarburant: v.TypeCarburant,
+      Puissance: puissance,
+      Cylindre: cylindre,
+      DateDeMiseEnCirculation: v.DateDeMiseEnCirculation,
+      Kilométrage: km,
+      etat: v.etat,
+      boiteVitesse: v.boiteVitesse
+    };
+    this.http.post<any>('http://localhost:8000/api/predict-price', payload)
+      .pipe(finalize(() => this.estimating = false))
+      .subscribe({
+        next: res => {
+          if (res.success) {
+            this.estimatedPrice =  this.roundUp(res.prix_estime, 100);
+            if (this.estimatedPrice !== null) {
+              this.annonce.prix = this.estimatedPrice.toString();
+            }
+          } else {
+            this.errorEstimation = 'Impossible d’estimer le prix';
+          }
+        },
+        error: () => {
+          this.errorEstimation = 'Service indisponible';
+        }
+      });
+  }
 
   // Getter for marques based on selected category
   getMarques(): string[] {
