@@ -6,6 +6,7 @@ import { ConversationService } from 'src/app/services/conversation.service';
 import { EvaluationService } from 'src/app/service/evaluation.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { GererMesAnnoncesService } from 'src/app/service/gerer-mes-annonces.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-mes-annonces-details',
@@ -77,23 +78,23 @@ export class MesAnnoncesDetailsComponent implements OnInit{
     private authService: AuthService,
     private evaluationService: EvaluationService,
     private gererAnnonce : GererMesAnnoncesService,
+    private loadingService: LoadingService,
     private annonceService: DetailAnnonceService
   ) {}
 
   ngOnInit(): void {
-
+    this.loadingService.show(); 
     this.getAnnonceDetail();
    
 
     this.authService.getUser().subscribe({
       next: (res: any) => {
         this.loggedInUserId = res.data.id || res.data._id;
+        this.loadingService.hide(); 
       },
       error: (err) => {
-        console.error(
-          "Erreur lors de la récupération de l'utilisateur connecté",
-          err
-        );
+        console.error("Erreur lors de la récupération de l'utilisateur connecté",err);
+        this.loadingService.hide();
       },
     });
   }
@@ -105,7 +106,7 @@ export class MesAnnoncesDetailsComponent implements OnInit{
   getAnnonceDetail() {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.isLoading = true;
-    
+    this.loadingService.show(); 
     this.annonceService.getAnnonceById(id).subscribe((res) => {
       
       if (res && typeof res === 'object' && 'data' in res) {
@@ -114,6 +115,7 @@ export class MesAnnoncesDetailsComponent implements OnInit{
       } else {
         console.error('Format inattendu :', res);
         this.annonce = []; // Évite une erreur si la réponse n'est pas correcte
+        this.loadingService.hide();
       }
     });
   }
@@ -170,6 +172,7 @@ export class MesAnnoncesDetailsComponent implements OnInit{
     );
   }
   deleteAnnonce(id:string){
+    this.loadingService.show();
     this.gererAnnonce.deleteAnnonce(id).subscribe((res: any)=>{
       
       
@@ -183,6 +186,7 @@ export class MesAnnoncesDetailsComponent implements OnInit{
         }
 
         this.modalVisible = true;
+        this.loadingService.hide();
       },
       (error) => {
         console.error("Erreur lors du signalement de l'annonce", error);
@@ -192,6 +196,7 @@ export class MesAnnoncesDetailsComponent implements OnInit{
           error.error?.data || 'Une erreur est survenue lors du signalement.';
         this.modalSuccess = false;
         this.modalVisible = true;
+        this.loadingService.hide();
       }
     );
       

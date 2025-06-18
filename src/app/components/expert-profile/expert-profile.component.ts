@@ -66,6 +66,7 @@ export class ExpertProfileComponent implements OnInit {
   }
 
   loadUserProfile(userId: string): void {
+    this.loadingService.show();
     this.userService.getUserById(userId).subscribe({
       next: (res: any) => {
         this.user = res.data || res;
@@ -80,6 +81,7 @@ export class ExpertProfileComponent implements OnInit {
   }
 
   startConversation(targetUserId: string): void {
+    this.loadingService.show();
     this.conversationService.getConversationBetweenUsers(this.loggedInUserId, targetUserId).subscribe({
       next: (res: any) => {
         if (res && res.status === 200 && res.data) {
@@ -90,25 +92,30 @@ export class ExpertProfileComponent implements OnInit {
         } else {
           this.createNewConversation(targetUserId);
         }
+        this.loadingService.hide();
       },
       error: (err) => {
         console.error("Erreur ou conversation introuvée", err);
         this.createNewConversation(targetUserId);
+        this.loadingService.hide();
       }
     });
   }
 
   private createNewConversation(targetUserId: string): void {
+    this.loadingService.show();
     this.conversationService.createConversation(targetUserId).subscribe({
       next: (createRes: any) => {
         const newConversation = createRes.data;
         const userId1 = newConversation.Ref_id_user1;
         const userId2 = newConversation.Ref_id_user2;
         this.router.navigate(['/conversation', userId1, userId2], { state: { conversation: newConversation } });
+        this.loadingService.hide();
       },
       error: (createErr) => {
         alert('Erreur lors de la création de la conversation.');
         console.error('Erreur création conversation:', createErr);
+        this.loadingService.hide();
       }
     });
   }

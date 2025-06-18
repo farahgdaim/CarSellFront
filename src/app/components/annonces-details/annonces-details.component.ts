@@ -5,6 +5,7 @@ import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
 import { ConversationService } from 'src/app/services/conversation.service';
 import { EvaluationService } from 'src/app/service/evaluation.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-annonces-details',
@@ -74,10 +75,12 @@ export class AnnoncesDetailsComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private evaluationService: EvaluationService,
+    private loadingService: LoadingService,
     private annonceService: DetailAnnonceService
   ) {}
 
   ngOnInit(): void {
+    this.loadingService.show(); 
     const id = this.route.snapshot.paramMap.get('id');
     this.getAnnonceDetail();
     if(id){
@@ -90,50 +93,53 @@ export class AnnoncesDetailsComponent implements OnInit {
     this.authService.getUser().subscribe({
       next: (res: any) => {
         this.loggedInUserId = res.data.id || res.data._id;
+        this.loadingService.hide(); 
       },
       error: (err) => {
         console.error(
           "Erreur lors de la récupération de l'utilisateur connecté",
           err
         );
+        this.loadingService.hide();
       },
     });
-  /*   console.log("hello",this.demande);
-    this.CancelDemande(); */
   }
   verifierRapport(annonceId: string) {
     this.rapportChecking = true;
+    this.loadingService.show(); 
     this.evaluationService.checkRapport(annonceId).subscribe({
       next: (res: any) => {
         this.rapportDisponible = res.data.rapport_genere === true;
         this.rapportChecking = false;
+        this.loadingService.hide();
       },
       error: (error) => {
         console.error('Erreur lors de la vérification :', error);
         this.rapportChecking = false;
         this.rapportDisponible = false;
+        this.loadingService.hide();
       },
     });
   }
   consulterRapport(annonceId: string) {
+    this.loadingService.show();
     this.evaluationService.getDemandeInfo(annonceId).subscribe({
       next: (response:any)=>{
         this.demandeId=response.data.id;
+        this.loadingService.hide();
+        this.router.navigate(['/mes-demandes', this.demandeId]);
       }
     });
-    this.router.navigate(['/mes-demandes', this.demandeId]);
-    
-    
-    //this.router.navigate(['/rapport', annonceId]);
   }
+
   formatPrix(prix ?: number): string {
     if(!prix) return '0';
     return prix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
   getAnnonceDetail() {
+    this.loadingService.show();
     const id = this.route.snapshot.paramMap.get('id')!;
-   
     this.annonceService.getAnnonceById(id).subscribe((res) => {
       
       if (res && typeof res === 'object' && 'data' in res) {
@@ -143,6 +149,7 @@ export class AnnoncesDetailsComponent implements OnInit {
         console.error('Format inattendu :', res);
         this.annonce = []; // Évite une erreur si la réponse n'est pas correcte
       }
+      this.loadingService.hide();
     });
     
   }
@@ -200,8 +207,7 @@ export class AnnoncesDetailsComponent implements OnInit {
   }
 
   reportAnnonce(id: string) {
-   
-
+    this.loadingService.show();
     this.annonceService.reportAnnonces(id).subscribe(
       (response: any) => {
         
@@ -216,6 +222,7 @@ export class AnnoncesDetailsComponent implements OnInit {
         }
 
         this.modalVisible = true;
+        this.loadingService.hide();
       },
       (error) => {
         console.error("Erreur lors du signalement de l'annonce", error);
@@ -225,10 +232,12 @@ export class AnnoncesDetailsComponent implements OnInit {
           error.error?.data || 'Une erreur est survenue lors du signalement.';
         this.modalSuccess = false;
         this.modalVisible = true;
+        this.loadingService.hide();
       }
     );
   }
   startConversation(targetUserId: string): void {
+    this.loadingService.show();
     this.conversationService
       .getConversationBetweenUsers(this.loggedInUserId, targetUserId)
       .subscribe({
@@ -243,14 +252,17 @@ export class AnnoncesDetailsComponent implements OnInit {
           } else {
             this.createNewConversation(targetUserId);
           }
+          this.loadingService.hide();
         },
         error: (err) => {
           console.error('Erreur ou conversation introuvée', err);
           this.createNewConversation(targetUserId);
+          this.loadingService.hide();
         },
       });
   }
   private createNewConversation(targetUserId: string): void {
+    this.loadingService.show();
     this.conversationService.createConversation(targetUserId).subscribe({
       next: (createRes: any) => {
         const newConversation = createRes.data;
@@ -259,10 +271,12 @@ export class AnnoncesDetailsComponent implements OnInit {
         this.router.navigate(['/conversation', userId1, userId2], {
           state: { conversation: newConversation },
         });
+        this.loadingService.hide();
       },
       error: (createErr) => {
         alert('Erreur lors de la création de la conversation.');
         console.error('Erreur création conversation:', createErr);
+        this.loadingService.hide();
       },
     });
   }
@@ -272,7 +286,7 @@ export class AnnoncesDetailsComponent implements OnInit {
   }
   pendingAnnonceId: string | null = null;
   Evaluationverif(annonceId: string) {
-    
+    this.loadingService.show();
 
     this.evaluationService.checkEvaluationRequest(annonceId).subscribe({
       next: (response: any) => {
@@ -293,6 +307,7 @@ export class AnnoncesDetailsComponent implements OnInit {
         }
 
         this.modalVisible1 = true;
+        this.loadingService.hide();
       },
       error: (error) => {
         console.error('Erreur lors de la vérification de la demande :', error);
@@ -300,6 +315,7 @@ export class AnnoncesDetailsComponent implements OnInit {
         this.modalMessage1 =
           "Une erreur s'est produite lors de la vérification.";
         this.modalVisible1 = true;
+        this.loadingService.hide();
       },
     });
   }
@@ -381,6 +397,7 @@ export class AnnoncesDetailsComponent implements OnInit {
   }
 
   CancelDemande(){
+    this.loadingService.show();
     const id = this.route.snapshot.paramMap.get('id')!;
     this.evaluationService.getDemandeInfo(id).subscribe({
       next: (response:any)=>{
@@ -388,7 +405,7 @@ export class AnnoncesDetailsComponent implements OnInit {
         this.demandeId=response.data.id;
         this.evaluationService.cancelRequest(this.demandeId).subscribe({
           next: (response:any)=>{
-            
+            this.loadingService.hide();
             
           }
         });

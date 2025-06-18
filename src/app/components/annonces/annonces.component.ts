@@ -3,6 +3,7 @@ import { DataService } from 'src/app/service/data.service';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
 
@@ -60,20 +61,22 @@ export class AnnoncesComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private viewportScroller: ViewportScroller,
-   
-
+    private loadingService: LoadingService 
   ) {}
 
   ngOnInit(): void {
     this.isExpert = this.authService.currentUserIsExpert();
+    this.loadingService.show(); // Show loader at start
     this.getAnnoncesData();
     this.loadMarques();
   }
 
 
   loadMarques(): void {
+    this.loadingService.show(); // Show loader while loading marques
     this.dataService.getMarques().subscribe((data) => {
       this.marques = data;
+      this.loadingService.hide(); // Hide loader after marques are loaded
     });
   }
 
@@ -81,9 +84,10 @@ export class AnnoncesComponent implements OnInit {
     this.searchCriteria.marque = this.selectedMarque;
 
     if (this.selectedMarque) {
+      this.loadingService.show(); 
       this.dataService.getModeles(this.selectedMarque).subscribe((data) => {
-        
         this.modeles = data;
+        this.loadingService.hide();
       });
     } else {
       this.modeles = [];
@@ -110,6 +114,7 @@ export class AnnoncesComponent implements OnInit {
 
 
   getAnnonceDetails(id:string){
+    this.loadingService.show(); 
     this.annonceService.getAnnonceById(id).subscribe((res) => {
       
       if (res && typeof res === 'object' && 'data' in res) {
@@ -119,30 +124,33 @@ export class AnnoncesComponent implements OnInit {
         console.error('Format inattendu :', res);
         this.annonce = []; // Évite une erreur si la réponse n'est pas correcte
       }
+      this.loadingService.hide(); 
     });
   }
 
 
   getAnnoncesData(): void {
-
+    this.loadingService.show(); 
     this.dataService.getData().subscribe((res) => {
-     
       if (res && typeof res === 'object' && 'data' in res) {
         this.annonces = res.data;
       } else {
         console.error('Format inattendu :', res);
         this.annonces = [];
       }
+      this.loadingService.hide(); 
     });
   }
 
 goToAnnonceDetails(annonceId: string) {
+  this.loadingService.show(); 
   // On récupère l'utilisateur connecté d'abord
   this.authService.getUser().subscribe((userRes: any) => {
     const user = userRes?.data;
 
     if (!user) {
       console.error("Utilisateur non connecté.");
+      this.loadingService.hide();
       return;
     }
 
@@ -161,6 +169,7 @@ goToAnnonceDetails(annonceId: string) {
       } else {
         console.error('Format inattendu :', res);
       }
+      this.loadingService.hide();
     });
 
   });
@@ -169,10 +178,12 @@ goToAnnonceDetails(annonceId: string) {
   
 
   onSearch(): void {
+    this.loadingService.show(); 
     this.dataService
       .searchAnnonces(this.searchCriteria)
       .subscribe((data: any) => {
         this.annonces = data.data;
+        this.loadingService.hide();
       });
   }
 

@@ -36,6 +36,7 @@ export class AcceptedEvaluationDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadingService.show(); // Show loader at start
     this.authService.getUser().subscribe(res => {
       const u = res.data;
       this.currentUserId = u.id;
@@ -48,17 +49,17 @@ export class AcceptedEvaluationDetailComponent implements OnInit {
   }
 
   loadDetail(id: string) {
-    this.loading = true;
+    this.loadingService.show(); // Show loader at start
     this.expertService.getEvaluation(id).subscribe({
       next: (res) => {
-        this.loading = false;
         this.demande   = res.data.demande;
         this.annonce   = res.data.annonce;
         this.demandeur = res.data.demandeur;
         this.buildRows();
+        this.loadingService.hide(); // Hide loader after data is loaded
       },
       error: () => {
-        this.loading = false;
+        this.loadingService.hide(); // Hide loader on error
         alert('Impossible de charger les détails.');
         this.router.navigate(['/expert/accepted']);
       }
@@ -81,7 +82,7 @@ export class AcceptedEvaluationDetailComponent implements OnInit {
       alert('ID manquant.');
       return;
     }
-    this.loadingService.show();
+    this.loadingService.show(); // Show loader at start
     this.convService
       .getConversationBetweenUsers(this.currentUserId, this.annonce.Ref_id_user)
       .subscribe({
@@ -98,24 +99,27 @@ export class AcceptedEvaluationDetailComponent implements OnInit {
     this.convService.createConversation(this.annonce.Ref_id_user).subscribe({
       next: (cr: any) => this.navigateToConv(cr.data),
       error: () => alert('Erreur création conversation'),
-      complete: () => this.loadingService.hide()
+      complete: () => this.loadingService.hide() // Hide loader after complete
     });
   }
 
   private navigateToConv(conv: any) {
-    this.loadingService.hide();
+    this.loadingService.hide(); // Hide loader after navigation
     this.router.navigate(['/conversation', conv.Ref_id_user1, conv.Ref_id_user2], { state: { conversation: conv }});
   }
 
   submitReport() {
+    this.loadingService.show(); // Show loader at start
     // Serialize the rows as JSON
     const content = JSON.stringify(this.rows, null, 2);
     this.expertService.submitRapport(this.demande.id, content).subscribe({
       next: () => {
+        this.loadingService.hide(); // Hide loader after success
         alert('Rapport soumis avec succès.');
         this.router.navigate(['/expert/accepted']);
       },
       error: (err) => {
+        this.loadingService.hide(); // Hide loader on error
         console.error(err);
         alert('Erreur lors de la soumission.');
       }

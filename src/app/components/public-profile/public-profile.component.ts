@@ -22,7 +22,6 @@ export class PublicProfileComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private loadingService: LoadingService
-
   ) {}
 
   ngOnInit(): void {
@@ -32,16 +31,18 @@ export class PublicProfileComponent implements OnInit {
       this.loadingService.hide();
       return;
     }
+    this.loadingService.show(); // Show loader at start
+
     // Charger le profil de l'utilisateur cible
     this.userService.getUserById(targetUserId).subscribe({
       next: (res: any) => {
         this.user = res.data || res;
-        this.loadingService.hide();
+        this.loadingService.hide(); // Hide loader after data is loaded
       },
       error: (err) => {
         this.error = 'Erreur lors du chargement du profil.';
         console.error(err);
-        this.loadingService.hide();
+        this.loadingService.hide(); // Hide loader on error
       }
     });
 
@@ -57,6 +58,7 @@ export class PublicProfileComponent implements OnInit {
   }
 
   startConversation(targetUserId: string): void {
+    this.loadingService.show(); // Show loader at start
     this.conversationService.getConversationBetweenUsers(this.loggedInUserId, targetUserId).subscribe({
       next: (res: any) => {
         if (res && res.status === 200 && res.data) {
@@ -67,25 +69,30 @@ export class PublicProfileComponent implements OnInit {
         } else {
           this.createNewConversation(targetUserId);
         }
+        this.loadingService.hide(); // Hide loader after response
       },
       error: (err) => {
         console.error("Erreur ou conversation introuvée", err);
         this.createNewConversation(targetUserId);
+        this.loadingService.hide(); // Hide loader on error
       }
     });
   }
 
   private createNewConversation(targetUserId: string): void {
+    this.loadingService.show(); // Show loader at start
     this.conversationService.createConversation(targetUserId).subscribe({
       next: (createRes: any) => {
         const newConversation = createRes.data;
         const userId1 = newConversation.Ref_id_user1;
         const userId2 = newConversation.Ref_id_user2;
         this.router.navigate(['/conversation', userId1, userId2], { state: { conversation: newConversation } });
+        this.loadingService.hide(); // Hide loader after response
       },
       error: (createErr) => {
         alert('Erreur lors de la création de la conversation.');
         console.error('Erreur création conversation:', createErr);
+        this.loadingService.hide(); // Hide loader on error
       }
     });
   }

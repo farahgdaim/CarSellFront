@@ -291,8 +291,12 @@ export class CreateAnnonceComponent {
       etat: v.etat,
       boiteVitesse: v.boiteVitesse
     };
+    this.loadingService.show();
     this.http.post<any>('http://localhost:8000/api/predict-price', payload)
-      .pipe(finalize(() => this.estimating = false))
+      .pipe(finalize(() => {
+        this.estimating = false;
+        this.loadingService.hide(); // Hide loader after estimation
+      }))
       .subscribe({
         next: res => {
           if (res.success) {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AdminAuthService } from '../../services/admin-auth.service';
 import { Router } from '@angular/router';
+import { LoadingService } from '../../services/loading.service'; // Add this import
 
 @Component({
   selector: 'app-admin-login',
@@ -14,7 +15,11 @@ export class AdminLoginComponent {
   };
   error: string | null = null;
 
-  constructor(private adminAuth: AdminAuthService, private router: Router) {}
+  constructor(
+    private adminAuth: AdminAuthService,
+    private router: Router,
+    private loadingService: LoadingService // Inject LoadingService
+  ) {}
 
   login() {
     this.error = null; // Reset error before new login attempt
@@ -27,18 +32,22 @@ export class AdminLoginComponent {
       this.error = 'Veuillez entrer votre mot de passe .';
       return;
     }
+
+    this.loadingService.show(); // Show loader at start
+
     this.adminAuth.login(this.credentials).subscribe({
       next: (res: any) => {
+        this.loadingService.hide(); // Hide loader after response
         if (res.data && res.data.access_token) {
           // Store the token and navigate
           // localStorage.setItem('authToken', res.data.access_token);
-         
           this.router.navigate(['admin/dashboard']);
         } else {
           this.error = 'Identifiants invalides. Veuillez vérifier vos informations.';
         }
       },
       error: (err: any) => {
+        this.loadingService.hide(); // Hide loader on error
         // Handle backend errors
         if (err.status === 401) {
           this.error = 'Identifiants invalides. Veuillez vérifier vos informations.';

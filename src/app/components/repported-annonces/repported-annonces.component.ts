@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/service/data.service';
 import { RepportedAnnoncesService } from 'src/app/service/repported-annonces.service';
 import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
+import { LoadingService } from 'src/app/services/loading.service'; // Add this import
 
 @Component({
   selector: 'app-repported-annonces',
@@ -11,33 +12,38 @@ import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
   styleUrls: ['./repported-annonces.component.css']
 })
 export class RepportedAnnoncesComponent implements OnInit {
- annonces:any ;
- error: string | null = null;
-   constructor(private dataService: RepportedAnnoncesService,private router: Router) { }
-   ngOnInit(): void {
-     this.getMesAnnoncesData()
-   }
-   getMesAnnoncesData() {
-     this.dataService.getRepportedAnnonces().subscribe((res) => {
-       //this.annonces = res;
-      
-       // Vérifier si 'res' est un objet et contient 'data'
-       if (res && typeof res === 'object' && 'data' in res) {
-         this.annonces = res.data;
-       } else {
-         console.error('Format inattendu :', res);
-         this.annonces = [];
-        // this.router.navigate(['/admin/login']);  Évite une erreur si la réponse n'est pas correcte
-       }
-     });
-   }
-   goToAnnonceDetails(id: string) {
-     this.router.navigate(['/admin/repported-annonces', id]) /* .then(() => {
-       this.viewportScroller.scrollToPosition([0, 0]);
-     }) */; // Redirige vers /annonce/{id}
-   }
- 
+  annonces: any;
+  error: string | null = null;
+
+  constructor(
+    private dataService: RepportedAnnoncesService,
+    private router: Router,
+    private loadingService: LoadingService // Inject LoadingService
+  ) {}
+
+  ngOnInit(): void {
+    this.getMesAnnoncesData();
   }
-  
 
+  getMesAnnoncesData() {
+    this.loadingService.show(); // Show loader at start
+    this.dataService.getRepportedAnnonces().subscribe({
+      next: (res) => {
+        if (res && typeof res === 'object' && 'data' in res) {
+          this.annonces = res.data;
+        } else {
+          console.error('Format inattendu :', res);
+          this.annonces = [];
+        }
+        this.loadingService.hide(); // Hide loader after data is loaded
+      },
+      error: () => {
+        this.loadingService.hide(); // Hide loader on error
+      }
+    });
+  }
 
+  goToAnnonceDetails(id: string) {
+    this.router.navigate(['/admin/repported-annonces', id]);
+  }
+}

@@ -27,16 +27,16 @@ export class AdminRegisterComponent {
   register() {
     this.error = null; // Reset error
     this.success = null; // Reset success
-    this.loadingService.show();
+    this.loadingService.show(); // Show loader at start
     if (this.adminData.code !== '060703') {
       this.error = "Code d'accès invalide.";
-      this.loadingService.hide();
+      this.loadingService.hide(); // Hide loader if code is invalid
       return;
     }
 
     this.adminAuth.register(this.adminData).subscribe({
       next: (res) => {
-        this.loadingService.hide(); // Stop loading
+        this.loadingService.hide(); // Hide loader after response
         if (res.status === 201) {
           this.success =
             'Inscription réussie. Vous pouvez maintenant vous connecter.';
@@ -45,10 +45,9 @@ export class AdminRegisterComponent {
           this.error =
             'Une erreur inattendue est survenue. Veuillez réessayer.';
         }
-        // On successful registration, navigate to login page.
       },
       error: (err: any) => {
-        this.loadingService.hide(); // Stop loading
+        this.loadingService.hide(); // Hide loader on error
         if (err.status === 400) {
           this.error =
             'Les informations fournies ne sont pas valides. Veuillez vérifier les champs.';

@@ -325,6 +325,7 @@ export class UpdateAnnonceComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
+    this.loadingService.show(); 
     this.loadAnnonce(id);
   }
   loadAnnonce(id: string) {
@@ -332,8 +333,12 @@ export class UpdateAnnonceComponent implements OnInit {
       next: (res: any) => {
         const data = res.data;
         this.patchAnnonceValues(data);
+        this.loadingService.hide(); 
       },
-      error: (err) => console.error('Erreur de chargement:', err),
+      error: (err) => {
+        console.error('Erreur de chargement:', err);
+        this.loadingService.hide(); // Hide loader on error
+      },
     });
   }
 
@@ -382,6 +387,7 @@ export class UpdateAnnonceComponent implements OnInit {
       // Ajoutez les fichiers convertis en Base64
       //images: this.convertFilesToBase64()
     };
+    this.loadingService.show();
 
     // this.loadingService.show();
     this.annonceService.updateAnnonce(id, annonceToSend).subscribe({
@@ -431,6 +437,7 @@ export class UpdateAnnonceComponent implements OnInit {
         // this.loadingService.hide();
 
         // this.router.navigate(['/mon-annonce',id]);
+        this.loadingService.hide(); 
       },
       error: (err: any) => {
         this.loadingService.hide();

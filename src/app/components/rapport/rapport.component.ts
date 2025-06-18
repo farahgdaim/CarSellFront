@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { EvaluationService } from 'src/app/service/evaluation.service';
 import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
 import { RepportedRapportService } from 'src/app/service/repported-rapport.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-rapport',
@@ -38,19 +39,20 @@ export class RapportComponent implements OnInit {
       private router: Router,
       private authService: AuthService,
       private evaluationService: EvaluationService,
+      private loadingService: LoadingService,
       private annonceService: DetailAnnonceService
     ) {}
   ngOnInit(): void {
+    this.loadingService.show(); 
     this.getAnnonceDetail();
     this.authService.getUser().subscribe({
       next: (res: any) => {
         this.loggedInUserId = res.data.id || res.data._id;
+        this.loadingService.hide(); 
       },
       error: (err) => {
-        console.error(
-          "Erreur lors de la récupération de l'utilisateur connecté",
-          err
-        );
+        console.error("Erreur lors de la récupération de l'utilisateur connecté",err);
+        this.loadingService.hide();
       },
     });
     
@@ -59,7 +61,7 @@ export class RapportComponent implements OnInit {
   }
   getAnnonceDetail() {
     const id = this.route.snapshot.paramMap.get('id')!;
-  
+    this.loadingService.show(); 
     this.annonceService.getAnnonceById(id).subscribe((res) => {
       
       if (res && typeof res === 'object' && 'data' in res) {
@@ -69,13 +71,14 @@ export class RapportComponent implements OnInit {
       } else {
         console.error('Format inattendu :', res);
         this.annonce = []; // Évite une erreur si la réponse n'est pas correcte
+        this.loadingService.hide();
       }
     });
   }
 
   getRapportDetail(annonceId:string){
     const id = this.route.snapshot.paramMap.get('id');
-    
+    this.loadingService.show();
     this.evaluationService.rapportInfo(annonceId).subscribe((res:any) => {
     
     
@@ -83,22 +86,21 @@ export class RapportComponent implements OnInit {
         this.rapport = res.data; 
         
         this.getExpertByid(this.rapport.id_expert);
-        
+        this.loadingService.hide();
         // this.genererCategories();
       
     });
   }
   getExpertByid(expertId:string){
-   
+    this.loadingService.show();
     this.evaluationService.getExpertsById(expertId).subscribe((res:any) => {
-        this.expert = res.data;
-      
+      this.expert = res.data;
+      this.loadingService.hide();
     });
 
   }
   reportRapport(id: string) {
-    
-
+    this.loadingService.show();
     this.repportRapport.reportRapport(id).subscribe(
       (response: any) => {
        
@@ -116,6 +118,7 @@ export class RapportComponent implements OnInit {
         }
 
         this.modalVisible = true;
+        this.loadingService.hide();
       },
       (error) => {
         console.error("Erreur lors du signalement du rapport", error);
@@ -125,6 +128,7 @@ export class RapportComponent implements OnInit {
           error.error?.data || 'Une erreur est survenue lors du signalement.';
         this.modalSuccess = false;
         this.modalVisible = true;
+        this.loadingService.hide();
       }
     );
   }

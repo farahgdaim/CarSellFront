@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExpertService } from 'src/app/service/expert.service';
 import { Router } from '@angular/router';
+import { LoadingService } from 'src/app/services/loading.service'; // Add this import
 
 @Component({
   selector: 'app-expert-dashboard',
@@ -10,15 +11,26 @@ import { Router } from '@angular/router';
 export class ExpertDashboardComponent implements OnInit {
   evaluations: any[] = [];
 
-  constructor(private expertService: ExpertService, private router: Router) { }
+  constructor(
+    private expertService: ExpertService,
+    private router: Router,
+    private loadingService: LoadingService // Inject LoadingService
+  ) { }
 
   ngOnInit(): void {
     this.getPendingEvaluations();
   }
 
   getPendingEvaluations(): void {
-    this.expertService.getPendingEvaluations().subscribe((res: any) => {
-      this.evaluations = (res && res.data) ? res.data : [];
+    this.loadingService.show(); // Show loader at start
+    this.expertService.getPendingEvaluations().subscribe({
+      next: (res: any) => {
+        this.evaluations = (res && res.data) ? res.data : [];
+        this.loadingService.hide(); // Hide loader after data is loaded
+      },
+      error: () => {
+        this.loadingService.hide(); // Hide loader on error
+      }
     });
   }
 
@@ -26,4 +38,3 @@ export class ExpertDashboardComponent implements OnInit {
     this.router.navigate(['/expert/evaluation', id]);
   }
 }
- 

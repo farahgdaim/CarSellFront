@@ -24,24 +24,26 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     // Appel à la route GET /auth/me pour récupérer les infos de l'utilisateur
+    this.loadingService.show();
     this.authService.getUser().subscribe({
       next: (res: any) => {
         this.user = res.data;
-        this.loadingService.hide();
         // → Load the user's evaluation requests
         this.evalService.getMyRequests().subscribe({
           next: (r: any) => {
-          const data = r.data || [];
-          this.myRequests = data.sort((a: any, b: any) => {
-            // parse updated_at; fallback to created_at if needed
-            const dateA = new Date(a.demande.updated_at || a.demande.created_at).getTime();
-            const dateB = new Date(b.demande.updated_at || b.demande.created_at).getTime();
-            return dateB - dateA; // newest first
-          });
+            const data = r.data || [];
+            this.myRequests = data.sort((a: any, b: any) => {
+              // parse updated_at; fallback to created_at if needed
+              const dateA = new Date(a.demande.updated_at || a.demande.created_at).getTime();
+              const dateB = new Date(b.demande.updated_at || b.demande.created_at).getTime();
+              return dateB - dateA; // newest first
+            });
+            this.loadingService.hide();
           },
           error: (err) => {
             console.error('Erreur lors du chargement des demandes', err);
             this.requestError = 'Impossible de charger vos demandes.';
+            this.loadingService.hide();
           }
         });
         

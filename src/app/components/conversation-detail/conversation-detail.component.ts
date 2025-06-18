@@ -93,21 +93,24 @@ export class ConversationDetailComponent implements OnInit, OnDestroy, AfterView
       recipientId: this.userId2,
       conversationId: this.conversation.id
     };
-
+    this.loadingService.show();
     this.conversationService.addMessage(this.userId1, this.userId2, messageData).subscribe({
       next: () => {
         this.socket.emit('sendMessage', messageData);
         this.newMessage = '';
         setTimeout(() => this.scrollToBottom(), 100);
+        this.loadingService.hide();
       },
       error: (err) => {
         alert('Erreur lors de l’envoi du message.');
         console.error(err);
+        this.loadingService.hide();
       }
     });
   }
 
   loadConversation(): void {
+    this.loadingService.show();
     this.conversationService.getConversationBetweenUsers(this.userId1, this.userId2).subscribe({
       next: (res: any) => {
         this.conversation = res.data;
@@ -142,20 +145,26 @@ export class ConversationDetailComponent implements OnInit, OnDestroy, AfterView
 
   loadUserNames(): void {
     if (this.conversation) {
+      this.loadingService.show();
       this.userService.getUserById(this.userId1).subscribe({
         next: (userRes: any) => {
           this.conversation.user1 = userRes.data;
+          this.loadingService.hide();
         },
         error: (err) => {
           console.error('Erreur lors du chargement des détails de l’utilisateur connecté', err);
+          this.loadingService.hide();
         }
       });
+      this.loadingService.show();
       this.userService.getUserById(this.userId2).subscribe({
         next: (userRes: any) => {
           this.conversation.user2 = userRes.data;
+          this.loadingService.hide();
         },
         error: (err) => {
           console.error('Erreur lors du chargement des détails de l’utilisateur destinataire', err);
+          this.loadingService.hide();
         }
       });      
     }

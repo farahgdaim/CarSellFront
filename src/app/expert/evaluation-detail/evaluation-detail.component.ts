@@ -32,6 +32,7 @@ export class EvaluationDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadingService.show(); 
     // 1️⃣ Get the logged‑in expert’s ID
     this.authService.getUser().subscribe({
       next: (res: any) => {
@@ -51,16 +52,16 @@ export class EvaluationDetailComponent implements OnInit {
   }
 
   loadDetail(id: string) {
-    this.loading = true;
+    this.loadingService.show();
     this.expertService.getEvaluation(id).subscribe({
       next: (res) => {
-        this.loading = false;
         this.demande = res.data.demande;
         this.annonce = res.data.annonce;
         this.demandeur = res.data.demandeur;
+        this.loadingService.hide();
       },
       error: (err) => {
-        this.loading = false;
+        this.loadingService.hide();
         console.error(err);
         alert('Impossible de charger les détails.');
         this.router.navigate(['/expert']);
@@ -122,10 +123,14 @@ export class EvaluationDetailComponent implements OnInit {
   }
 
   accept() {
+    this.loadingService.show();
     this.expertService.acceptEvaluation(this.demande.id).subscribe({
-      next: () =>
-        alert('Demande acceptée ! Pensez à confirmer le rendez‑vous.'),
+      next: () =>{
+        this.loadingService.hide() ;
+        alert('Demande acceptée ! Pensez à confirmer le rendez‑vous.');
+      },
       error: (err) => {
+        this.loadingService.hide();
         console.error(err);
         alert('Erreur lors de l’acceptation.');
       },
@@ -133,9 +138,14 @@ export class EvaluationDetailComponent implements OnInit {
   }
 
   reject() {
+    this.loadingService.show();
     this.expertService.rejectEvaluation(this.demande.id).subscribe({
-      next: () => this.router.navigate(['/expert']),
+      next: () => {
+        this.loadingService.hide(); // Hide loader after success
+        this.router.navigate(['/expert']);
+      },
       error: (err) => {
+        this.loadingService.hide(); // Hide loader on error
         console.error(err);
         alert('Erreur lors du rejet.');
       },
@@ -147,14 +157,17 @@ export class EvaluationDetailComponent implements OnInit {
       alert('Veuillez rédiger le rapport.');
       return;
     }
+    this.loadingService.show();
     this.expertService
       .submitRapport(this.demande.id, this.rapportContent)
       .subscribe({
         next: () => {
+          this.loadingService.hide(); 
           alert('Rapport soumis avec succès.');
           this.router.navigate(['/expert']);
         },
         error: (err) => {
+          this.loadingService.hide();
           console.error(err);
           alert('Erreur lors de la soumission du rapport.');
         },

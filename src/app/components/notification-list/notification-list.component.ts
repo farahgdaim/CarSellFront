@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../../services/notification.service';
-import { LoadingService } from '../../services/loading.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-notification-list',
@@ -47,13 +47,16 @@ export class NotificationListComponent implements OnInit {
   }
   
   markNotificationAsRead(notification: any) {
+    this.loadingService.show();
     // Utiliser originalIndex pour marquer comme lue
     this.notificationService.markAsRead(notification.originalIndex).subscribe({
       next: (res: any) => {
         this.loadNotifications(); // Recharge les notifications après mise à jour
+        this.loadingService.hide();
       },
       error: (err: any) => {
         console.error(err);
+        this.loadingService.hide();
       }
     });
   }

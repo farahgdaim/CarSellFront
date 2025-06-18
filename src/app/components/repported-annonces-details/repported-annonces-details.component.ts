@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
 import { RepportedAnnoncesService } from 'src/app/service/repported-annonces.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-repported-annonces-details',
@@ -59,10 +60,13 @@ annonce: any = { images: [] };
     private route: ActivatedRoute,
     private router :Router,
     private http: HttpClient,
-    private annonceService: DetailAnnonceService, private repportedAnnonce:RepportedAnnoncesService
+    private annonceService: DetailAnnonceService, 
+    private loadingService: LoadingService,
+    private repportedAnnonce:RepportedAnnoncesService
   ) {}
 
   ngOnInit(): void {
+    this.loadingService.show(); 
     this.getAnnonceDetail();
   }
   formatPrix(prix: number): string {
@@ -71,7 +75,7 @@ annonce: any = { images: [] };
 
   getAnnonceDetail() {
     const id = this.route.snapshot.paramMap.get('id')!;
-    
+    this.loadingService.show();
     this.annonceService.getAnnonceById(id).subscribe((res) => {
       
       if (res && typeof res === 'object' && 'data' in res) {
@@ -81,6 +85,7 @@ annonce: any = { images: [] };
         console.error('Format inattendu :', res);
         this.annonce = []; // Évite une erreur si la réponse n'est pas correcte
       }
+      this.loadingService.hide();
     });
   }
   ngOnDestroy(): void {
@@ -141,6 +146,7 @@ modalSuccess: boolean = true;
 
 
 deleteReportedAnnonce(id: string) {
+  this.loadingService.show();
   this.repportedAnnonce.deleteRepportedAnnonce(id).subscribe(
     (response: any) => {
       if (response.status === 200) {
@@ -153,15 +159,18 @@ deleteReportedAnnonce(id: string) {
         this.modalSuccess = false;
       }
       this.modalVisible = true;
+      this.loadingService.hide();
     },
     (error) => {
       this.modalMessage = error.error?.data || 'Erreur lors de la suppression.';
       this.modalSuccess = false;
       this.modalVisible = true;
+      this.loadingService.hide();
     }
   );
 }
 validateReportedAnnonce(id: string) {
+  this.loadingService.show();
   this.repportedAnnonce.validateRepportedAnnonce(id).subscribe(
     (response: any) => {
       if (response.status === 200) {
@@ -174,11 +183,13 @@ validateReportedAnnonce(id: string) {
         this.modalSuccess = false;
       }
       this.modalVisible = true;
+      this.loadingService.hide();
     },
     (error) => {
       this.modalMessage = error.error?.data || 'Erreur lors de la suppression.';
       this.modalSuccess = false;
       this.modalVisible = true;
+      this.loadingService.hide();
     }
   );
 }
