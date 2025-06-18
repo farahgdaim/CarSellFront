@@ -6,17 +6,25 @@
   </div>
 
   <div class="row g-4">
-  <div class="col-12" *ngFor="let eval of evaluations"> <!-- Forces full width -->
-    <div class="card p-4 shadow-sm evaluation-card">
-      <h5 style="color:#1d2e5f;">Demande #{{ eval.id }}</h5>
-      <p><strong>Annonce ID :</strong> {{ eval.ref_id_annonce }}</p>
-      <p><strong>Statut :</strong> <span class="text-capitalize">{{ eval.status }}</span></p>
-      <div class="mt-3 text-end">
-        <button class="btn btn-outline-primary me-2" (click)="goToEvaluationDetails(eval.id)">
-          Voir détails
-        </button>
+    <div class="col-12" *ngFor="let eval of evaluations">
+      <div class="card p-4 shadow-sm evaluation-card">
+        <h5 style="color:#1d2e5f;">
+          Demande d’évaluation
+        </h5>
+        <p>
+          <strong>Annonce :</strong>
+          {{ eval.annonce?.titre || 'Titre non disponible' }}
+        </p>
+        <p>
+          <strong>Statut :</strong>
+          <span class="text-capitalize">{{ eval.status }}</span>
+        </p>
+        <div class="mt-3 text-end">
+          <button class="btn btn-outline-primary me-2" (click)="goToEvaluationDetails(eval.id)">
+            Voir détails
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>

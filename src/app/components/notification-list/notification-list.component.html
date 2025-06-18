@@ -10,6 +10,7 @@
           <p class="notification-text"><strong>Contenu :</strong> {{ notification.contenu }}</p>
           <p class="notification-date"><small><strong>Date :</strong> {{ notification.date | date:'short' }}</small></p>
           <p class="notification-status"><small><strong>Statut :</strong> {{ notification.statut }}</small></p>
+          <!-- Removed display of notification.id or notification._id for user-friendliness -->
         </div>
         <div *ngIf="notification.statut === 'non_lu'" class="notification-action">
           <button class="btn mark-btn" (click)="markNotificationAsRead(notification)">Marquer comme lue</button>

@@ -8,8 +8,11 @@
     <div class="row g-4">
       <div class="col-12" *ngFor="let d of demandes">
         <div class="card p-4 shadow-sm">
-          <h5 style="color:#1d2e5f;">Demande #{{ d.id }}</h5>
-          <p><strong>Annonce ID :</strong> {{ d.ref_id_annonce }}</p>
+          <h5 style="color:#1d2e5f;">Demande acceptée</h5>
+          <p>
+            <strong>Annonce :</strong>
+            {{ d.annonce?.titre || 'Titre non disponible' }}
+          </p>
           <div class="text-end">
             <button class="btn btn-primary" (click)="viewReportForm(d.id)">
               📝 Remplir rapport
@@ -18,5 +21,4 @@
         </div>
       </div>
     </div>
-  </div>
-  
+</div>

@@ -1,11 +1,11 @@
 <div class="container mt-5 eval-accepted-detail-page" *ngIf="!loading; else spinner">
     <h2 class="mb-4" style="color:#1d2e5f;">
-      Rapport pour Demande #{{ demande.id }}
+      Rapport pour la demande
     </h2>
   
     <!-- Annonce summary card -->
     <div class="card p-4 shadow-sm mb-4">
-      <h5 style="color:#1d2e5f;">Annonce #{{ annonce.id }}</h5>
+      <h5 style="color:#1d2e5f;">Annonce : {{ annonce.titre }}</h5>
       <p><strong>Titre :</strong> {{ annonce.titre }}</p>
       <p><strong>Description :</strong> {{ annonce.description }}</p>
     </div>
