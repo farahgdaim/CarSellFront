@@ -22,6 +22,7 @@ export class AcceptedEvaluationsComponent implements OnInit {
     this.expertService.getAcceptedEvaluations().subscribe({
       next: (res) => {
         this.demandes = res.data || [];
+        console.log('Accepted Evaluations:', this.demandes);
         this.loadingService.hide(); // Hide loader after data is loaded
       },
       error: () => {
@@ -33,4 +34,4 @@ export class AcceptedEvaluationsComponent implements OnInit {
   viewReportForm(id: string) {
     this.router.navigate(['/expert/accepted', id]);
   }
-}
+} 

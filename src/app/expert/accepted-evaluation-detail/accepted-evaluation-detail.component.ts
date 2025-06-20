@@ -46,7 +46,7 @@ export class AcceptedEvaluationDetailComponent implements OnInit {
       const id = params.get('id')!;
       this.loadDetail(id);
     });
-  }
+  } 
 
   loadDetail(id: string) {
     this.loadingService.show(); // Show loader at start
@@ -54,6 +54,7 @@ export class AcceptedEvaluationDetailComponent implements OnInit {
       next: (res) => {
         this.demande   = res.data.demande;
         this.annonce   = res.data.annonce;
+        console.log('Evaluation Details:', res.data);
         this.demandeur = res.data.demandeur;
         this.buildRows();
         this.loadingService.hide(); // Hide loader after data is loaded

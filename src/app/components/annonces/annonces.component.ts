@@ -9,7 +9,7 @@ import { DetailAnnonceService } from 'src/app/service/detail-annonce.service';
 
 
 @Component({
-  selector: 'app-annonces',
+  selector: 'app-annonces', 
   templateUrl: './annonces.component.html',
   styleUrls: ['./annonces.component.css'],
 })

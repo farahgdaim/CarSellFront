@@ -127,6 +127,7 @@ export class EvaluationDetailComponent implements OnInit {
     this.expertService.acceptEvaluation(this.demande.id).subscribe({
       next: () =>{
         this.loadingService.hide() ;
+        this.router.navigate(['/expert']);
         alert('Demande acceptée ! Pensez à confirmer le rendez‑vous.');
       },
       error: (err) => {
