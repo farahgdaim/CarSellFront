@@ -8,12 +8,15 @@ import { LoadingService } from '../../services/loading.service';
 @Component({
   selector: 'app-conversation-list',
   templateUrl: './conversation-list.component.html',
-  styleUrls: ['./conversation-list.component.css']
+  styleUrls: ['./conversation-list.component.css'],
 })
 export class ConversationListComponent implements OnInit {
   conversations: any[] = [];
   error: string | null = null;
   currentUser: any;
+  modalVisible: boolean = false;
+  modalMessage: string = '';
+  modalSuccess: boolean = true;
 
   constructor(
     private conversationService: ConversationService,
@@ -34,7 +37,7 @@ export class ConversationListComponent implements OnInit {
         this.error = 'Erreur lors de la récupération de votre profil.';
         console.error(err);
         this.loadingService.hide();
-      }
+      },
     });
   }
 
@@ -42,9 +45,6 @@ export class ConversationListComponent implements OnInit {
     this.conversationService.getConversations().subscribe({
       next: (res: any) => {
         let convs = res.data || [];
-        let pendingUserRequests = 0;
-        let finishedUserRequests = 0;
-
         // Pour chaque conversation, charger le nom de l'autre utilisateur
         convs.forEach((conv: any) => {
           const userId1 = conv.Ref_id_user1;
@@ -55,47 +55,52 @@ export class ConversationListComponent implements OnInit {
           } else {
             otherUserId = userId1;
           }
-          pendingUserRequests++;
           this.userService.getUserById(otherUserId).subscribe({
             next: (userRes: any) => {
-              conv.otherUserName = (userRes.data.nom + ' ' + userRes.data.prenom) || 'Inconnu';
-              finishedUserRequests++;
-              if (finishedUserRequests === pendingUserRequests) {
+              conv.otherUserName =
+                userRes.data.nom + ' ' + userRes.data.prenom || 'Inconnu';
                 this.loadingService.hide();
-              }
             },
             error: (err) => {
-              console.error("Erreur lors du chargement des détails de l’autre utilisateur", err);
+              console.error(
+                'Erreur lors du chargement des détails de l’autre utilisateur',
+                err
+              );
               conv.otherUserName = 'Utilisateur inconnu';
-              finishedUserRequests++;
-              if (finishedUserRequests === pendingUserRequests) {
-                this.loadingService.hide();
-              }
-            }
+              this.loadingService.hide();
+            },
           });
+        });
+        convs.forEach((conv: any) => {
+          if (conv.messages && conv.messages.length > 0) {
+            const lastMsg = conv.messages[conv.messages.length - 1];
+            conv.lastMessage = lastMsg.contenu;
+          } else {
+            conv.lastMessage = null;
+          }
         });
 
         // Trier les conversations par date du dernier message (les plus récentes en premier)
         this.conversations = convs.sort((a: any, b: any) => {
-          const aLastDate = (a.messages && a.messages.length > 0)
-            ? new Date(a.messages[a.messages.length - 1].dateEnvoi).getTime()
-            : 0;
-          const bLastDate = (b.messages && b.messages.length > 0)
-            ? new Date(b.messages[b.messages.length - 1].dateEnvoi).getTime()
-            : 0;
+          // Si la conversation a des messages, utiliser la date d'envoi du dernier message, sinon 0
+          const aLastDate =
+            a.messages && a.messages.length > 0
+              ? new Date(a.messages[a.messages.length - 1].dateEnvoi).getTime()
+              : 0;
+          const bLastDate =
+            b.messages && b.messages.length > 0
+              ? new Date(b.messages[b.messages.length - 1].dateEnvoi).getTime()
+              : 0;
           return bLastDate - aLastDate;
         });
 
-        // Si aucune requête utilisateur n'est nécessaire, cacher le loader tout de suite
-        if (pendingUserRequests === 0) {
-          this.loadingService.hide();
-        }
+        this.loadingService.hide();
       },
       error: (err) => {
         this.error = 'Erreur lors du chargement des conversations.';
         console.error(err);
         this.loadingService.hide();
-      }
+      },
     });
   }
 
@@ -103,10 +108,42 @@ export class ConversationListComponent implements OnInit {
     const userId1 = conversation.Ref_id_user1;
     const userId2 = conversation.Ref_id_user2;
 
-    if (!userId1 || !userId2 || typeof userId1 !== 'string' || typeof userId2 !== 'string') {
-      alert('Les identifiants des utilisateurs sont introuvables ou invalides.');
+    if (
+      !userId1 ||
+      !userId2 ||
+      typeof userId1 !== 'string' ||
+      typeof userId2 !== 'string'
+    ) {
+      alert(
+        'Les identifiants des utilisateurs sont introuvables ou invalides.'
+      );
       return;
     }
-    this.router.navigate(['/conversation', userId1, userId2], { state: { conversation } });
+    this.router.navigate(['/conversation', userId1, userId2], {
+      state: { conversation },
+    });
   }
+
+
+
+  deleteConversation(conv: any, event: Event): void {
+  event.stopPropagation(); // Empêche le clic sur la carte de déclencher viewConversation()
+
+  
+    const userId1 = conv.Ref_id_user1;
+    const userId2 = conv.Ref_id_user2;
+
+    this.conversationService.deleteConversation(userId1, userId2).subscribe({
+      next: (res: any) => {
+        // Retirer la conversation supprimée de la liste locale
+        this.conversations = this.conversations.filter(c => c !== conv);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la suppression :', err);
+        alert('Une erreur est survenue lors de la suppression de la conversation.');
+      }
+    });
+  
+}
+
 }

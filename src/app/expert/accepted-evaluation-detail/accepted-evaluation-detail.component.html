@@ -1,23 +1,67 @@
 <div class="container mt-5 eval-accepted-detail-page" *ngIf="!loading; else spinner">
-    <h2 class="mb-4" style="color:#1d2e5f;">
-      Rapport pour la demande
+    <!-- <h2 class="mb-4" style="color:#1d2e5f;">
+      Rapport pour Demande de {{ demandeur.nom }} {{ demandeur.prenom }}
     </h2>
   
-    <!-- Annonce summary card -->
+ 
     <div class="card p-4 shadow-sm mb-4">
-      <h5 style="color:#1d2e5f;">Annonce : {{ annonce.titre }}</h5>
+      <h5 style="color:#1d2e5f;">Annonce : {{ annonce.id }}</h5>
       <p><strong>Titre :</strong> {{ annonce.titre }}</p>
       <p><strong>Description :</strong> {{ annonce.description }}</p>
+    </div> -->
+   <h2 class="mb-4" style="color:#1d2e5f; font-weight:700;">
+    📄 Rapport pour Demande de {{ demandeur.nom }} {{ demandeur.prenom }}
+  </h2>
+
+  <div class="card custom-card p-4 shadow-sm mb-4">
+    <div class="card-header mb-3">
+      <span class="badge bg-primary me-2" style="background: linear-gradient(135deg, #1d2e5f, #4e6ba6); padding: 8px 12px; border-radius: 12px;">
+        🚘 Annonce ID
+      </span>
+      <!-- <span style="font-weight: 600;">{{ annonce.id }}</span> -->
     </div>
-  
+
+    <p><strong class="text-primary">📝 Titre :</strong> {{ annonce.titre }}</p>
+    <p><strong class="text-primary">🗒️ Description :</strong>
+      <span class="text-muted">{{ annonce.description }}</span>
+    </p>
+  </div>
     <!-- Contact owner -->
     <div class="alert alert-info">
       Avant de remplir ce rapport, confirmez votre rendez‑vous avec le propriétaire.
     </div>
-    <button class="btn btn-outline-primary mb-4" (click)="contactOwner()">
+    <div class="button-container">
+    <button class="custom-button" (click)="contactOwner()">
       💬 Contacter le propriétaire
     </button>
-  
+      <div class="modal" [ngClass]="{'show': modalVisible}" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <span class="close" (click)="closeModal()">&times;</span>
+
+        <h2>Choisissez le mode d'entrée à la réunion</h2>
+
+        <div class="options-container">
+          <!-- Colonne gauche -->
+          <div class="option-box">
+            <p>Sur notre site :</p>
+            <button class="custom-button" (click)="goToVisio()">Cliquez ici pour accéder à la réunion</button>
+          </div>
+
+          <!-- Colonne droite -->
+          <div class="option-box">
+            <p>Application :</p>
+            <img src="assets/QrCode.png" alt="QR Code">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="custom-button" (click)="visioConference()">
+      <i class="fa-solid fa-video"></i> Démarrer une visioconférence
+    </button>
+    </div>
+
+      <br>
     <!-- Comparison Table -->
     <div class="table-responsive mb-4">
       <table class="table table-bordered">
@@ -52,4 +96,3 @@
       <div class="spinner"></div>
     </div>
   </ng-template>
-  

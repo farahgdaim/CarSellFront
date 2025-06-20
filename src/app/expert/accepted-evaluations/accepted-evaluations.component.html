@@ -8,11 +8,16 @@
     <div class="row g-4">
       <div class="col-12" *ngFor="let d of demandes">
         <div class="card p-4 shadow-sm">
-          <h5 style="color:#1d2e5f;">Demande acceptée</h5>
-          <p>
-            <strong>Annonce :</strong>
-            {{ d.annonce?.titre || 'Titre non disponible' }}
-          </p>
+          <ng-container *ngIf="evaluationDetails[d.id]?.demandeur">
+            <h5 style="color:#1d2e5f;">
+              Demande de {{ evaluationDetails[d.id].demandeur.nom }} {{ evaluationDetails[d.id].demandeur.prenom }}
+            </h5>
+          </ng-container>
+          <ng-container *ngIf="evaluationDetails[d.id]?.annonce">
+            <p><strong>Annonce :</strong> {{ evaluationDetails[d.id].annonce.titre }}</p>
+          </ng-container>
+          <!-- <h5 style="color:#1d2e5f;">Demande de {{ evaluationDetails[d.id]?.demandeur?.nom }} {{evaluationDetails[d.id]?.demandeur?.prenom}}</h5> -->
+          <!-- <p><strong>Annonce :</strong> {{ evaluationDetails[d.id]?.annonce?.titre  }}</p> -->
           <div class="text-end">
             <button class="btn btn-primary" (click)="viewReportForm(d.id)">
               📝 Remplir rapport
@@ -21,4 +26,4 @@
         </div>
       </div>
     </div>
-</div>
+  </div>

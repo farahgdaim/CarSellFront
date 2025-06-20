@@ -30,4 +30,8 @@ export class ConversationService {
   getConversations(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
+   deleteConversation(userId1: string, userId2: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${userId1}/${userId2}`);
+  }
+
 }

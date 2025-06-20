@@ -10,28 +10,39 @@ import { LoadingService } from 'src/app/services/loading.service'; // Add this i
 })
 export class AcceptedEvaluationsComponent implements OnInit {
   demandes: any[] = [];
-
+evaluationDetails: { [key: string]: { demandeur?: any, annonce?: any } } = {};
+  annonce: any;
+  demandeur: any;
+   isLoading = false;
   constructor(
     private expertService: ExpertService,
     private router: Router,
-    private loadingService: LoadingService // Inject LoadingService
+     private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
     this.loadingService.show(); // Show loader at start
-    this.expertService.getAcceptedEvaluations().subscribe({
-      next: (res) => {
-        this.demandes = res.data || [];
-        console.log('Accepted Evaluations:', this.demandes);
-        this.loadingService.hide(); // Hide loader after data is loaded
-      },
-      error: () => {
-        this.loadingService.hide(); // Hide loader on error
-      }
+    this.expertService.getAcceptedEvaluations().subscribe(res => {
+      this.demandes = res.data || [];
+      this.demandes.forEach(evaluation  => {
+        this.expertService.getEvaluation(evaluation .id).subscribe((resultat: any) => {
+          this.evaluationDetails[evaluation .id] = {
+            demandeur: resultat.data?.demandeur,
+            annonce: resultat.data?.annonce
+          }; 
+          
+          /* this.demandeur= resultat.demandeur;
+          this.annonce =resultat.annonce; */
+        });
+      });
     });
+    
+    this.loadingService.hide();
+
+    
   }
 
   viewReportForm(id: string) {
     this.router.navigate(['/expert/accepted', id]);
   }
-} 
+}

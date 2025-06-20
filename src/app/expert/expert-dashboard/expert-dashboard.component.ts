@@ -6,10 +6,13 @@ import { LoadingService } from 'src/app/services/loading.service'; // Add this i
 @Component({
   selector: 'app-expert-dashboard',
   templateUrl: './expert-dashboard.component.html',
-  styleUrls: ['./expert-dashboard.component.css']
+  styleUrls: ['./expert-dashboard.component.css'],
 })
 export class ExpertDashboardComponent implements OnInit {
   evaluations: any[] = [];
+  evaluationDetails: { [key: string]: { demandeur: any, annonce: any } } = {};
+  annonce: any;
+  demandeur: any;
 
   constructor(
     private expertService: ExpertService,
@@ -23,17 +26,37 @@ export class ExpertDashboardComponent implements OnInit {
 
   getPendingEvaluations(): void {
     this.loadingService.show(); // Show loader at start
-    this.expertService.getPendingEvaluations().subscribe({
-      next: (res: any) => {
-        this.evaluations = (res && res.data) ? res.data : [];
+    this.expertService.getPendingEvaluations().subscribe((res: any) => {
+      this.evaluations = res && res.data ? res.data : [];
+      
+      this.evaluations.forEach(evaluation  => {
+      this.expertService.getEvaluation(evaluation .id).subscribe((resultat: any) => {
+       this.evaluationDetails[evaluation .id] = {
+         demandeur: resultat.data.demandeur,
+         annonce: resultat.data.annonce
+        }; 
         this.loadingService.hide(); // Hide loader after data is loaded
-      },
-      error: () => {
-        this.loadingService.hide(); // Hide loader on error
-      }
+        /* this.demandeur= resultat.demandeur;
+        this.annonce =resultat.annonce; */
+      });
+    });
     });
   }
+  /* triggerLoading(id: string) {
+    this.loading(id);
+   return true
+  } */
 
+  loading(id: string) {
+    this.expertService.getEvaluation(id).subscribe({
+      next: (resultat: any) => {
+        
+
+        this.demandeur = resultat.data.demandeur;
+        this.annonce = resultat.data.annonce;
+      },
+    });
+  }
   goToEvaluationDetails(id: string): void {
     this.router.navigate(['/expert/evaluation', id]);
   }
